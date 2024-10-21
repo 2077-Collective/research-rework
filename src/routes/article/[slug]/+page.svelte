@@ -7,7 +7,7 @@
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import { Lightbox, LightboxGallery, GalleryThumbnail, GalleryImage } from 'svelte-lightbox';
 	import Prism from 'prismjs';
-	import 'prismjs/themes/prism.css';
+	import 'prismjs/themes/prism-okaidia.min.css';
 
 	// Supported languages imports...
 	import 'prismjs/components/prism-python';
