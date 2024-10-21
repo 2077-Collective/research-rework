@@ -242,13 +242,13 @@
 {/snippet}
 
 {#snippet body(article: Article)}
-	<div class="lg:flex lg:gap-14 relative">
+	<div class="px-3 md:px-12 lg:flex lg:gap-14 relative">
 		<TableOfContents tableOfContents={article.tableOfContents} />
 		<div id="toc" class="block lg:hidden"></div>
 
 		<div
 			id="content-container"
-			class="pb-20 text-primary w-full md:w-3/5 max-w-screen-md leading-8 flex flex-col
+			class="pb-20 text-primary w-full max-w-screen-md leading-8 flex flex-col
 			[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
             [&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
             [&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7 [&_h3]:tracking-tight
