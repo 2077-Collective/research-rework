@@ -2,10 +2,16 @@
 	import ArticleSpotlight from '$lib/components/ui/ArticleSpotlight.svelte';
 	import ArticleList from '$lib/components/ui/ArticleList.svelte';
 	import type { PageData } from './$types';
+	import { setArticles } from '$lib/stores/articles.svelte';
+	import { onMount } from 'svelte';
 
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
 	const articleCategories = $derived(data.articleCategories);
+
+	onMount(() => {
+		setArticles(data.articles);
+	});
 </script>
 
 <div class="px-3 md:px-12 flex flex-col gap-14">
