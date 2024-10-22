@@ -12,7 +12,9 @@
 	<div class="transition-colors duration-300 max-w-screen-2xl mx-auto">
 		{@render children()}
 	</div>
-	<div class="flex flex-col grow items-center px-3 md:px-12 py-4 md:py-6 mt-20">
+	<div
+		class="flex flex-col grow items-center px-3 md:px-12 py-4 md:py-6 mt-20 max-w-screen-2xl mx-auto"
+	>
 		<NewsletterBanner />
 		<Footer />
 	</div>
