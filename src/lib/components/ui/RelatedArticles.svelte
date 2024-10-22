@@ -28,10 +28,6 @@
 		if (relatedArticles.length === 0) {
 			const articles = await fetchArticles();
 			setArticles(articles);
-			const newRelatedArticles = getArticles();
-			console.log({
-				newRelatedArticles
-			});
 		}
 	});
 </script>
