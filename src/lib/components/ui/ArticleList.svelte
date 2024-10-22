@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Article } from '$lib/types/article';
+	import type { ArticleMetadata } from '$lib/types/article';
 	import { Search, ArrowDown } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
 	import Input from './input/input.svelte';
@@ -12,7 +12,7 @@
 		articles,
 		articleCategories
 	}: {
-		articles: Article[];
+		articles: ArticleMetadata[];
 		articleCategories: string[];
 	} = $props();
 	let search = $state('');
@@ -102,7 +102,7 @@
 	</div>
 
 	{#if visibleArticles < filteredArticles.length}
-		<div class="flex justify-center mt-2">
+		<div class="flex justify-center mt-4 md:mt-10">
 			<button
 				onclick={loadMore}
 				class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group"
@@ -118,10 +118,12 @@
 	{/if}
 </div>
 
-{#snippet articleCard(article: Article)}
+{#snippet articleCard(article: ArticleMetadata)}
 	<div transition:slide={{ duration: 300 }} class="flex flex-col justify-center h-fit">
 		<div class="flex flex-col w-full">
-			<img src={article.thumb} alt={article.title} class="aspect-square w-full object-cover" />
+			<a href={`/article/${article.slug}`} class="block">
+				<img src={article.thumb} alt={article.title} class="aspect-square w-full object-cover" />
+			</a>
 		</div>
 
 		<div class="flex flex-col py-6 w-full">
@@ -130,10 +132,12 @@
 					<Badge variant="outline">{category.name}</Badge>
 				{/each}
 			</div>
-			<h1 class="font-soehne mt-4 text-2xl md:text-3xl font-medium leading-9">{article.title}</h1>
+			<h1 class="font-soehne mt-4 text-2xl md:text-3xl font-medium leading-9">
+				<a href={`/article/${article.slug}`}>{article.title}</a>
+			</h1>
 			<p class="mt-4 leading-6">{article.summary}</p>
 			<p class="mt-4 font-medium">
-				By {article.authors?.map((author) => author.username).join(', ')}
+				By {article.authors?.map((author) => author.full_name || author.username).join(', ')}
 			</p>
 		</div>
 	</div>

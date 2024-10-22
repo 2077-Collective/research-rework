@@ -20,6 +20,7 @@ const config: Config = {
 				ring: 'hsl(var(--ring) / <alpha-value>)',
 				background: 'hsl(var(--background) / <alpha-value>)',
 				foreground: 'hsl(var(--foreground) / <alpha-value>)',
+				subtle: 'hsl(var(--subtle) / <alpha-value>)',
 				primary: {
 					DEFAULT: 'hsl(var(--primary) / <alpha-value>)',
 					foreground: 'hsl(var(--primary-foreground) / <alpha-value>)'
@@ -47,7 +48,7 @@ const config: Config = {
 				card: {
 					DEFAULT: 'hsl(var(--card) / <alpha-value>)',
 					foreground: 'hsl(var(--card-foreground) / <alpha-value>)'
-				}
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -58,7 +59,15 @@ const config: Config = {
 				inter: ['Inter Variable', 'sans-serif'],
 				menlo: ['Menlo Regular', 'monospace'],
 				soehne: ['Soehne', 'sans-serif']
-			}
+			},
+			letterSpacing: {
+				tighter: '-1.5px',
+				tight: '-1px',
+				normal: '-0.25px'
+			},
+			lineHeight: {
+				'58': '58px',
+			},
 		}
 	},
 	plugins: [

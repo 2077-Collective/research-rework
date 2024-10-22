@@ -10,7 +10,7 @@
 	const articleCategories = $derived(data.articleCategories);
 </script>
 
-<div class="flex flex-col gap-14">
+<div class="px-3 md:px-12 flex flex-col gap-14">
 	<!-- These heights are arbitrary and never repeated throughout the website, that's why they're not in tailwind config -->
 	<div
 		class="font-soehne h-[420px] md:h-[714px] relative border-b flex flex-col justify-end bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
@@ -23,8 +23,6 @@
 		</h1>
 	</div>
 
-	<ArticleSpotlight article={articles[1]} />
+	<ArticleSpotlight article={articles[0]} />
 	<ArticleList {articles} {articleCategories} />
-	<NewsletterBanner />
-	<Footer />
 </div>

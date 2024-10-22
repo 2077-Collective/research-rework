@@ -1,28 +1,30 @@
 <script lang="ts">
-	import type { Article } from '$lib/types/article';
+	import type { ArticleMetadata } from '$lib/types/article';
 	import Badge from './badge/badge.svelte';
 
-	const { article }: { article: Article } = $props();
+	const { article }: { article: ArticleMetadata } = $props();
 </script>
 
-<div class="flex flex-col lg:flex-row">
-	<img src={article.thumb} alt={article.title} class="w-full h-auto lg:w-4/6" />
-	<div
-		class="flex flex-col gap-3 md:gap-6 w-full lg:w-2/6 flex flex-col p-6 md:p-10 text-base tracking-tight bg-secondary max-md:px-5 max-md:max-w-full"
-	>
-		<div class="flex gap-1 items-start w-full text-sm leading-none">
-			{#each article.categories as category}
-				<Badge variant="outline">{category.name}</Badge>
-			{/each}
+<a href={`/article/${article.slug}`}>
+	<div class="flex flex-col lg:flex-row">
+		<img src={article.thumb} alt={article.title} class="w-full h-auto lg:w-4/6 object-cover" />
+		<div
+			class="flex flex-col gap-3 md:gap-6 w-full lg:w-2/6 flex flex-col p-6 md:p-10 text-base tracking-tight bg-secondary max-md:px-5 max-md:max-w-full"
+		>
+			<div class="flex gap-1 items-start w-full text-sm leading-none">
+				{#each article.categories as category}
+					<Badge variant="outline">{category.name}</Badge>
+				{/each}
+			</div>
+			<h1 class="font-soehne text-5xl font-medium max-md:text-3xl leading-[57px]">
+				{article.title}
+			</h1>
+			<p class="leading-7 dark:text-white">
+				{article.summary}
+			</p>
+			<p class="font-medium dark:text-white">
+				By {article.authors?.map((author) => author.username).join(', ')}
+			</p>
 		</div>
-		<h1 class="font-soehne text-5xl font-medium max-md:text-3xl leading-[57px]">
-			{article.title}
-		</h1>
-		<p class="leading-7 dark:text-white">
-			{article.summary}
-		</p>
-		<p class="font-medium dark:text-white">
-			By {article.authors?.map((author) => author.username).join(', ')}
-		</p>
 	</div>
-</div>
+</a>
