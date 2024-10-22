@@ -1,12 +1,45 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!-- Prevent Flash of white screen before dark mode is applied -->
+	<script lang="ts">
+		(function () {
+			const darkMode = localStorage.getItem('darkMode');
+			if (darkMode === 'true' || (!darkMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+				document.documentElement.classList.add('dark');
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
+		})();
+	</script>
+
+	<!-- Conditionally load stylesheets for Prism.js based on dark mode -->
+	<script lang="ts">
+		document.addEventListener('DOMContentLoaded', () => {
+			const darkMode = localStorage.getItem('darkMode');
+			const linkPrism = document.createElement('link');
+			linkPrism.rel = 'stylesheet';
+			linkPrism.href = '/prism.css';
+			document.head.appendChild(linkPrism);
+
+			const linkTheme = document.createElement('link');
+			linkTheme.rel = 'stylesheet';
+			linkTheme.href = darkMode === 'true' ? '/themes/prism-one-dark.css' : '/themes/prism-one-light.css';
+			document.head.appendChild(linkTheme);
+		});
+	</script>
+
+	%sveltekit.head%
+</head>
+
+<body data-sveltekit-preload-data="hover">
+	<div style="display: contents">%sveltekit.body%</div>
+	<script src="/prism.js" defer></script>
+</body>
+
 </html>

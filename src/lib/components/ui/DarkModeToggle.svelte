@@ -13,10 +13,21 @@
 		darkMode = !darkMode;
 		document.documentElement.classList.toggle('dark');
 		localStorage.setItem('darkMode', darkMode ? 'true' : 'false');
+		// Dynamically swap Prism themes
+		const linkTheme = document.querySelector('link[href*="prism-one-"]') as HTMLLinkElement;
+		if (linkTheme) {
+			linkTheme.href = darkMode ? '/themes/prism-one-dark.css' : '/themes/prism-one-light.css';
+		}
 	}
 </script>
 
-<Button variant="ghost" size="icon" on:click={toggleDarkMode} class="rounded-full" aria-label="Toggle dark mode">
+<Button
+	variant="ghost"
+	size="icon"
+	on:click={toggleDarkMode}
+	class="rounded-full"
+	aria-label="Toggle dark mode"
+>
 	{#if darkMode}
 		<Sun
 			class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"

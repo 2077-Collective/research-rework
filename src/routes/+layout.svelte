@@ -1,16 +1,8 @@
 <script lang="ts">
 	import '../app.css';
-	import { onMount } from 'svelte';
 	import Nav from '$lib/components/ui/Nav.svelte';
 
 	const { children } = $props();
-
-	onMount(() => {
-		const darkMode = localStorage.getItem('darkMode');
-		if (darkMode === 'true') {
-			document.documentElement.classList.add('dark');
-		}
-	});
 </script>
 
 <div>
