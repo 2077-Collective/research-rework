@@ -3,7 +3,9 @@
 	import DarkModeToggle from './DarkModeToggle.svelte';
 </script>
 
-<div class="flex justify-between items-center px-3 md:px-12 py-4 md:py-6 max-w-screen-2xl mx-auto">
+<div
+	class="sticky top-0 z-50 flex justify-between items-center px-3 md:px-12 py-4 md:py-6 max-w-screen-2xl mx-auto bg-background"
+>
 	<p>2077 Research</p>
 	<div class="flex items-center gap-4">
 		<DarkModeToggle />
