@@ -1,7 +1,7 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
-	import { ArrowLeft, X } from 'lucide-svelte';
+	import { ArrowLeft } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { onMount, tick } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
@@ -26,6 +26,11 @@
 	let lightboxImages = $state<string[]>([]);
 	let lightboxIndex = $state(0);
 	let showLightbox = $state(false);
+
+	const url = new URL(window.location.href);
+	const twitterShareURL = `https://twitter.com/intent/tweet?text=${url.toString()}`;
+	const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${url.toString()}`;
+	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${url.toString()}`;
 
 	const { data }: { data: PageData } = $props();
 
@@ -210,11 +215,32 @@
 				</time>
 				<nav class="flex gap-1.5 items-center min-w-[240px]">
 					<span class="self-stretch my-auto">Share on</span>
-					<a href="#" class="gap-1 self-stretch my-auto border-b border-neutral-950">X</a>
+					<a
+						href={twitterShareURL}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="gap-1 self-stretch my-auto border-b border-neutral-950"
+					>
+						X
+					</a>
 					<span class="self-stretch my-auto">,</span>
-					<a href="#" class="gap-1 self-stretch my-auto border-b">Facebook</a>
+					<a
+						href={facebookShareURL}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="gap-1 self-stretch my-auto border-b"
+					>
+						Facebook
+					</a>
 					<span class="self-stretch my-auto">or</span>
-					<a href="#" class="gap-1 self-stretch my-auto border-b">Linkedin</a>
+					<a
+						href={linkedinShareURL}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="gap-1 self-stretch my-auto border-b"
+					>
+						Linkedin
+					</a>
 				</nav>
 			</div>
 		</header>
