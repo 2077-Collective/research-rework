@@ -2,12 +2,54 @@
 	import Input from './input/input.svelte';
 	import Button from './button/button.svelte';
 	import { ArrowRight } from 'lucide-svelte';
+	import { onMount } from 'svelte';
 
 	let email: string = '';
+	let csrfToken = '';
+	let responseMessage = '';
 
-	function handleSubmit() {
-		console.log('Submitted email:', email);
+	async function fetchCsrfToken() {
+		try {
+			const response = await fetch('https://cms.2077.xyz/get-csrf-token/', {
+				credentials: 'include'
+			});
+			const data = await response.json();
+			csrfToken = data.csrfToken;
+		} catch (error) {
+			responseMessage = 'An error occurred while fetching the CSRF token. Please try again.';
+		}
 	}
+
+	async function handleSubmit(event: SubmitEvent) {
+		event.preventDefault();
+
+		const form = event.target as HTMLFormElement;
+		const formData = new FormData(form);
+
+		try {
+			const response = await fetch(form.action, {
+				method: 'POST',
+				body: formData,
+				headers: {
+					'X-CSRFToken': csrfToken
+				},
+				credentials: 'include'
+			});
+
+			if (response.ok) {
+				responseMessage = 'Subscription successful!';
+			} else {
+				const data = await response.json();
+				throw new Error(data.message || 'An error occurred');
+			}
+		} catch (error) {
+			responseMessage = (error as Error).message || 'An error occurred. Please try again.';
+		}
+	}
+
+	onMount(async () => {
+		await fetchCsrfToken();
+	});
 </script>
 
 <div
@@ -23,12 +65,14 @@
 			Get first-hand research delivered by our team of experts.
 		</p>
 		<form
-			on:submit|preventDefault={handleSubmit}
+			onsubmit={handleSubmit}
+			action="https://cms.2077.xyz/newsletter/subscribe/"
 			class="flex relative gap-2 justify-center items-start self-center mt-8 max-w-full"
 		>
 			<label for="emailInput" class="sr-only">Your email address</label>
 			<Input
 				type="email"
+				name="email"
 				id="emailInput"
 				bind:value={email}
 				placeholder="Your email address"
@@ -42,5 +86,6 @@
 				{/snippet}
 			</Input>
 		</form>
+		<p class="text-sm mt-2.5 max-md:max-w-full text-center">{responseMessage}</p>
 	</div>
 </div>
