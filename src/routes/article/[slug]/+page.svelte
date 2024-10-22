@@ -5,10 +5,8 @@
 	import type { PageData } from './$types';
 	import { onMount, tick } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
-	import { Lightbox, LightboxGallery, GalleryThumbnail, GalleryImage } from 'svelte-lightbox';
 	import Prism from 'prismjs';
 
-	// Supported languages imports...
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
 	import 'prismjs/components/prism-rust';
@@ -20,7 +18,6 @@
 	import 'prismjs/components/prism-markup';
 	import 'prismjs/components/prism-solidity';
 
-	// Initialize stores
 	let currentURL = $state('');
 	let isHighlighting = $state(false);
 	let highlightError = $state<Error | null>(null);
@@ -28,11 +25,9 @@
 	let lightboxImages = $state<string[]>([]);
 	let lightboxIndex = $state(0);
 	let showLightbox = $state(false);
-	//let darkMode = false;
 
 	const { data }: { data: PageData } = $props();
 
-	// Function to load Prism languages
 	async function loadPrismLanguages(languages: string[]) {
 		const promises = languages.map(async (lang) => {
 			try {
@@ -44,7 +39,6 @@
 		await Promise.all(promises);
 	}
 
-	// Function to highlight code blocks
 	async function highlightCodeBlocks() {
 		if (!contentReady) return;
 
@@ -56,7 +50,6 @@
 
 			const codeElements = document.querySelectorAll('pre code');
 			if (codeElements.length === 0) {
-				console.warn('No code elements found');
 				return;
 			}
 
@@ -74,18 +67,14 @@
 
 			requestAnimationFrame(() => {
 				Prism.highlightAll();
-				console.log('Code highlight test complete');
 			});
 		} catch (error) {
-			console.error('Failed to highlight code blocks:', error);
 			highlightError = error instanceof Error ? error : new Error(String(error));
 		} finally {
 			isHighlighting = false;
 		}
 	}
 
-
-	// Function to extract images from content
 	function extractImagesFromContent(content: string): string[] {
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(content, 'text/html');
@@ -93,7 +82,6 @@
 		return images;
 	}
 
-	// Function to update image event listeners
 	function updateImageEventListeners() {
 		const container = document.getElementById('content-container');
 		if (container) {
@@ -133,21 +121,6 @@
 			observer.disconnect();
 		};
 	});
-
-	// Cleanup function to remove event listeners
-	function cleanup() {
-		const container = document.getElementById('content-container');
-		if (container) {
-			const images = container.querySelectorAll('img');
-			images.forEach((img) => {
-				img.removeEventListener('click', () => {
-					console.log('element clicked', img.src);
-					lightboxIndex = lightboxImages.indexOf(img.src);
-					showLightbox = true;
-				});
-			});
-		}
-	}
 
 	$effect(() => {
 		if (data.article.content && contentReady) {
@@ -222,22 +195,22 @@
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<div
-				class="flex flex-wrap gap-1 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
-			>
-				<time datetime={article.scheduledPublishTime} class="text-gray-500">
-					Published on {article.scheduledPublishTime}
-				</time>
-				<nav class="flex gap-1.5 items-center min-w-[240px]">
-					<span class="self-stretch my-auto">Share on</span>
-					<a href="#" class="gap-1 self-stretch my-auto border-b border-neutral-950">X</a>
-					<span class="self-stretch my-auto">,</span>
-					<a href="#" class="gap-1 self-stretch my-auto border-b">Facebook</a>
-					<span class="self-stretch my-auto">or</span>
-					<a href="#" class="gap-1 self-stretch my-auto border-b">Linkedin</a>
-				</nav>
-			</div>
+		<div
+			class="flex flex-wrap gap-1 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
+		>
+			<time datetime={article.scheduledPublishTime} class="text-gray-500">
+				Published on {article.scheduledPublishTime}
+			</time>
+			<nav class="flex gap-1.5 items-center min-w-[240px]">
+				<span class="self-stretch my-auto">Share on</span>
+				<a href="#" class="gap-1 self-stretch my-auto border-b border-neutral-950">X</a>
+				<span class="self-stretch my-auto">,</span>
+				<a href="#" class="gap-1 self-stretch my-auto border-b">Facebook</a>
+				<span class="self-stretch my-auto">or</span>
+				<a href="#" class="gap-1 self-stretch my-auto border-b">Linkedin</a>
+			</nav>
 		</div>
 	</header>
 {/snippet}
@@ -249,20 +222,20 @@
 
 		<div
 			id="content-container"
-			class="px-3 md:px-12 pb-20 text-primary w-full lg:max-w-[740px] leading-8 flex flex-col
+			class="px-3 md:px-12 lg:px-0 pb-20 text-primary w-full lg:max-w-screen-md leading-8 flex flex-col
 			[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
             [&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
             [&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7 [&_h3]:tracking-tight
             [&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
 			[&>p]:text-base md:[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
-			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400
+			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
 			[&_a]:underline [&_a]:underline-offset-4
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:text-base
 			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
 			[&_em]:leading-6 [&_em]:italic
 			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
 			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
-            [&>li]:leading-8
+			[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
 			[&>a]:underline
 			[&_img]:mx-auto [&_img]:block [&_img]:pb-2.5
 			[&_blockquote]:border-l-4 [&_blockquote]:border-gray-500 [&_blockquote]:pl-4
