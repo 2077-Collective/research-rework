@@ -23,8 +23,6 @@
 		</h1>
 	</div>
 
-	<ArticleSpotlight article={articles[1]} />
+	<ArticleSpotlight article={articles[0]} />
 	<ArticleList {articles} {articleCategories} />
-	<NewsletterBanner />
-	<Footer />
 </div>
