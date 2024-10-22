@@ -3,8 +3,8 @@
 	import { Search, ArrowDown } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
 	import Input from './input/input.svelte';
-	import { slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import ArticleCard from './ArticleCard.svelte';
 
 	const ARTICLES_PER_PAGE = 9;
 
@@ -91,11 +91,11 @@
 		{#each filteredArticles.slice(0, visibleArticles) as article, index}
 			{#if index === visibleArticles - ARTICLES_PER_PAGE}
 				<div id={`article-${index}`} bind:this={newArticleRef}>
-					{@render articleCard(article)}
+					<ArticleCard {article} />
 				</div>
 			{:else}
 				<div id={`article-${index}`}>
-					{@render articleCard(article)}
+					<ArticleCard {article} />
 				</div>
 			{/if}
 		{/each}
@@ -117,28 +117,3 @@
 		</div>
 	{/if}
 </div>
-
-{#snippet articleCard(article: ArticleMetadata)}
-	<div transition:slide={{ duration: 300 }} class="flex flex-col justify-center h-fit">
-		<div class="flex flex-col w-full">
-			<a href={`/article/${article.slug}`} class="block">
-				<img src={article.thumb} alt={article.title} class="aspect-square w-full object-cover" />
-			</a>
-		</div>
-
-		<div class="flex flex-col py-6 w-full">
-			<div class="flex gap-1 items-start w-full text-sm">
-				{#each article.categories as category}
-					<Badge variant="outline">{category.name}</Badge>
-				{/each}
-			</div>
-			<h1 class="font-soehne mt-4 text-2xl md:text-3xl font-medium leading-9">
-				<a href={`/article/${article.slug}`}>{article.title}</a>
-			</h1>
-			<p class="mt-4 leading-6">{article.summary}</p>
-			<p class="mt-4 font-medium">
-				By {article.authors?.map((author) => author.full_name || author.username).join(', ')}
-			</p>
-		</div>
-	</div>
-{/snippet}
