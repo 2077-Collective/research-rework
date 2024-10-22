@@ -82,7 +82,7 @@
 </script>
 
 <ul
-	class="hidden lg:block pl-12 w-1/5 sticky top-10 space-y-4 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto"
+	class="hidden lg:block pl-12 w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto"
 >
 	{#each tableOfContents as item, index}
 		<li>
@@ -101,7 +101,7 @@
 <!-- This prevent the TOC to be visible before the user scroll past the first heading element-->
 {#if showMobileTOC}
 	<button
-		class="sticky top-0 p-0 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm"
+		class="sticky top-[72px] p-0 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm"
 		class:h-screen={isOpen}
 		onclick={() => (isOpen = !isOpen)}
 	>
