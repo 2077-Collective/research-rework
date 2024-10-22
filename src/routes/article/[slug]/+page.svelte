@@ -7,7 +7,6 @@
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import { Lightbox, LightboxGallery, GalleryThumbnail, GalleryImage } from 'svelte-lightbox';
 	import Prism from 'prismjs';
-	import 'prismjs/themes/prism-one-light.css';
 
 	// Supported languages imports...
 	import 'prismjs/components/prism-python';
@@ -23,12 +22,13 @@
 
 	// Initialize stores
 	let currentURL = $state('');
-	let isHighlighting = $state(false);
-	let highlightError = $state<Error | null>(null);
+	//let isHighlighting = $state(false);
+	//let highlightError = $state<Error | null>(null);
 	let contentReady = $state(false);
 	let lightboxImages = $state<string[]>([]);
 	let lightboxIndex = $state(0);
 	let showLightbox = $state(false);
+	//let darkMode = false;
 
 	const { data }: { data: PageData } = $props();
 
@@ -83,6 +83,7 @@
 			isHighlighting = false;
 		}
 	}
+
 
 	// Function to extract images from content
 	function extractImagesFromContent(content: string): string[] {
