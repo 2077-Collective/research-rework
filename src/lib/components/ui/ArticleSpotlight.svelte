@@ -5,7 +5,7 @@
 	const { article }: { article: ArticleMetadata } = $props();
 </script>
 
-<a href={`/article/${article.slug}`}>
+<a href={`/${article.slug}`}>
 	<div class="flex flex-col lg:flex-row">
 		<img src={article.thumb} alt={article.title} class="w-full h-auto lg:w-4/6 object-cover" />
 		<div
