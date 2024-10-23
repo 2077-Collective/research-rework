@@ -211,7 +211,11 @@
 				class="flex flex-wrap gap-1 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
 			>
 				<time datetime={article.scheduledPublishTime} class="text-gray-500">
-					Published on {article.scheduledPublishTime}
+					Published on {new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric'
+					})}
 				</time>
 				<nav class="flex gap-1.5 items-center min-w-[240px]">
 					<span class="self-stretch my-auto">Share on</span>
