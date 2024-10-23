@@ -24,9 +24,6 @@
 	let contentState: ContentState = 'initial';
 
 	let currentURL = $state('');
-	//let isHighlighting = $state(false);
-	//let highlightError = $state<Error | null>(null);
-	//let contentReady = $state(false);
 	let lightboxImages = $state<string[]>([]);
 	let lightboxIndex = $state(0);
 	let showLightbox = $state(false);
