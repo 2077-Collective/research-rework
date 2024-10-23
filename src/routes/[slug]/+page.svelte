@@ -28,10 +28,9 @@
 	let lightboxIndex = $state(0);
 	let showLightbox = $state(false);
 
-	// Initialize as state variables instead
-	let twitterShareURL = $state('');
-	let facebookShareURL = $state('');
-	let linkedinShareURL = $state('');
+	const twitterShareURL = `https://twitter.com/intent/tweet?text=${$page.url.href}`;
+	const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${$page.url.href}`;
+	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${$page.url.href}`;
 
 	const { data }: { data: PageData } = $props();
 
@@ -107,18 +106,10 @@
 		}
 	}
 
-	function initializeShareURLs() {
-		const encodedUrl = encodeURIComponent($page.url.href);
-		twitterShareURL = `https://twitter.com/intent/tweet?text=${encodedUrl}`;
-		facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-		linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
-	}
-
 	onMount(() => {
 		currentURL = window.location.href;
 		contentReady = true;
 		highlightCodeBlocks();
-		initializeShareURLs();
 
 		if (data.article.content) {
 			lightboxImages = extractImagesFromContent(data.article.content);
