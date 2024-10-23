@@ -18,6 +18,7 @@
 	import 'prismjs/components/prism-markup';
 	import 'prismjs/components/prism-solidity';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
+	import { page } from '$app/stores'
 
 	let currentURL = $state('');
 	let isHighlighting = $state(false);
@@ -27,7 +28,7 @@
 	let lightboxIndex = $state(0);
 	let showLightbox = $state(false);
 
-	// NEW - Initialize as state variables instead
+	// Initialize as state variables instead
 	let twitterShareURL = $state('');
 	let facebookShareURL = $state('');
 	let linkedinShareURL = $state('');
@@ -107,11 +108,10 @@
 	}
 
 	function initializeShareURLs() {
-		if (typeof window === 'undefined') return;
-		const url = new URL(window.location.href);
-		twitterShareURL = `https://twitter.com/intent/tweet?text=${url.toString()}`;
-		facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${url.toString()}`;
-		linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${url.toString()}`;
+		const encodedUrl = encodeURIComponent($page.url.href);
+		twitterShareURL = `https://twitter.com/intent/tweet?text=${encodedUrl}`;
+		facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+		linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	}
 
 	onMount(() => {
