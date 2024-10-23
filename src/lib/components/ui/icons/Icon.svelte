@@ -7,9 +7,9 @@
 </script>
 
 {#if name === 'x'}
-	<X {size} />
+	<X size="20px" />
 {:else if name === 'discord'}
 	<Discord {size} />
 {:else if name === 'farcaster'}
-	<Farcaster {size} />
+	<Farcaster size="28px" />
 {/if}
