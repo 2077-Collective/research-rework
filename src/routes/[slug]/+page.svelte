@@ -18,7 +18,7 @@
 	import 'prismjs/components/prism-markup';
 	import 'prismjs/components/prism-solidity';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
-	import { page } from '$app/stores'
+	import { page } from '$app/stores';
 
 	let currentURL = $state('');
 	let isHighlighting = $state(false);
@@ -145,9 +145,14 @@
 				contentReady = false;
 
 				async function updateContent() {
-					await tick();
-					contentReady = true;
-					highlightCodeBlocks();
+					try {
+						await tick();
+						contentReady = true;
+						highlightCodeBlocks();
+					} catch (error) {
+						console.error('Failed to update content:', error);
+						contentReady = true;
+					}
 				}
 				updateContent();
 			}
