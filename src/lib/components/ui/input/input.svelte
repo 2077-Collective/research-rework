@@ -40,13 +40,15 @@
 {#if icon || button}
 	<div
 		class={cn(
-			`flex flex-grow items-center gap-2 border border-default bg-transparent rounded-full focus:outline-none ${Variant[variant]}`,
+			`flex flex-grow justify-between items-center gap-2 border border-default bg-transparent rounded-full focus:outline-none ${Variant[variant]} relative`,
 			className,
 			button && 'pr-1'
 		)}
 	>
 		{#if icon}
-			{@render icon()}
+			<div class="flex-shrink-0">
+				{@render icon()}
+			</div>
 		{/if}
 		<input
 			type={type || 'text'}
@@ -57,7 +59,7 @@
 			{placeholder}
 			{min}
 			{disabled}
-			class="flex-grow focus:outline-none placeholder-gray-400 disabled:text-gray bg-transparent text-primary"
+			class="w-full min-w-0 focus:outline-none placeholder-gray-400 disabled:text-gray bg-transparent text-primary"
 		/>
 		{#if button}
 			{@render button()}
