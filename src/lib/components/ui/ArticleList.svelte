@@ -38,13 +38,6 @@
 	function loadMore() {
 		previousVisibleCount = visibleArticles;
 		visibleArticles += ARTICLES_PER_PAGE;
-
-		// Wait for the DOM to update
-		setTimeout(() => {
-			if (newArticleRef) {
-				newArticleRef.scrollIntoView({ behavior: 'smooth' });
-			}
-		}, 0);
 	}
 
 	$effect(() => {
