@@ -3,11 +3,11 @@
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
 
-	const { article }: { article: ArticleMetadata } = $props();
+	const { article, style }: { article: ArticleMetadata; style?: string } = $props();
 </script>
 
 <a href={`/${article.slug}`} class="block">
-	<div transition:slide={{ duration: 300 }} class="flex flex-col justify-center h-fit">
+	<div transition:slide={{ duration: 300 }} class="flex flex-col justify-center h-fit style={style}">
 		<div class="flex flex-col w-full">
 			<img src={article.thumb} alt={article.title} class="aspect-square w-full object-cover" />
 		</div>

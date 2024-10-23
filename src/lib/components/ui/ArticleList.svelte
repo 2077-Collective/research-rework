@@ -90,7 +90,13 @@
 	>
 		{#each filteredArticles.slice(0, visibleArticles) as article, index}
 			{#if index === visibleArticles - ARTICLES_PER_PAGE}
-				<div id={`article-${index}`} bind:this={newArticleRef}>
+				<div
+					id={`article-${index}`}
+					bind:this={newArticleRef}
+					style="background-color: {article.is_sponsored ? article.sponsor_color : 'transparent'}; 
+			   color: {article.is_sponsored ? article.sponsor_text_color : 'inherit'};"
+					class={article.is_sponsored ? article.sponsor_padding : ''}
+				>
 					<ArticleCard {article} />
 				</div>
 			{:else}
