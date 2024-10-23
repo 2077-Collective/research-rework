@@ -101,7 +101,7 @@
 <!-- This prevent the TOC to be visible before the user scroll past the first heading element-->
 {#if showMobileTOC}
 	<button
-		class="sticky top-[72px] p-0 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm"
+		class="sticky top-[72px] md:top-[86px] p-0 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm"
 		class:h-screen={isOpen}
 		onclick={() => (isOpen = !isOpen)}
 	>
