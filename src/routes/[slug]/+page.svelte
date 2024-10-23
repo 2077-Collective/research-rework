@@ -107,6 +107,7 @@
 	}
 
 	function initializeShareURLs() {
+		if (typeof window === 'undefined') return;
 		const url = new URL(window.location.href);
 		twitterShareURL = `https://twitter.com/intent/tweet?text=${url.toString()}`;
 		facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${url.toString()}`;
@@ -151,10 +152,13 @@
 			if (currentURL && currentURL !== newURL) {
 				currentURL = newURL;
 				contentReady = false;
-				setTimeout(() => {
+
+				async function updateContent() {
+					await tick();
 					contentReady = true;
 					highlightCodeBlocks();
-				}, 100);
+				}
+				updateContent();
 			}
 		}
 	});
