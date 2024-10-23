@@ -111,9 +111,11 @@
 		/>
 		{#if !isOpen}
 			<div class="p-3 bg-secondary w-full">
-				{tableOfContents.find((item) => item.id === currentHash)?.title ||
-					tableOfContents[selectedItemIndex].children.find((child) => child.id === currentHash)
-						?.title}
+				<div class="w-11/12 overflow-hidden whitespace-nowrap text-ellipsis">
+					{tableOfContents.find((item) => item.id === currentHash)?.title ||
+						tableOfContents[selectedItemIndex].children.find((child) => child.id === currentHash)
+							?.title}
+				</div>
 			</div>
 		{/if}
 		{#if isOpen}
