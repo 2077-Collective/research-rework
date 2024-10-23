@@ -96,10 +96,15 @@
 	function extractImagesFromContent(content: string): string[] {
 		if (typeof window === 'undefined') return [];
 
-		const parser = new DOMParser();
-		const doc = parser.parseFromString(content, 'text/html');
-		const images = Array.from(doc.querySelectorAll('img')).map((img) => img.src);
-		return images;
+		try {
+			const parser = new DOMParser();
+			const doc = parser.parseFromString(content, 'text/html');
+			const images = Array.from(doc.querySelectorAll('img')).map((img) => img.src);
+			return images;
+		} catch (error) {
+			console.error('Failed to extract images:', error);
+			return [];
+		}
 	}
 
 	function updateImageEventListeners() {
