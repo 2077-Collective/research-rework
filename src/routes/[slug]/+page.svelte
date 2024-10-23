@@ -27,10 +27,10 @@
 	let lightboxIndex = $state(0);
 	let showLightbox = $state(false);
 
-	const url = new URL(window.location.href);
-	const twitterShareURL = `https://twitter.com/intent/tweet?text=${url.toString()}`;
-	const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${url.toString()}`;
-	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${url.toString()}`;
+	// NEW - Initialize as state variables instead
+	let twitterShareURL = $state('');
+	let facebookShareURL = $state('');
+	let linkedinShareURL = $state('');
 
 	const { data }: { data: PageData } = $props();
 
@@ -82,6 +82,8 @@
 	}
 
 	function extractImagesFromContent(content: string): string[] {
+		if (typeof window === 'undefined') return [];
+
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(content, 'text/html');
 		const images = Array.from(doc.querySelectorAll('img')).map((img) => img.src);
@@ -89,6 +91,8 @@
 	}
 
 	function updateImageEventListeners() {
+		if (typeof window === 'undefined') return;
+
 		const container = document.getElementById('content-container');
 		if (container) {
 			const images = container.querySelectorAll('img');
@@ -102,10 +106,18 @@
 		}
 	}
 
+	function initializeShareURLs() {
+		const url = new URL(window.location.href);
+		twitterShareURL = `https://twitter.com/intent/tweet?text=${url.toString()}`;
+		facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${url.toString()}`;
+		linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${url.toString()}`;
+	}
+
 	onMount(() => {
 		currentURL = window.location.href;
 		contentReady = true;
 		highlightCodeBlocks();
+		initializeShareURLs();
 
 		if (data.article.content) {
 			lightboxImages = extractImagesFromContent(data.article.content);
@@ -134,14 +146,16 @@
 	});
 
 	$effect(() => {
-		const newURL = window.location.href;
-		if (currentURL && currentURL !== newURL) {
-			currentURL = newURL;
-			contentReady = false;
-			setTimeout(() => {
-				contentReady = true;
-				highlightCodeBlocks();
-			}, 100);
+		if (typeof window !== 'undefined') {
+			const newURL = window.location.href;
+			if (currentURL && currentURL !== newURL) {
+				currentURL = newURL;
+				contentReady = false;
+				setTimeout(() => {
+					contentReady = true;
+					highlightCodeBlocks();
+				}, 100);
+			}
 		}
 	});
 </script>
