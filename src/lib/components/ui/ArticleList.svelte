@@ -3,7 +3,6 @@
 	import { Search, ArrowDown } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
 	import Input from './input/input.svelte';
-	import { onMount } from 'svelte';
 	import ArticleCard from './ArticleCard.svelte';
 
 	const ARTICLES_PER_PAGE = 9;
@@ -48,13 +47,14 @@
 		}, 0);
 	}
 
-	onMount(() => {
-		// This ensures the ref is updated when articles are filtered
-		$effect(() => {
-			if (filteredArticles.length > previousVisibleCount) {
-				newArticleRef = document.getElementById(`article-${previousVisibleCount}`);
-			}
-		});
+	$effect(() => {
+		visibleArticles = selectedCategory ? Number.MAX_SAFE_INTEGER : ARTICLES_PER_PAGE;
+	});
+
+	$effect(() => {
+		if (filteredArticles.length > previousVisibleCount) {
+			newArticleRef = document.getElementById(`article-${previousVisibleCount}`);
+		}
 	});
 </script>
 
