@@ -1,4 +1,3 @@
-<!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
 	import { ArrowLeft } from 'lucide-svelte';
@@ -18,19 +17,20 @@
 	import 'prismjs/components/prism-markup';
 	import 'prismjs/components/prism-solidity';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
-	import { page } from '$app/stores'
+	import { page } from '$app/stores';
+
+	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
+	let contentState: ContentState = 'initial';
 
 	let currentURL = $state('');
-	let isHighlighting = $state(false);
-	let highlightError = $state<Error | null>(null);
-	let contentReady = $state(false);
 	let lightboxImages = $state<string[]>([]);
 	let lightboxIndex = $state(0);
 	let showLightbox = $state(false);
 
-	const twitterShareURL = `https://twitter.com/intent/tweet?text=${$page.url.href}`;
-	const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${$page.url.href}`;
-	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${$page.url.href}`;
+	const encodedUrl = encodeURIComponent($page.url.href);
+	const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodedUrl}`;
+	const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 
 	const { data }: { data: PageData } = $props();
 
@@ -46,10 +46,7 @@
 	}
 
 	async function highlightCodeBlocks() {
-		if (!contentReady) return;
-
-		isHighlighting = true;
-		highlightError = null;
+		if (contentState !== 'ready') return;
 
 		try {
 			await tick();
@@ -75,19 +72,35 @@
 				Prism.highlightAll();
 			});
 		} catch (error) {
-			highlightError = error instanceof Error ? error : new Error(String(error));
-		} finally {
-			isHighlighting = false;
+			contentState = 'error';
+			console.error('Highlighting error:', error);
+		}
+	}
+
+	async function updateContent() {
+		contentState = 'updating';
+		try {
+			await tick();
+			contentState = 'ready';
+			highlightCodeBlocks();
+		} catch (error) {
+			console.error('Content update failed:', error);
+			contentState = 'error';
 		}
 	}
 
 	function extractImagesFromContent(content: string): string[] {
 		if (typeof window === 'undefined') return [];
 
-		const parser = new DOMParser();
-		const doc = parser.parseFromString(content, 'text/html');
-		const images = Array.from(doc.querySelectorAll('img')).map((img) => img.src);
-		return images;
+		try {
+			const parser = new DOMParser();
+			const doc = parser.parseFromString(content, 'text/html');
+			const images = Array.from(doc.querySelectorAll('img')).map((img) => img.src);
+			return images;
+		} catch (error) {
+			console.error('Failed to extract images:', error);
+			return [];
+		}
 	}
 
 	function updateImageEventListeners() {
@@ -108,14 +121,14 @@
 
 	onMount(() => {
 		currentURL = window.location.href;
-		contentReady = true;
-		highlightCodeBlocks();
+		contentState = 'ready';
 
 		if (data.article.content) {
 			lightboxImages = extractImagesFromContent(data.article.content);
 		}
 
 		updateImageEventListeners();
+		highlightCodeBlocks();
 
 		const observer = new MutationObserver(() => {
 			updateImageEventListeners();
@@ -132,7 +145,7 @@
 	});
 
 	$effect(() => {
-		if (data.article.content && contentReady) {
+		if (data.article.content && contentState === 'ready') {
 			highlightCodeBlocks();
 		}
 	});
@@ -142,13 +155,7 @@
 			const newURL = window.location.href;
 			if (currentURL && currentURL !== newURL) {
 				currentURL = newURL;
-				contentReady = false;
-
-				async function updateContent() {
-					await tick();
-					contentReady = true;
-					highlightCodeBlocks();
-				}
+				contentState = 'updating';
 				updateContent();
 			}
 		}
