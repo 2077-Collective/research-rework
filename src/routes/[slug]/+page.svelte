@@ -178,7 +178,7 @@
 			<a
 				href="/"
 				aria-label="Back to Home"
-				class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full mb-32 md:mb-44"
+				class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full mb-32 md:mb-44 bg-background hover:bg-input"
 			>
 				<ArrowLeft class="w-6 h-6" />
 			</a>
@@ -277,7 +277,7 @@
             [&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
 			[&>p]:text-base md:[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
-			[&_a]:underline [&_a]:underline-offset-4
+			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/50
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:text-base
 			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
 			[&_em]:leading-6 [&_em]:italic

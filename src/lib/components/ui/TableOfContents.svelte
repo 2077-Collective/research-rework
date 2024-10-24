@@ -79,6 +79,10 @@
 			selectedItemIndex = index;
 		}
 	}
+
+	function calculateItemOpacity(index: number) {
+		return 1 - Math.abs(selectedItemIndex - index) / tableOfContents.length;
+	}
 </script>
 
 <ul
@@ -88,8 +92,11 @@
 		<li>
 			<a
 				href={`#${item.id}`}
-				class={`block transition-colors duration-200 ${selectedItemIndex === index ? 'font-medium' : 'font-normal'}`}
-				style="opacity: {1 - Math.abs(selectedItemIndex - index) / tableOfContents.length}"
+				class={`hover:underline hover:text-primary block transition-colors duration-200 ${selectedItemIndex === index ? 'font-medium' : 'font-normal'}`}
+				style="opacity: {calculateItemOpacity(index)}"
+				onmouseenter={(e) => (e.currentTarget.style.opacity = '1')}
+				onmouseleave={(e) =>
+					(e.currentTarget.style.opacity = calculateItemOpacity(index).toString())}
 			>
 				{item.title}
 			</a>
