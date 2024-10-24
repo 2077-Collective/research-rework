@@ -1,4 +1,3 @@
-<!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
 	import { ArrowLeft } from 'lucide-svelte';
