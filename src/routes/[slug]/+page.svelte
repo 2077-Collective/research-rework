@@ -120,6 +120,25 @@
 		}
 	}
 
+	function addSmoothScrollingToInternalLinks() {
+		document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+
+				const targetId = anchor.getAttribute('href')?.substring(1);
+				if (!targetId) return;
+
+				const targetElement = document.getElementById(targetId);
+
+				if (targetElement) {
+					targetElement.scrollIntoView({
+						behavior: 'smooth'
+					});
+				}
+			});
+		});
+	}
+
 	onMount(() => {
 		currentURL = window.location.href;
 		contentState = 'ready';
@@ -128,8 +147,9 @@
 			lightboxImages = extractImagesFromContent(data.article.content);
 		}
 
-		updateImageEventListeners();
 		highlightCodeBlocks();
+		addSmoothScrollingToInternalLinks();
+		updateImageEventListeners();
 
 		const observer = new MutationObserver(() => {
 			updateImageEventListeners();
