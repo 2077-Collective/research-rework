@@ -6,6 +6,8 @@
 	import { onMount, tick } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import Prism from 'prismjs';
+	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
+	import { page } from '$app/stores';
 
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
@@ -17,8 +19,6 @@
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-markup';
 	import 'prismjs/components/prism-solidity';
-	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
-	import { page } from '$app/stores';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -35,39 +35,14 @@
 
 	const { data }: { data: PageData } = $props();
 
-	async function loadPrismLanguages(languages: string[]) {
-		const promises = languages.map(async (lang) => {
-			try {
-				await import(`prismjs/components/prism-${lang}`);
-			} catch (error) {
-				console.warn(`Failed to load language: ${lang}`, error);
-			}
-		});
-		await Promise.all(promises);
-	}
-
 	async function highlightCodeBlocks() {
 		if (contentState !== 'ready') return;
 
 		try {
-			await tick();
-
 			const codeElements = document.querySelectorAll('pre code');
 			if (codeElements.length === 0) {
 				return;
 			}
-
-			const languageMatches = Array.from(codeElements)
-				.map((el) => {
-					const classes = el.className.split(' ');
-					return classes.find((c) => c.startsWith('language-'))?.replace('language-', '');
-				})
-				.filter((lang): lang is string => !!lang);
-
-			const uniqueLanguages = [...new Set(languageMatches)];
-			await loadPrismLanguages(uniqueLanguages);
-
-			await tick();
 
 			requestAnimationFrame(() => {
 				Prism.highlightAll();
@@ -91,7 +66,7 @@
 	}
 
 	function extractImagesFromContent(content: string): string[] {
-		if (typeof window === 'undefined') return [];
+		if (!window) return [];
 
 		try {
 			const parser = new DOMParser();
@@ -105,12 +80,12 @@
 	}
 
 	function updateImageEventListeners() {
-		if (typeof window === 'undefined') return;
+		if (!window) return;
 
 		const container = document.getElementById('content-container');
 		if (container) {
 			const images = container.querySelectorAll('img');
-			images.forEach((img, index) => {
+			images.forEach((img) => {
 				img.addEventListener('click', () => {
 					console.log('element clicked', img.src);
 					lightboxIndex = lightboxImages.indexOf(img.src);
@@ -172,7 +147,7 @@
 	});
 
 	$effect(() => {
-		if (typeof window !== 'undefined') {
+		if (window) {
 			const newURL = window.location.href;
 			if (currentURL && currentURL !== newURL) {
 				currentURL = newURL;
