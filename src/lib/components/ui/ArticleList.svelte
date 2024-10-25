@@ -49,9 +49,13 @@
 	}
 
 	function validateColor(color: string): string {
-		const colorRegex =
-			/^(#[0-9A-Fa-f]{6}|rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)|transparent|inherit)$/;
+		const colorRegex = /^(#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})|rgb[a]?\([\d\s%,.]+\)|hsl[a]?\([\d\s%,.]+\)|var\(--[\w-]+\)|transparent|inherit|[a-z]+)$/i;
 		return colorRegex.test(color) ? color : 'inherit';
+	}
+
+	function validatePadding(padding: string): string {
+		const paddingRegex = /^p[txbylr]/;
+		return paddingRegex.test(padding) ? padding : '';
 	}
 
 	onMount(() => {
@@ -99,13 +103,13 @@
 				<div
 					id={`article-${index}`}
 					bind:this={newArticleRef}
-					style="background-color: {article.is_sponsored && article.sponsor_color
-						? validateColor(article.sponsor_color)
-						: 'transparent'}; 
-				color: {article.is_sponsored && article.sponsor_text_color
-						? validateColor(article.sponsor_text_color)
-						: 'inherit'};"
-					class={article.is_sponsored ? article.sponsor_padding : ''}
+					style={article.is_sponsored
+						? `background-color: ${validateColor(article.sponsor_color ?? 'transparent')}; 
+						   color: ${validateColor(article.sponsor_text_color ?? 'inherit')};`
+						: ''}
+					class={article.is_sponsored && article.sponsor_padding
+						? validatePadding(article.sponsor_padding)
+						: ''}
 				>
 					<ArticleCard {article} />
 				</div>

@@ -5,13 +5,14 @@ const CategorySchema = z.object({
 	name: z.string()
 });
 
-const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})|rgba?\(.*\)$/;
+const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})|rgba?\(\s*(0|[1-9]\d?|1\d\d?|2[0-4]\d|25[0-5])(%?)\s*,\s*(0|[1-9]\d?|1\d\d?|2[0-4]\d|25[0-5])(%?)\s*,\s*(0|[1-9]\d?|1\d\d?|2[0-4]\d|25[0-5])(%?)\s*(?:,\s*(0?\.\d+|1|0))?\s*\)$/;
+const paddingRegex = /^p[txbylr]/;
 
 const SponsorFieldsSchema = z.object({
 	is_sponsored: z.boolean().optional(),
 	sponsor_color: z.string().regex(colorRegex, 'Invalid color format').optional(),
 	sponsor_text_color: z.string().regex(colorRegex, 'Invalid color format').optional(),
-	sponsor_padding: z.string().optional(),
+	sponsor_padding: z.string().regex(paddingRegex, 'Invalid padding format').optional(),
 });
 
 export const ArticleMetadataSchema = SponsorFieldsSchema.extend({
