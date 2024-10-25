@@ -3,7 +3,7 @@
 
 	type Link = { href: string; text: string; isExternal: boolean };
 	const links: Link[] = [
-		{ href: '#', text: 'Privacy notice', isExternal: false },
+		{ href: '/privacy-notice', text: 'Privacy notice', isExternal: false },
 		{ href: '#', text: 'Contact us', isExternal: false },
 		{ href: 'https://2077.xyz', text: '2077.xyz', isExternal: true },
 		{ href: 'https://x.com/2077research', text: 'X (Twitter)', isExternal: true },
