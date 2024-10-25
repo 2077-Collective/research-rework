@@ -47,8 +47,11 @@
 	}
 
 	function validatePadding(padding: string): string {
-		const paddingRegex = /^p[txbylr]/;
-		return paddingRegex.test(padding) ? padding : '';
+		const classes = padding.split(' ');
+		const paddingRegex = /^(p[txbylr](-[0-9]+)?\s*)+$/;
+		const isValid = classes.every((cls) => paddingRegex.test(cls));
+
+		return isValid ? padding : '';
 	}
 
 	$effect(() => {

@@ -5,7 +5,6 @@
 
 	const TRANSITION_DURATION = 300 as const;
 
-	// Define the variant type with 'default' and 'sponsored'
 	type StyleVariant = 'default' | 'sponsored';
 
 	const { article, variant = 'default' }: { article: ArticleMetadata; variant?: StyleVariant } = $props();

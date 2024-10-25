@@ -6,7 +6,7 @@ const CategorySchema = z.object({
 });
 
 const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})|rgba?\(\s*(0|[1-9]\d?|1\d\d?|2[0-4]\d|25[0-5])(%?)\s*,\s*(0|[1-9]\d?|1\d\d?|2[0-4]\d|25[0-5])(%?)\s*,\s*(0|[1-9]\d?|1\d\d?|2[0-4]\d|25[0-5])(%?)\s*(?:,\s*(0?\.\d+|1|0))?\s*\)$/;
-const paddingRegex = /^p[txbylr]/;
+const paddingRegex = /^(p[txbylr](-[0-9]+)?\s*)+$/;
 
 const SponsorFieldsSchema = z.object({
 	is_sponsored: z.boolean().optional(),
