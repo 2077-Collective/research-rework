@@ -6,6 +6,8 @@
 	import ArticleCard from './ArticleCard.svelte';
 
 	const ARTICLES_PER_PAGE = 9;
+	
+	const styleCache = new Map();
 
 	const {
 		articles,
@@ -47,12 +49,30 @@
 	}
 
 	function validatePadding(padding: string): string {
-		const classes = padding.split(' ');
-		const paddingRegex = /^(p[txbylr](-[0-9]+)?\s*)+$/;
+		const classes = padding.trim().split(/\s+/);
+		const paddingRegex = /^p[txbylr]?-(?:[0-9]|1[0-9]|20)$/;
 		const isValid = classes.every((cls) => paddingRegex.test(cls));
-
-		return isValid ? padding : '';
+		return isValid ? classes.join(' ') : '';
 	}
+
+	let getArticleStyle = (article: ArticleMetadata) => {
+		const cacheKey = `${article.is_sponsored}-${article.sponsor_color}-${article.sponsor_text_color}-${article.sponsor_padding}`;
+
+		if (styleCache.has(cacheKey)) {
+			return styleCache.get(cacheKey);
+		}
+
+		let style = '';
+		if (article.is_sponsored) {
+			style = [
+				`background-color: ${validateColor(article.sponsor_color ?? 'transparent')}`,
+				`color: ${validateColor(article.sponsor_text_color ?? 'inherit')}`
+			].join('; ');
+			styleCache.set(cacheKey, style);
+		}
+
+		return style;
+	};
 
 	$effect(() => {
 		visibleArticles = selectedCategory ? Number.MAX_SAFE_INTEGER : ARTICLES_PER_PAGE;
@@ -100,12 +120,7 @@
 				<div
 					id={`article-${index}`}
 					bind:this={newArticleRef}
-					style={article.is_sponsored
-						? [
-								`background-color: ${validateColor(article.sponsor_color ?? 'transparent')}`,
-								`color: ${validateColor(article.sponsor_text_color ?? 'inherit')}`
-							].join('; ')
-						: ''}
+					style={getArticleStyle(article)}
 					class={article.is_sponsored ? validatePadding(article.sponsor_padding ?? '') : ''}
 				>
 					<ArticleCard {article} />
