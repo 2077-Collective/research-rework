@@ -49,7 +49,8 @@
 	}
 
 	function validateColor(color: string): string {
-		const colorRegex = /^(#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})|rgb[a]?\([\d\s%,.]+\)|hsl[a]?\([\d\s%,.]+\)|var\(--[\w-]+\)|transparent|inherit|[a-z]+)$/i;
+		const colorRegex =
+			/^(#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})|rgb[a]?\([\d\s%,.]+\)|hsl[a]?\([\d\s%,.]+\)|var\(--[\w-]+\)|transparent|inherit|[a-z]+)$/i;
 		return colorRegex.test(color) ? color : 'inherit';
 	}
 
@@ -104,12 +105,12 @@
 					id={`article-${index}`}
 					bind:this={newArticleRef}
 					style={article.is_sponsored
-						? `background-color: ${validateColor(article.sponsor_color ?? 'transparent')}; 
-						   color: ${validateColor(article.sponsor_text_color ?? 'inherit')};`
+						? [
+								`background-color: ${validateColor(article.sponsor_color ?? 'transparent')}`,
+								`color: ${validateColor(article.sponsor_text_color ?? 'inherit')}`
+							].join('; ')
 						: ''}
-					class={article.is_sponsored && article.sponsor_padding
-						? validatePadding(article.sponsor_padding)
-						: ''}
+					class={article.is_sponsored ? validatePadding(article.sponsor_padding ?? '') : ''}
 				>
 					<ArticleCard {article} />
 				</div>
