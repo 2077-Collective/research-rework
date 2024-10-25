@@ -48,6 +48,12 @@
 		}, 0);
 	}
 
+	function validateColor(color: string): string {
+		const colorRegex =
+			/^(#[0-9A-Fa-f]{6}|rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)|transparent|inherit)$/;
+		return colorRegex.test(color) ? color : 'inherit';
+	}
+
 	onMount(() => {
 		// This ensures the ref is updated when articles are filtered
 		$effect(() => {
@@ -93,8 +99,12 @@
 				<div
 					id={`article-${index}`}
 					bind:this={newArticleRef}
-					style="background-color: {article.is_sponsored ? article.sponsor_color : 'transparent'}; 
-			   color: {article.is_sponsored ? article.sponsor_text_color : 'inherit'};"
+					style="background-color: {article.is_sponsored && article.sponsor_color
+						? validateColor(article.sponsor_color)
+						: 'transparent'}; 
+				color: {article.is_sponsored && article.sponsor_text_color
+						? validateColor(article.sponsor_text_color)
+						: 'inherit'};"
 					class={article.is_sponsored ? article.sponsor_padding : ''}
 				>
 					<ArticleCard {article} />

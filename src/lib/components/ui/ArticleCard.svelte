@@ -7,7 +7,7 @@
 </script>
 
 <a href={`/${article.slug}`} class="block">
-	<div transition:slide={{ duration: 300 }} class="flex flex-col justify-center h-fit style={style}">
+	<div transition:slide={{ duration: 300 }} class="flex flex-col justify-center h-fit" {style}>
 		<div class="flex flex-col w-full">
 			<img src={article.thumb} alt={article.title} class="aspect-square w-full object-cover" />
 		</div>

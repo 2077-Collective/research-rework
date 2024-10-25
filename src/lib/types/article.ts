@@ -5,7 +5,16 @@ const CategorySchema = z.object({
 	name: z.string()
 });
 
-export const ArticleMetadaSchema = z.object({
+const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})|rgba?\(.*\)$/;
+
+const SponsorFieldsSchema = z.object({
+	is_sponsored: z.boolean().optional(),
+	sponsor_color: z.string().regex(colorRegex, 'Invalid color format').optional(),
+	sponsor_text_color: z.string().regex(colorRegex, 'Invalid color format').optional(),
+	sponsor_padding: z.string().optional(),
+});
+
+export const ArticleMetadataSchema = SponsorFieldsSchema.extend({
 	id: z.string(),
 	title: z.string(),
 	authors: z
@@ -30,13 +39,8 @@ export const ArticleMetadaSchema = z.object({
 	sponsor_padding: z.string().optional(),
 });
 
-export const ArticleMetadataArraySchema = z.array(ArticleMetadaSchema);
-export type ArticleMetadata = z.infer<typeof ArticleMetadaSchema & {
-	is_sponsored?: boolean;
-	sponsor_color?: string;
-	sponsor_text_color?: string;
-	sponsor_padding?: string;
-}>;
+export const ArticleMetadataArraySchema = z.array(ArticleMetadataSchema);
+export type ArticleMetadata = z.infer<typeof ArticleMetadataSchema>;
 
 const TableOfContentsItemSchema: z.ZodType<TableOfContentsItem> = z.lazy(() =>
 	z.object({
@@ -54,7 +58,7 @@ export type TableOfContentsItem = {
 };
 export type TableOfContents = z.infer<typeof TableOfContentsSchema>;
 
-export const ArticleSchema = ArticleMetadaSchema.extend({
+export const ArticleSchema = ArticleMetadataSchema.extend({
 	content: z.string(),
 	scheduled_publish_time: z.string(),
 	table_of_contents: TableOfContentsSchema,
@@ -81,9 +85,5 @@ export const ArticleSchema = ArticleMetadaSchema.extend({
 	scheduledPublishTime: article.scheduled_publish_time,
 	tableOfContents: article.table_of_contents
 }));
-export type Article = z.infer<typeof ArticleSchema & {
-	is_sponsored?: boolean;
-	sponsor_color?: string;
-	sponsor_text_color?: string;
-	sponsor_padding?: string;
-}>;
+export type Article = z.infer<typeof ArticleSchema>;
+
