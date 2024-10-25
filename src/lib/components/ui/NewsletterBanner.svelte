@@ -7,10 +7,11 @@
 	let email: string = '';
 	let csrfToken = '';
 	let responseMessage = '';
+	const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 	async function fetchCsrfToken() {
 		try {
-			const response = await fetch('https://cms.2077.xyz/get-csrf-token/', {
+			const response = await fetch(`${apiBaseUrl}/get-csrf-token/`, {
 				credentials: 'include'
 			});
 			const data = await response.json();
@@ -66,7 +67,7 @@
 		</p>
 		<form
 			onsubmit={handleSubmit}
-			action="https://cms.2077.xyz/newsletter/subscribe/"
+			action={`${apiBaseUrl}/newsletter/subscribe/`}
 			class="flex relative gap-2 justify-center items-start self-center mt-8 max-w-full"
 		>
 			<label for="emailInput" class="sr-only">Your email address</label>
