@@ -34,10 +34,6 @@ export const ArticleMetadataSchema = SponsorFieldsSchema.extend({
 	categories: z.array(CategorySchema),
 	thumb: z.string(),
 	slug: z.string(),
-	is_sponsored: z.boolean().optional(),
-	sponsor_color: z.string().optional(),
-	sponsor_text_color: z.string().optional(),
-	sponsor_padding: z.string().optional(),
 });
 
 export const ArticleMetadataArraySchema = z.array(ArticleMetadataSchema);
@@ -64,10 +60,6 @@ export const ArticleSchema = ArticleMetadataSchema.extend({
 	scheduled_publish_time: z.string(),
 	table_of_contents: TableOfContentsSchema,
 	acknowledgement: z.string().optional(),
-	is_sponsored: z.boolean().optional(),
-	sponsor_color: z.string().optional(),
-	sponsor_text_color: z.string().optional(),
-	sponsor_padding: z.string().optional(),
 	authors: z.array(
 		z
 			.object({

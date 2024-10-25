@@ -5,11 +5,14 @@
 
 	const TRANSITION_DURATION = 300 as const;
 
-	const { article, style }: { article: ArticleMetadata; style?: string } = $props();
+	// Define the variant type with 'default' and 'sponsored'
+	type StyleVariant = 'default' | 'sponsored';
+
+	const { article, variant = 'default' }: { article: ArticleMetadata; variant?: StyleVariant } = $props();
 </script>
 
 <a href={`/${article.slug}`} class="block">
-	<div transition:slide={{ duration: TRANSITION_DURATION }} class="flex flex-col justify-center h-fit" {style}>
+	<div transition:slide={{ duration: TRANSITION_DURATION }} class={`flex flex-col justify-center h-fit ${variant === 'sponsored' ? 'bg-yellow-100 border border-yellow-500' : ''}`}>
 		<div class="flex flex-col w-full">
 			<img src={article.thumb} alt={article.title} class="aspect-square w-full object-cover" />
 		</div>
