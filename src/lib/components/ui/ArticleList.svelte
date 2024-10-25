@@ -3,7 +3,6 @@
 	import { Search, ArrowDown } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
 	import Input from './input/input.svelte';
-	import { onMount } from 'svelte';
 	import ArticleCard from './ArticleCard.svelte';
 
 	const ARTICLES_PER_PAGE = 9;
@@ -39,13 +38,6 @@
 	function loadMore() {
 		previousVisibleCount = visibleArticles;
 		visibleArticles += ARTICLES_PER_PAGE;
-
-		// Wait for the DOM to update
-		setTimeout(() => {
-			if (newArticleRef) {
-				newArticleRef.scrollIntoView({ behavior: 'smooth' });
-			}
-		}, 0);
 	}
 
 	function validateColor(color: string): string {
@@ -59,13 +51,14 @@
 		return paddingRegex.test(padding) ? padding : '';
 	}
 
-	onMount(() => {
-		// This ensures the ref is updated when articles are filtered
-		$effect(() => {
-			if (filteredArticles.length > previousVisibleCount) {
-				newArticleRef = document.getElementById(`article-${previousVisibleCount}`);
-			}
-		});
+	$effect(() => {
+		visibleArticles = selectedCategory ? Number.MAX_SAFE_INTEGER : ARTICLES_PER_PAGE;
+	});
+
+	$effect(() => {
+		if (filteredArticles.length > previousVisibleCount) {
+			newArticleRef = document.getElementById(`article-${previousVisibleCount}`);
+		}
 	});
 </script>
 
@@ -123,7 +116,7 @@
 	</div>
 
 	{#if visibleArticles < filteredArticles.length}
-		<div class="flex justify-center mt-4 md:mt-10">
+		<div class="flex justify-center py-4 md:py-10">
 			<button
 				onclick={loadMore}
 				class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group"

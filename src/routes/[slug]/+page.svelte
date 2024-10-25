@@ -5,6 +5,8 @@
 	import { onMount, tick } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import Prism from 'prismjs';
+	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
+	import { page } from '$app/stores';
 
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
@@ -16,8 +18,6 @@
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-markup';
 	import 'prismjs/components/prism-solidity';
-	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
-	import { page } from '$app/stores';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -34,39 +34,14 @@
 
 	const { data }: { data: PageData } = $props();
 
-	async function loadPrismLanguages(languages: string[]) {
-		const promises = languages.map(async (lang) => {
-			try {
-				await import(`prismjs/components/prism-${lang}`);
-			} catch (error) {
-				console.warn(`Failed to load language: ${lang}`, error);
-			}
-		});
-		await Promise.all(promises);
-	}
-
 	async function highlightCodeBlocks() {
 		if (contentState !== 'ready') return;
 
 		try {
-			await tick();
-
 			const codeElements = document.querySelectorAll('pre code');
 			if (codeElements.length === 0) {
 				return;
 			}
-
-			const languageMatches = Array.from(codeElements)
-				.map((el) => {
-					const classes = el.className.split(' ');
-					return classes.find((c) => c.startsWith('language-'))?.replace('language-', '');
-				})
-				.filter((lang): lang is string => !!lang);
-
-			const uniqueLanguages = [...new Set(languageMatches)];
-			await loadPrismLanguages(uniqueLanguages);
-
-			await tick();
 
 			requestAnimationFrame(() => {
 				Prism.highlightAll();
@@ -90,7 +65,7 @@
 	}
 
 	function extractImagesFromContent(content: string): string[] {
-		if (typeof window === 'undefined') return [];
+		if (!window) return [];
 
 		try {
 			const parser = new DOMParser();
@@ -104,12 +79,12 @@
 	}
 
 	function updateImageEventListeners() {
-		if (typeof window === 'undefined') return;
+		if (!window) return;
 
 		const container = document.getElementById('content-container');
 		if (container) {
 			const images = container.querySelectorAll('img');
-			images.forEach((img, index) => {
+			images.forEach((img) => {
 				img.addEventListener('click', () => {
 					console.log('element clicked', img.src);
 					lightboxIndex = lightboxImages.indexOf(img.src);
@@ -117,6 +92,25 @@
 				});
 			});
 		}
+	}
+
+	function addSmoothScrollingToInternalLinks() {
+		document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+
+				const targetId = anchor.getAttribute('href')?.substring(1);
+				if (!targetId) return;
+
+				const targetElement = document.getElementById(targetId);
+
+				if (targetElement) {
+					targetElement.scrollIntoView({
+						behavior: 'smooth'
+					});
+				}
+			});
+		});
 	}
 
 	onMount(() => {
@@ -127,8 +121,9 @@
 			lightboxImages = extractImagesFromContent(data.article.content);
 		}
 
-		updateImageEventListeners();
 		highlightCodeBlocks();
+		addSmoothScrollingToInternalLinks();
+		updateImageEventListeners();
 
 		const observer = new MutationObserver(() => {
 			updateImageEventListeners();
@@ -151,7 +146,7 @@
 	});
 
 	$effect(() => {
-		if (typeof window !== 'undefined') {
+		if (window) {
 			const newURL = window.location.href;
 			if (currentURL && currentURL !== newURL) {
 				currentURL = newURL;
@@ -182,7 +177,7 @@
 			<a
 				href="/"
 				aria-label="Back to Home"
-				class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full mb-32 md:mb-44"
+				class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full mb-32 md:mb-44 bg-background hover:bg-input"
 			>
 				<ArrowLeft class="w-6 h-6" />
 			</a>
@@ -281,7 +276,7 @@
             [&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
 			[&>p]:text-base md:[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
-			[&_a]:underline [&_a]:underline-offset-4
+			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/50
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:text-base
 			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
 			[&_em]:leading-6 [&_em]:italic

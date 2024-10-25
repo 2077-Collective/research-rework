@@ -79,6 +79,10 @@
 			selectedItemIndex = index;
 		}
 	}
+
+	function calculateItemOpacity(index: number) {
+		return 1 - Math.abs(selectedItemIndex - index) / tableOfContents.length;
+	}
 </script>
 
 <ul
@@ -88,8 +92,11 @@
 		<li>
 			<a
 				href={`#${item.id}`}
-				class={`block transition-colors duration-200 ${selectedItemIndex === index ? 'font-medium' : 'font-normal'}`}
-				style="opacity: {1 - Math.abs(selectedItemIndex - index) / tableOfContents.length}"
+				class={`hover:underline hover:text-primary block transition-colors duration-200 ${selectedItemIndex === index ? 'font-medium' : 'font-normal'}`}
+				style="opacity: {calculateItemOpacity(index)}"
+				onmouseenter={(e) => (e.currentTarget.style.opacity = '1')}
+				onmouseleave={(e) =>
+					(e.currentTarget.style.opacity = calculateItemOpacity(index).toString())}
 			>
 				{item.title}
 			</a>
@@ -101,7 +108,7 @@
 <!-- This prevent the TOC to be visible before the user scroll past the first heading element-->
 {#if showMobileTOC}
 	<button
-		class="sticky top-[72px] p-0 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm"
+		class="sticky top-[72px] md:top-[86px] p-0 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm"
 		class:h-screen={isOpen}
 		onclick={() => (isOpen = !isOpen)}
 	>
@@ -111,9 +118,11 @@
 		/>
 		{#if !isOpen}
 			<div class="p-3 bg-secondary w-full">
-				{tableOfContents.find((item) => item.id === currentHash)?.title ||
-					tableOfContents[selectedItemIndex].children.find((child) => child.id === currentHash)
-						?.title}
+				<div class="w-11/12 overflow-hidden whitespace-nowrap text-ellipsis">
+					{tableOfContents.find((item) => item.id === currentHash)?.title ||
+						tableOfContents[selectedItemIndex].children.find((child) => child.id === currentHash)
+							?.title}
+				</div>
 			</div>
 		{/if}
 		{#if isOpen}

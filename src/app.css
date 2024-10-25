@@ -21,10 +21,6 @@
 		url('/fonts/Soehne-Breit-Kraftig.woff2') format('woff2');
 }
 
-html {
-	scroll-behavior: smooth;
-}
-
 body {
 	/* @apply bg-background text-foreground; */
 	font-family: 'Inter Variable', sans-serif;
