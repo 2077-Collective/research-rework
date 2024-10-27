@@ -22,7 +22,7 @@
 	>
 		<!-- leading-[69px] is arbitrary and never repeated throughout the website, that's why it's not in tailwind config -->
 		<h1
-			class="font-soehne text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[843px] mb-12 px-10"
+			class="font-soehne text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[843px] mb-12 px-4 md:px-10"
 		>
 			Comprehensive and insightful research within the Ethereum and broader crypto landscape.
 		</h1>

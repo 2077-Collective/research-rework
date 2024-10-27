@@ -106,10 +106,7 @@
 		class="embla__slide container border border-subtle p-6 w-full h-[184px] md:w-[432px] md:h-[232px]"
 		dir="ltr"
 	>
-		<a
-			href={testimonial.link}
-			target="_blank"
-			rel="noopener noreferrer"
+		<div
 			class="flex flex-col gap-4"
 		>
 			<div class="flex gap-2">
@@ -123,13 +120,13 @@
 							{/if}
 						</div>
 					</div>
-					<div class="flex gap-2">
+					<a href={testimonial.link} target="_blank" rel="noopener noreferrer" class="flex gap-2">
 						<Icon name={testimonial.platform} />
-					</div>
+					</a>
 				</div>
 			</div>
 			<p>{testimonial.text}</p>
-		</a>
+		</div>
 	</div>
 {/snippet}
 

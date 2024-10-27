@@ -26,7 +26,7 @@
 {#snippet linkComp(link: Link)}
 	<a
 		href={link.href}
-		class="flex gap-1 items-center self-stretch my-auto whitespace-nowrap"
+		class="flex gap-1 items-center self-stretch my-auto whitespace-nowrap hover:underline hover:underline-offset-4"
 		target={link.isExternal ? '_blank' : '_self'}
 		rel="noopener noreferrer"
 	>

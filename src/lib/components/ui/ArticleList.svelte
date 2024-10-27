@@ -4,6 +4,8 @@
 	import Badge from './badge/badge.svelte';
 	import Input from './input/input.svelte';
 	import ArticleCard from './ArticleCard.svelte';
+	import { slide } from 'svelte/transition';
+	import { tick } from 'svelte';
 
 	const ARTICLES_PER_PAGE = 9;
 
@@ -19,6 +21,7 @@
 	let visibleArticles = $state(ARTICLES_PER_PAGE);
 	let previousVisibleCount = $state(ARTICLES_PER_PAGE);
 	let newArticleRef: HTMLElement | null = $state(null);
+	let loading = $state(false);
 
 	const filteredArticles = $derived(
 		articles
@@ -35,9 +38,16 @@
 			})
 	);
 
-	function loadMore() {
+	async function loadMore() {
+		if (loading) return;
+		loading = true;
+		await tick();
+
 		previousVisibleCount = visibleArticles;
 		visibleArticles += ARTICLES_PER_PAGE;
+
+		await new Promise((resolve) => setTimeout(resolve, 500));
+		loading = false;
 	}
 
 	$effect(() => {
@@ -82,16 +92,28 @@
 		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center"
 	>
 		{#each filteredArticles.slice(0, visibleArticles) as article, index}
-			{#if index === visibleArticles - ARTICLES_PER_PAGE}
-				<div id={`article-${index}`} bind:this={newArticleRef}>
-					<ArticleCard {article} />
-				</div>
-			{:else}
-				<div id={`article-${index}`}>
-					<ArticleCard {article} />
-				</div>
-			{/if}
+			<div transition:slide={{ delay: 100 * (index % ARTICLES_PER_PAGE) }}>
+				<ArticleCard {article} />
+			</div>
 		{/each}
+
+		{#if loading}
+			<div class="flex flex-col justify-center h-fit animate-pulse">
+				<div class="flex flex-col w-full">
+					<div class="aspect-square w-full bg-gray-200 rounded-md"></div>
+				</div>
+				<div class="flex flex-col py-6 w-full space-y-4">
+					<div class="flex gap-1 items-start w-full text-sm">
+						<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
+						<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
+					</div>
+					<div class="h-8 bg-gray-200 w-3/4 rounded-md"></div>
+					<div class="h-4 bg-gray-200 w-full rounded-md"></div>
+					<div class="h-4 bg-gray-200 w-5/6 rounded-md"></div>
+					<div class="h-4 bg-gray-200 w-1/2 rounded-md"></div>
+				</div>
+			</div>
+		{/if}
 	</div>
 
 	{#if visibleArticles < filteredArticles.length}
@@ -99,6 +121,7 @@
 			<button
 				onclick={loadMore}
 				class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group"
+				disabled={loading}
 			>
 				Load more
 				<div
