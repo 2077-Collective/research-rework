@@ -16,6 +16,13 @@
 	const MAX_CACHE_SIZE = import.meta.env.VITE_ARTICLE_CACHE_SIZE ?? 100;
 	const styleCache = new Map();
 
+	function limitCacheSize() {
+		if (styleCache.size > MAX_CACHE_SIZE) {
+			const keysToDelete = Array.from(styleCache.keys()).slice(0, styleCache.size - MAX_CACHE_SIZE);
+			keysToDelete.forEach((key) => styleCache.delete(key));
+		}
+	}
+
 	type StyleVariant = 'default' | 'sponsored';
 
 	/**
@@ -26,13 +33,6 @@
 	const { article }: { article: ArticleMetadata } = $props();
 
 	const variant: StyleVariant = article.is_sponsored ? 'sponsored' : 'default';
-
-	function limitCacheSize() {
-		if (styleCache.size > MAX_CACHE_SIZE) {
-			const keysToDelete = Array.from(styleCache.keys()).slice(0, styleCache.size - MAX_CACHE_SIZE);
-			keysToDelete.forEach((key) => styleCache.delete(key));
-		}
-	}
 
 	function validatePadding(padding: string): string {
 		if (!padding) return '';
