@@ -7,17 +7,39 @@
 	let email: string = '';
 	let csrfToken = '';
 	let responseMessage = '';
+	let isLoading = false;
 	const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 	async function fetchCsrfToken() {
 		try {
+			isLoading = true;
+			console.log('Fetching CSRF token from:', `${apiBaseUrl}/get-csrf-token/`);
+
 			const response = await fetch(`${apiBaseUrl}/get-csrf-token/`, {
-				credentials: 'include'
+				credentials: 'include',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json'
+				}
 			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
 			const data = await response.json();
+			console.log('CSRF token response:', data);
+
+			if (!data.csrfToken) {
+				throw new Error('CSRF token not found in response');
+			}
+
 			csrfToken = data.csrfToken;
-		} catch (error) {
-			responseMessage = 'An error occurred while fetching the CSRF token. Please try again.';
+		} catch (error: unknown) {
+			console.error('CSRF token fetch error:', error);
+			responseMessage = `Error fetching CSRF token: ${error instanceof Error ? error.message : 'Unknown error occurred'}`;
+		} finally {
+			isLoading = false;
 		}
 	}
 

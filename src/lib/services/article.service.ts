@@ -10,17 +10,15 @@ export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
 		throw new Error('API base URL is not configured');
 	}
 	try {
-		const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/articles`);
+		const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/articles`);
 		if (!res.ok) {
 			throw new Error(`HTTP error! status: ${res.status}`);
 		}
 		const body = await res.json();
 		return ArticleMetadataArraySchema.parse(body);
 	} catch (error) {
-		if (error instanceof Error) {
-			throw new Error(`Failed to fetch articles: ${error.message}`);
-		}
-		throw error;
+		const errorMessage = `Failed to fetch articles: ${error instanceof Error ? error.message : 'Unknown error'}`;
+		throw error instanceof Error ? Object.assign(error, { message: errorMessage }) : new Error(errorMessage);
 	}
 };
 
@@ -33,16 +31,14 @@ export const getArticleBySlug = async (slug: string): Promise<Article> => {
 		throw new Error('API base URL is not configured');
 	}
 	try {
-		const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/articles/${slug}`);
+		const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/articles/${slug}`);
 		if (!res.ok) {
 			throw new Error(`HTTP error! status: ${res.status}`);
 		}
 		const body = await res.json();
 		return ArticleSchema.parse(body.data);
 	} catch (error) {
-		if (error instanceof Error) {
-			throw new Error(`Failed to fetch article ${slug}: ${error.message}`);
-		}
-		throw error;
+		const errorMessage = `Failed to fetch article ${slug}: ${error instanceof Error ? error.message : 'Unknown error'}`;
+		throw error instanceof Error ? Object.assign(error, { message: errorMessage }) : new Error(errorMessage);
 	}
 };
