@@ -18,8 +18,6 @@
 	let search = $state('');
 	let selectedCategory = $state('');
 	let visibleArticles = $state(ARTICLES_PER_PAGE);
-	let previousVisibleCount = $state(ARTICLES_PER_PAGE);
-	let newArticleRef: HTMLElement | null = $state(null);
 
 	const filteredArticles = $derived(
 		articles
@@ -37,18 +35,11 @@
 	);
 
 	function loadMore() {
-		previousVisibleCount = visibleArticles;
 		visibleArticles += ARTICLES_PER_PAGE;
 	}
 
 	$effect(() => {
 		visibleArticles = selectedCategory ? Number.MAX_SAFE_INTEGER : ARTICLES_PER_PAGE;
-	});
-
-	$effect(() => {
-		if (filteredArticles.length > previousVisibleCount) {
-			newArticleRef = document.getElementById(`article-${previousVisibleCount}`);
-		}
 	});
 </script>
 
@@ -83,7 +74,7 @@
 		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center"
 	>
 		{#each filteredArticles.slice(0, visibleArticles) as article, index}
-			<div id={`article-${index}`}>
+			<div>
 				<ArticleCard {article} />
 			</div>
 		{/each}

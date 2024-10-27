@@ -25,6 +25,10 @@ export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
 };
 
 export const getArticleBySlug = async (slug: string): Promise<Article> => {
+	if (!slug?.trim()) {
+		throw new Error('Article slug is required');
+	}
+
 	if (!import.meta.env.VITE_API_BASE_URL) {
 		throw new Error('API base URL is not configured');
 	}

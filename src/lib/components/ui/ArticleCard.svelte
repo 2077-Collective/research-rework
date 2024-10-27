@@ -3,6 +3,9 @@
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
 	import { colorRegex, paddingRegex } from '$lib/types/article';
+	import { writable } from 'svelte/store';
+
+	export const containerClasses = writable('');
 
 	const TRANSITION_DURATION = 300;
 	const variantStyles = {
@@ -10,6 +13,7 @@
 		sponsored: 'bg-primary-50 border border-primary-300'
 	};
 
+	const MAX_CACHE_SIZE = 100;
 	const styleCache = new Map();
 
 	type StyleVariant = 'default' | 'sponsored';
@@ -23,37 +27,55 @@
 
 	const variant: StyleVariant = article.is_sponsored ? 'sponsored' : 'default';
 
+	function limitCacheSize() {
+		if (styleCache.size > MAX_CACHE_SIZE) {
+			const keysToDelete = Array.from(styleCache.keys()).slice(0, styleCache.size - MAX_CACHE_SIZE);
+			keysToDelete.forEach((key) => styleCache.delete(key));
+		}
+	}
 
 	function validatePadding(padding: string): string {
+		if (!padding) return '';
 		const classes = padding.trim().split(/\s+/);
 		const isValid = classes.every((cls) => paddingRegex.test(cls));
 		return isValid ? classes.join(' ') : '';
 	}
 
 	let getArticleStyle = (article: ArticleMetadata) => {
+		if (!article.is_sponsored) return '';
+
 		const cacheKey = `${article.is_sponsored}-${article.sponsor_color}-${article.sponsor_text_color}-${article.sponsor_padding}`;
 
 		if (styleCache.has(cacheKey)) {
 			return styleCache.get(cacheKey);
 		}
+		const style = [
+			`background-color: ${article.sponsor_color ?? 'transparent'}`,
+			`color: ${article.sponsor_text_color ?? 'inherit'}`
+		].join('; ');
 
-		let style = '';
-		if (article.is_sponsored) {
-			style = [
-				`background-color: ${article.sponsor_color ?? 'transparent'}`,
-				`color: ${article.sponsor_text_color ?? 'inherit'}`
-			].join('; ');
-			styleCache.set(cacheKey, style);
-		}
+		styleCache.set(cacheKey, style);
 
 		return style;
 	};
+
+	$effect(() => {
+		const classes = [
+			'flex flex-col justify-center h-fit',
+			variantStyles[variant],
+			article.is_sponsored ? validatePadding(article.sponsor_padding ?? '') : ''
+		]
+			.filter(Boolean)
+			.join(' ');
+
+		containerClasses.set(classes);
+	});
 </script>
 
 <a href={`/${article.slug}`} class="block">
 	<div
 		transition:slide={{ duration: TRANSITION_DURATION }}
-		class={`flex flex-col justify-center h-fit ${variantStyles[variant]} ${article.is_sponsored ? validatePadding(article.sponsor_padding ?? '') : ''}`}
+		class={$containerClasses}
 		style={getArticleStyle(article)}
 	>
 		<div class="flex flex-col w-full">
