@@ -6,8 +6,6 @@
 	import ArticleCard from './ArticleCard.svelte';
 
 	const ARTICLES_PER_PAGE = 9;
-	
-	const styleCache = new Map();
 
 	const {
 		articles,
@@ -16,6 +14,7 @@
 		articles: ArticleMetadata[];
 		articleCategories: string[];
 	} = $props();
+
 	let search = $state('');
 	let selectedCategory = $state('');
 	let visibleArticles = $state(ARTICLES_PER_PAGE);
@@ -41,38 +40,6 @@
 		previousVisibleCount = visibleArticles;
 		visibleArticles += ARTICLES_PER_PAGE;
 	}
-
-	function validateColor(color: string): string {
-		const colorRegex =
-			/^(#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})|rgb[a]?\([\d\s%,.]+\)|hsl[a]?\([\d\s%,.]+\)|var\(--[\w-]+\)|transparent|inherit|[a-z]+)$/i;
-		return colorRegex.test(color) ? color : 'inherit';
-	}
-
-	function validatePadding(padding: string): string {
-		const classes = padding.trim().split(/\s+/);
-		const paddingRegex = /^p[txbylr]?-(?:[0-9]|1[0-9]|20)$/;
-		const isValid = classes.every((cls) => paddingRegex.test(cls));
-		return isValid ? classes.join(' ') : '';
-	}
-
-	let getArticleStyle = (article: ArticleMetadata) => {
-		const cacheKey = `${article.is_sponsored}-${article.sponsor_color}-${article.sponsor_text_color}-${article.sponsor_padding}`;
-
-		if (styleCache.has(cacheKey)) {
-			return styleCache.get(cacheKey);
-		}
-
-		let style = '';
-		if (article.is_sponsored) {
-			style = [
-				`background-color: ${validateColor(article.sponsor_color ?? 'transparent')}`,
-				`color: ${validateColor(article.sponsor_text_color ?? 'inherit')}`
-			].join('; ');
-			styleCache.set(cacheKey, style);
-		}
-
-		return style;
-	};
 
 	$effect(() => {
 		visibleArticles = selectedCategory ? Number.MAX_SAFE_INTEGER : ARTICLES_PER_PAGE;
@@ -116,20 +83,9 @@
 		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center"
 	>
 		{#each filteredArticles.slice(0, visibleArticles) as article, index}
-			{#if index === visibleArticles - ARTICLES_PER_PAGE}
-				<div
-					id={`article-${index}`}
-					bind:this={newArticleRef}
-					style={getArticleStyle(article)}
-					class={article.is_sponsored ? validatePadding(article.sponsor_padding ?? '') : ''}
-				>
-					<ArticleCard {article} />
-				</div>
-			{:else}
-				<div id={`article-${index}`}>
-					<ArticleCard {article} />
-				</div>
-			{/if}
+			<div id={`article-${index}`}>
+				<ArticleCard {article} />
+			</div>
 		{/each}
 	</div>
 

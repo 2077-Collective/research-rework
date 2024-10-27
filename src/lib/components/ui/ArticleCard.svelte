@@ -2,16 +2,60 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
+	import { colorRegex, paddingRegex } from '$lib/types/article';
 
-	const TRANSITION_DURATION = 300 as const;
+	const TRANSITION_DURATION = 300;
+	const variantStyles = {
+		default: '',
+		sponsored: 'bg-primary-50 border border-primary-300'
+	};
+
+	const styleCache = new Map();
 
 	type StyleVariant = 'default' | 'sponsored';
 
-	const { article, variant = 'default' }: { article: ArticleMetadata; variant?: StyleVariant } = $props();
+	/**
+	 * @component
+	 * @prop {ArticleMetadata} article - The article metadata to display
+	 * @prop {StyleVariant} [variant='default'] - The display variant of the article card
+	 */
+	const { article }: { article: ArticleMetadata } = $props();
+
+	const variant: StyleVariant = article.is_sponsored ? 'sponsored' : 'default';
+
+
+	function validatePadding(padding: string): string {
+		const classes = padding.trim().split(/\s+/);
+		const isValid = classes.every((cls) => paddingRegex.test(cls));
+		return isValid ? classes.join(' ') : '';
+	}
+
+	let getArticleStyle = (article: ArticleMetadata) => {
+		const cacheKey = `${article.is_sponsored}-${article.sponsor_color}-${article.sponsor_text_color}-${article.sponsor_padding}`;
+
+		if (styleCache.has(cacheKey)) {
+			return styleCache.get(cacheKey);
+		}
+
+		let style = '';
+		if (article.is_sponsored) {
+			style = [
+				`background-color: ${article.sponsor_color ?? 'transparent'}`,
+				`color: ${article.sponsor_text_color ?? 'inherit'}`
+			].join('; ');
+			styleCache.set(cacheKey, style);
+		}
+
+		return style;
+	};
 </script>
 
 <a href={`/${article.slug}`} class="block">
-	<div transition:slide={{ duration: TRANSITION_DURATION }} class={`flex flex-col justify-center h-fit ${variant === 'sponsored' ? 'bg-yellow-100 border border-yellow-500' : ''}`}>
+	<div
+		transition:slide={{ duration: TRANSITION_DURATION }}
+		class={`flex flex-col justify-center h-fit ${variantStyles[variant]} ${article.is_sponsored ? validatePadding(article.sponsor_padding ?? '') : ''}`}
+		style={getArticleStyle(article)}
+	>
 		<div class="flex flex-col w-full">
 			<img src={article.thumb} alt={article.title} class="aspect-square w-full object-cover" />
 		</div>
