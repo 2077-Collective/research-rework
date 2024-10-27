@@ -13,22 +13,24 @@
 	async function fetchCsrfToken() {
 		try {
 			isLoading = true;
-			console.log('Fetching CSRF token from:', `${apiBaseUrl}/get-csrf-token/`);
 
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), 5000);
 			const response = await fetch(`${apiBaseUrl}/get-csrf-token/`, {
+				signal: controller.signal,
 				credentials: 'include',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json'
 				}
 			});
+			clearTimeout(timeoutId);
 
 			if (!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
 
 			const data = await response.json();
-			console.log('CSRF token response:', data);
 
 			if (!data.csrfToken) {
 				throw new Error('CSRF token not found in response');
@@ -92,6 +94,7 @@
 		<form
 			onsubmit={handleSubmit}
 			action={`${apiBaseUrl}/newsletter/subscribe/`}
+			class:opacity-50={isLoading}
 			class="flex relative gap-2 justify-center items-start self-center mt-8 max-w-full"
 		>
 			<label for="emailInput" class="sr-only">Your email address</label>
@@ -101,6 +104,7 @@
 				id="emailInput"
 				bind:value={email}
 				placeholder="Your email address"
+				disabled={isLoading}
 				class="flex gap-2 items-center px-5 py-2.5 text-lg tracking-tight leading-loose  min-w-[240px] rounded-full w-[380px]"
 				required
 			>

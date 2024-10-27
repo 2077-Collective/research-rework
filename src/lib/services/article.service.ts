@@ -26,10 +26,6 @@ export const getArticleBySlug = async (slug: string): Promise<Article> => {
 	if (!slug?.trim() || !/^[a-zA-Z0-9-]+$/.test(slug)) {
 		throw new Error('Invalid article slug. Only alphanumeric characters and hyphens are allowed.');
 	}
-
-	if (!import.meta.env.VITE_API_BASE_URL) {
-		throw new Error('API base URL is not configured');
-	}
 	try {
 		const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/articles/${slug}`);
 		if (!res.ok) {
