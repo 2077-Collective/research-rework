@@ -67,4 +67,4 @@ This project uses environment variables for configuration. These are loaded thro
 ## Development Setup
 1. Copy .env.example to .env
 2. Update the values in .env according to your development environment.
-3. Never commit .env files to version control (they're already in .gitignore).
+3. Never commit .env files to version control (they're already in .gitignore)
