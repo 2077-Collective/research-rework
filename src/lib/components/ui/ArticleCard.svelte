@@ -5,7 +5,7 @@
 	import { colorRegex, paddingRegex } from '$lib/types/article';
 	import { writable } from 'svelte/store';
 
-	export const containerClasses = writable('');
+	const containerClasses = writable<string>('');
 
 	const TRANSITION_DURATION = 300;
 	const variantStyles = {
@@ -13,7 +13,7 @@
 		sponsored: 'bg-primary-50 border border-primary-300'
 	};
 
-	const MAX_CACHE_SIZE = 100;
+	const MAX_CACHE_SIZE = import.meta.env.VITE_ARTICLE_CACHE_SIZE ?? 100;
 	const styleCache = new Map();
 
 	type StyleVariant = 'default' | 'sponsored';
@@ -44,17 +44,25 @@
 	let getArticleStyle = (article: ArticleMetadata) => {
 		if (!article.is_sponsored) return '';
 
+		const isValidColor = (color: string | undefined) => !color || colorRegex.test(color);
+
+		if (!isValidColor(article.sponsor_color) || !isValidColor(article.sponsor_text_color)) {
+			return '';
+		}
+
 		const cacheKey = `${article.is_sponsored}-${article.sponsor_color}-${article.sponsor_text_color}-${article.sponsor_padding}`;
 
 		if (styleCache.has(cacheKey)) {
 			return styleCache.get(cacheKey);
 		}
+
 		const style = [
 			`background-color: ${article.sponsor_color ?? 'transparent'}`,
 			`color: ${article.sponsor_text_color ?? 'inherit'}`
 		].join('; ');
 
 		styleCache.set(cacheKey, style);
+		limitCacheSize();
 
 		return style;
 	};

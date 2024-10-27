@@ -25,8 +25,8 @@ export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
 };
 
 export const getArticleBySlug = async (slug: string): Promise<Article> => {
-	if (!slug?.trim()) {
-		throw new Error('Article slug is required');
+	if (!slug?.trim() || !/^[a-zA-Z0-9-]+$/.test(slug)) {
+		throw new Error('Invalid article slug. Only alphanumeric characters and hyphens are allowed.');
 	}
 
 	if (!import.meta.env.VITE_API_BASE_URL) {
