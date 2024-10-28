@@ -2,7 +2,7 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
-	import { colorRegex, paddingRegex } from '$lib/types/article';
+	import { colorRegex } from '$lib/types/article';
 	import { writable } from 'svelte/store';
 
 	const containerClasses = writable<string>('');
