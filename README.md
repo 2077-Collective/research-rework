@@ -51,24 +51,32 @@ pnpm dev
 
 The application will be available at http://localhost:5173 by default.
 
+## Sponsorship Configuration
+
+The sponsorship feature allows articles to be marked as sponsored content with customizable styling. Sponsored content can be configured through the CMS by the author of the sponsored content.
+
+## Key Features
+
+- Sponsored articles are visually distinguished from regular content.
+- Custom colors can be applied to sponsored content elements through the CMS.
+- Default colors are used when custom colors aren't specified.
+
+### Usage
+
+1. In the CMS, authors can enable sponsored content for their articles
+2. Authors can configure the sponsor color and text color directly in the article settings.
+
 ## Environment Variables
 
 ### Configuration
 
-This project uses environment variables for configuration. These are loaded through Vite's built-in environment variable handling.
+This project uses variables for configuration. These are loaded through Vite's built-in environment variable handling.
 
-### Required Variables
+### Configuration Variables
 
 | Variable | Description | Example |
 | --------------------- | ------------------------------------ | ----------------------------- |
 | VITE_API_BASE_URL | Base URL for API endpoints | http://localhost:8000/api |
-| VITE_SPONSORED_CONTENT_ENABLED | Enable sponsored content features | true                   |
-
-### Sponsorship Configuration
-
-| Variable | Description | Example |
-| --------------------- | ------------------------------------ | ----------------------------- |
-| VITE_DEFAULT_SPONSOR_COLOR | Default highlight color for sponsored content | #FF0420 |
-| VITE_DEFAULT_SPONSOR_TEXT_COLOR | Default text color for sponsored content | #000000 |
-
+| VITE_DEFAULT_SPONSOR_COLOR | Default highlight color for sponsored content (hex) | #FF0420 |
+| VITE_DEFAULT_SPONSOR_TEXT_COLOR | Default text color for sponsored content (hex format) | #000000 |
 
