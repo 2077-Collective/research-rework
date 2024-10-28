@@ -13,7 +13,7 @@
 		sponsored: 'bg-primary-50 border border-primary-300'
 	};
 
-	const MAX_CACHE_SIZE = import.meta.env.VITE_ARTICLE_CACHE_SIZE ?? 100;
+	const MAX_CACHE_SIZE = Number(import.meta.env.VITE_ARTICLE_CACHE_SIZE) || 100;
 	const styleCache = new Map();
 
 	function limitCacheSize() {
