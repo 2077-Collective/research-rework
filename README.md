@@ -64,7 +64,9 @@ This project uses environment variables for configuration. These are loaded thro
 | VITE_API_BASE_URL     | Base URL for API endpoints          | http://localhost:8000/api    |
 
 
+
 ## Development Setup
 1. Copy .env.example to .env
 2. Update the values in .env according to your development environment.
 3. Never commit .env files to version control (they're already in .gitignore)
+

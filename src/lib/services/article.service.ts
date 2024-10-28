@@ -5,12 +5,13 @@ import {
 	type ArticleMetadata
 } from '$lib/types/article';
 
+
 export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
 	if (!import.meta.env.VITE_API_BASE_URL) {
 		throw new Error('API base URL is not configured');
 	}
 	try {
-		const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/articles`);
+		const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/articles/`);
 		if (!res.ok) {
 			throw new Error(`HTTP error! status: ${res.status}`);
 		}
@@ -23,11 +24,11 @@ export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
 };
 
 export const getArticleBySlug = async (slug: string): Promise<Article> => {
-	if (!slug?.trim() || !/^[a-zA-Z0-9-]+$/.test(slug)) {
+	if (!slug?.trim() || !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(slug.toLowerCase())) {
 		throw new Error('Invalid article slug. Only alphanumeric characters and hyphens are allowed.');
 	}
 	try {
-		const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/articles/${slug}`);
+		const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/articles/${slug}/`);
 		if (!res.ok) {
 			throw new Error(`HTTP error! status: ${res.status}`);
 		}
