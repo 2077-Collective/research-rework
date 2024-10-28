@@ -5,7 +5,7 @@ const CategorySchema = z.object({
 	name: z.string()
 });
 
-export const ArticleMetadaSchema = z.object({
+export const BaseArticleMetadaSchema = z.object({
 	id: z.string(),
 	title: z.string(),
 	authors: z
@@ -23,8 +23,18 @@ export const ArticleMetadaSchema = z.object({
 	summary: z.string(),
 	categories: z.array(CategorySchema),
 	thumb: z.string(),
-	slug: z.string()
+	slug: z.string(),
+	is_sponsored: z.boolean().optional(),
+	sponsor_color: z.string().optional(),
+	sponsor_text_color: z.string().optional()
 });
+
+export const ArticleMetadaSchema = BaseArticleMetadaSchema.transform((article) => ({
+	...article,
+	isSponsored: article.is_sponsored,
+	sponsorColor: article.sponsor_color,
+	sponsorTextColor: article.sponsor_text_color
+}));
 
 export const ArticleMetadataArraySchema = z.array(ArticleMetadaSchema);
 export type ArticleMetadata = z.infer<typeof ArticleMetadaSchema>;
@@ -45,7 +55,7 @@ export type TableOfContentsItem = {
 };
 export type TableOfContents = z.infer<typeof TableOfContentsSchema>;
 
-export const ArticleSchema = ArticleMetadaSchema.extend({
+export const ArticleSchema = BaseArticleMetadaSchema.extend({
 	content: z.string(),
 	scheduled_publish_time: z.string(),
 	table_of_contents: TableOfContentsSchema,
