@@ -34,13 +34,6 @@
 
 	const variant: StyleVariant = article.is_sponsored ? 'sponsored' : 'default';
 
-	function validatePadding(padding: string): string {
-		if (!padding) return '';
-		const classes = padding.trim().split(/\s+/);
-		const isValid = classes.every((cls) => paddingRegex.test(cls));
-		return isValid ? classes.join(' ') : '';
-	}
-
 	let getArticleStyle = (article: ArticleMetadata) => {
 		if (!article.is_sponsored) return '';
 

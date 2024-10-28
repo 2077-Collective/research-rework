@@ -57,16 +57,18 @@ The application will be available at http://localhost:5173 by default.
 
 This project uses environment variables for configuration. These are loaded through Vite's built-in environment variable handling.
 
-## Required Variables
+### Required Variables
 
-| Variable              | Description                          | Example                       |
+| Variable | Description | Example |
 | --------------------- | ------------------------------------ | ----------------------------- |
-| VITE_API_BASE_URL     | Base URL for API endpoints          | http://localhost:8000/api    |
+| VITE_API_BASE_URL | Base URL for API endpoints | http://localhost:8000/api |
+| VITE_SPONSORED_CONTENT_ENABLED | Enable sponsored content features | true                   |
 
+### Sponsorship Configuration
 
+| Variable | Description | Example |
+| --------------------- | ------------------------------------ | ----------------------------- |
+| VITE_DEFAULT_SPONSOR_COLOR | Default highlight color for sponsored content | #FF0420 |
+| VITE_DEFAULT_SPONSOR_TEXT_COLOR | Default text color for sponsored content | #000000 |
 
-## Development Setup
-1. Copy .env.example to .env
-2. Update the values in .env according to your development environment.
-3. Never commit .env files to version control (they're already in .gitignore)
 
