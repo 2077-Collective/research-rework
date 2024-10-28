@@ -12,6 +12,7 @@ const SponsorFieldsSchema = z.object({
 	is_sponsored: z.boolean().optional(),
 	sponsor_color: z.string().regex(colorRegex, 'Invalid color format').optional(),
 	sponsor_text_color: z.string().regex(colorRegex, 'Invalid color format').optional(),
+	sponsor_padding: z.string().regex(paddingRegex, 'Invalid padding format').optional(),
 });
 
 export const ArticleMetadataSchema = SponsorFieldsSchema.extend({
