@@ -46,7 +46,9 @@
 		previousVisibleCount = visibleArticles;
 		visibleArticles += ARTICLES_PER_PAGE;
 
-		await new Promise((resolve) => setTimeout(resolve, 500));
+		if (import.meta.env.DEV) {
+			await new Promise((resolve) => setTimeout(resolve, 500));
+		}
 		loading = false;
 	}
 
@@ -98,21 +100,23 @@
 		{/each}
 
 		{#if loading}
-			<div class="flex flex-col justify-center h-fit animate-pulse">
-				<div class="flex flex-col w-full">
-					<div class="aspect-square w-full bg-gray-200 rounded-md"></div>
-				</div>
-				<div class="flex flex-col py-6 w-full space-y-4">
-					<div class="flex gap-1 items-start w-full text-sm">
-						<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
-						<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
+			{#each Array(ARTICLES_PER_PAGE) as _, i (i)}
+				<div class="flex flex-col justify-center h-fit animate-pulse">
+					<div class="flex flex-col w-full">
+						<div class="aspect-square w-full bg-gray-200 rounded-md"></div>
 					</div>
-					<div class="h-8 bg-gray-200 w-3/4 rounded-md"></div>
-					<div class="h-4 bg-gray-200 w-full rounded-md"></div>
-					<div class="h-4 bg-gray-200 w-5/6 rounded-md"></div>
-					<div class="h-4 bg-gray-200 w-1/2 rounded-md"></div>
+					<div class="flex flex-col py-6 w-full space-y-4">
+						<div class="flex gap-1 items-start w-full text-sm">
+							<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
+							<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
+						</div>
+						<div class="h-8 bg-gray-200 w-3/4 rounded-md"></div>
+						<div class="h-4 bg-gray-200 w-full rounded-md"></div>
+						<div class="h-4 bg-gray-200 w-5/6 rounded-md"></div>
+						<div class="h-4 bg-gray-200 w-1/2 rounded-md"></div>
+					</div>
 				</div>
-			</div>
+			{/each}
 		{/if}
 	</div>
 
@@ -120,7 +124,7 @@
 		<div class="flex justify-center py-4 md:py-10">
 			<button
 				onclick={loadMore}
-				class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group"
+				class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
 				disabled={loading}
 			>
 				Load more
