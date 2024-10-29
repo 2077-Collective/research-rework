@@ -32,4 +32,8 @@
 	<!-- General meta tags -->
 	<meta name="title" content={article.title} />
 	<meta name="description" content={article.summary} />
+	<meta
+		name="author"
+		content={article.authors?.map((author) => author.fullName || author.username).join(', ')}
+	/>
 </svelte:head>
