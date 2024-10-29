@@ -21,7 +21,6 @@ const config: Config = {
 				background: 'hsl(var(--background) / <alpha-value>)',
 				foreground: 'hsl(var(--foreground) / <alpha-value>)',
 				subtle: 'hsl(var(--subtle) / <alpha-value>)',
-				hover: 'hsl(var(--hover) / <alpha-value>)',
 				primary: {
 					DEFAULT: 'hsl(var(--primary) / <alpha-value>)',
 					foreground: 'hsl(var(--primary-foreground) / <alpha-value>)'

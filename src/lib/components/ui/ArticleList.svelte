@@ -46,9 +46,6 @@
 		previousVisibleCount = visibleArticles;
 		visibleArticles += ARTICLES_PER_PAGE;
 
-		if (import.meta.env.DEV) {
-			await new Promise((resolve) => setTimeout(resolve, 500));
-		}
 		loading = false;
 	}
 
@@ -62,6 +59,24 @@
 		}
 	});
 </script>
+
+{#snippet cardSkeleton()}
+	<div class="flex flex-col justify-center h-fit animate-pulse">
+		<div class="flex flex-col w-full">
+			<div class="aspect-square w-full bg-gray-200 rounded-md"></div>
+		</div>
+		<div class="flex flex-col py-6 w-full space-y-4">
+			<div class="flex gap-1 items-start w-full text-sm">
+				<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
+				<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
+			</div>
+			<div class="h-8 bg-gray-200 w-3/4 rounded-md"></div>
+			<div class="h-4 bg-gray-200 w-full rounded-md"></div>
+			<div class="h-4 bg-gray-200 w-5/6 rounded-md"></div>
+			<div class="h-4 bg-gray-200 w-1/2 rounded-md"></div>
+		</div>
+	</div>
+{/snippet}
 
 <div>
 	<h2 class="text-3xl md:text-5xl font-medium leading-9 mb-4 md:mb-8 font-soehne">
@@ -100,22 +115,8 @@
 		{/each}
 
 		{#if loading}
-			{#each Array(ARTICLES_PER_PAGE) as _, i (i)}
-				<div class="flex flex-col justify-center h-fit animate-pulse">
-					<div class="flex flex-col w-full">
-						<div class="aspect-square w-full bg-gray-200 rounded-md"></div>
-					</div>
-					<div class="flex flex-col py-6 w-full space-y-4">
-						<div class="flex gap-1 items-start w-full text-sm">
-							<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
-							<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
-						</div>
-						<div class="h-8 bg-gray-200 w-3/4 rounded-md"></div>
-						<div class="h-4 bg-gray-200 w-full rounded-md"></div>
-						<div class="h-4 bg-gray-200 w-5/6 rounded-md"></div>
-						<div class="h-4 bg-gray-200 w-1/2 rounded-md"></div>
-					</div>
-				</div>
+			{#each Array(ARTICLES_PER_PAGE) as _}
+				{@render cardSkeleton()}
 			{/each}
 		{/if}
 	</div>
