@@ -43,10 +43,12 @@
 		loading = true;
 		await tick();
 
-		previousVisibleCount = visibleArticles;
-		visibleArticles += ARTICLES_PER_PAGE;
-
-		loading = false;
+		try {
+			previousVisibleCount = visibleArticles;
+			visibleArticles += ARTICLES_PER_PAGE;
+		} finally {
+			loading = false;
+		}
 	}
 
 	$effect(() => {
