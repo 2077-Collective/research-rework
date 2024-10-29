@@ -9,7 +9,7 @@
 	<div class="flex flex-col lg:flex-row">
 		<img src={article.thumb} alt={article.title} class="w-full h-auto lg:w-4/6 object-cover" />
 		<div
-			class="flex flex-col gap-3 md:gap-6 w-full lg:w-2/6 flex flex-col p-6 md:p-10 text-base tracking-tight bg-secondary max-md:px-5 max-md:max-w-full"
+			class="flex flex-col gap-3 md:gap-6 w-full lg:w-2/6 flex flex-col p-6 md:p-10 text-base tracking-normal bg-secondary max-md:px-5 max-md:max-w-full"
 		>
 			<div class="flex gap-1 items-start w-full text-sm leading-none">
 				{#each article.categories as category}
