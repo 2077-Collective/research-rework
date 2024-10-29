@@ -129,7 +129,7 @@
 
 {#snippet card(testimonial: Testimonial)}
 	<div
-		class="embla__slide container border border-subtle p-6 w-full h-[232px] md:w-[432px] md:h-[232px]"
+		class="embla__slide container border border-subtle p-6 w-full h-[220px] md:w-[432px] md:h-[232px]"
 		dir="ltr"
 	>
 		<a
@@ -158,7 +158,7 @@
 					</div>
 				</div>
 			</div>
-			<p>{testimonial.text}</p>
+			<div class="text-sm md:text-base">{@html testimonial.text}</div>
 		</a>
 	</div>
 {/snippet}
