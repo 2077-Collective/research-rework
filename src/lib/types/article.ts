@@ -25,8 +25,16 @@ export const BaseArticleMetadaSchema = z.object({
 	thumb: z.string(),
 	slug: z.string(),
 	is_sponsored: z.boolean().optional(),
-	sponsor_color: z.string().optional(),
-	sponsor_text_color: z.string().optional()
+	sponsor_color: z
+		.string()
+		.regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)$/)
+		.optional()
+		.default('#FFFFFF'),
+	sponsor_text_color: z
+		.string()
+		.regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)$/)
+		.optional()
+		.default('#000000')
 });
 
 export const ArticleMetadaSchema = BaseArticleMetadaSchema.transform((article) => ({
