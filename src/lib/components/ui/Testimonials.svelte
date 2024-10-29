@@ -14,39 +14,65 @@
 
 	const upperRow: Testimonial[] = [
 		{
-			text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-			author: 'Ian Guimaraes',
-			link: 'https://x.com/iankguimaraes/status/1845140636246094016',
-			platform: 'farcaster',
-			avatar: 'https://pbs.twimg.com/profile_images/1803745296289026048/vMxEJLa0_400x400.jpg',
-			company: '2077 Labs'
+			text: 'Very well written explanation of the topic.',
+			author: 'Akaki Mamageishvili',
+			link: 'https://x.com/kakia1989/status/1830642446885359937?t=hN9TWvlpkNKKUvcfwre0Aw&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1821936982248828928/1bpDPzMf_400x400.jpg',
+			company: 'Offchain Labs'
 		},
 		{
-			text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
-			author: 'John Doe',
-			link: 'https://x.com/iankguimaraes/status/1845140636246094016',
+			text: 'Excellent, important thread!',
+			author: 'Eli Ben-Sasson',
+			link: 'https://x.com/EliBenSasson/status/1842607212193259840?t=bwY9baCX4pR383YbFnQ35Q&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1803745296289026048/vMxEJLa0_400x400.jpg',
-			company: '2077 Labs'
+			avatar: 'https://pbs.twimg.com/profile_images/1833608126186090496/zGminA-__400x400.jpg',
+			company: 'StarkWare'
+		},
+		{
+			text: `
+            <p class="mb-2">The <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer">@2077Collective</a> gang were really in-depth about this - it's always great to see third parties write about what you've been working on</p>
+            <p class="mb-2">Really solid non-agitprop writeup of our work over at Wildcat :)</p>
+            `,
+			author: 'laurence',
+			link: 'https://x.com/functi0nzer0/status/1843704425568972901?s=46&t=Oa3-io-PodorudtH4BCkGg',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1679262771697926145/r3qk5Ycf_400x400.jpg',
+			company: 'Wildcat Labs'
 		}
 	];
 
 	const lowerRow: Testimonial[] = [
 		{
-			text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-			author: 'John Doe',
-			link: 'https://x.com/iankguimaraes/status/1845140636246094016',
-			platform: 'discord',
-			avatar: 'https://pbs.twimg.com/profile_images/1803745296289026048/vMxEJLa0_400x400.jpg',
-			company: '2077 Labs'
+			text: `<p class="mb-2">9/ Huge shoutout to <a class="text-blue-500 hover:underline" href="https://x.com/fikunmi_ap" target="_blank" rel="noopener noreferrer">@fikunmi_ap</a> and <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer">@2077Collective</a> for a comprehensive report. Was great working/jamming on this together.</p>
+            <p>Here is the full tweet / report:</p>`,
+			author: 'taetaehoho',
+			link: 'https://x.com/0xtaetaehoho/status/1828440721075868089?t=ixll2icB1vuM76Qsi9zhmQ&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1815856561329442816/3x0Y1Fwv_400x400.jpg',
+			company: 'Eclipse'
 		},
 		{
-			text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
-			author: 'John Doe',
-			link: 'https://x.com/iankguimaraes/status/1845140636246094016',
+			text: `
+            <p class="mb-2">Great article on Chain Abstraction by the team at <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a>!</p>
+            <p>Read about CAKE framework and OneBalance accounts</p>
+			`,
+			author: '☉neBalance',
+			link: 'https://x.com/onebalance_io/status/1846220067610284490?s=46&t=3HX1wysJ915JPCYnZlMPfA',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1803745296289026048/vMxEJLa0_400x400.jpg',
-			company: '2077 Labs'
+			avatar: 'https://pbs.twimg.com/profile_images/1792965136287752192/yxw3FekR_400x400.jpg',
+			company: '☉neBalance'
+		},
+		{
+			text: `
+            <p class="mb-2 italic text-muted-foreground">[...]</p>
+            <p class="mb-2">🐡 Enter <a class="text-blue-500 hover:underline" href="https://x.com/puffer_unifi" target="_blank" rel="noopener noreferrer">@puffer_unifi</a>, aligning L1 + L2 with decentralized sequencing + shared MEV rewards.</p>
+            <p class="mb-2">🌐 Read <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a>'s full analysis below👇</p>
+            `,
+			author: 'DeFi Dad',
+			link: 'https://x.com/defi_dad/status/1849100399485067733?s=46&t=Oa3-io-PodorudtH4BCkGg',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1613764698775633921/72tL5YzB_400x400.jpg'
 		}
 	];
 
@@ -103,7 +129,7 @@
 
 {#snippet card(testimonial: Testimonial)}
 	<div
-		class="embla__slide container border border-subtle p-6 w-full h-[184px] md:w-[432px] md:h-[232px]"
+		class="embla__slide container border border-subtle p-6 w-full h-[232px] md:w-[432px] md:h-[232px]"
 		dir="ltr"
 	>
 		<a
@@ -115,7 +141,11 @@
 			<div class="flex gap-2">
 				<div class="flex gap-2 justify-between w-full">
 					<div class="flex gap-2 items-center">
-						<img src={testimonial.avatar} alt={testimonial.author} class="w-10 h-10 rounded-full" />
+						<img
+							src={testimonial.avatar}
+							alt={testimonial.author}
+							class="w-10 md:h-10 rounded-full"
+						/>
 						<div>
 							<p class="font-medium">{testimonial.author}</p>
 							{#if testimonial.company}
@@ -128,7 +158,7 @@
 					</div>
 				</div>
 			</div>
-			<p>{testimonial.text}</p>
+			<div class="text-sm md:text-base">{@html testimonial.text}</div>
 		</a>
 	</div>
 {/snippet}
