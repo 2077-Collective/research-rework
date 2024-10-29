@@ -24,7 +24,7 @@
 		<h1
 			class="font-soehne text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[928px] mb-12 px-10"
 		>
-			State of the art researh on Ethereum and the broader crypto ecosystem
+			State of the art research on Ethereum and the broader crypto ecosystem
 		</h1>
 	</div>
 
