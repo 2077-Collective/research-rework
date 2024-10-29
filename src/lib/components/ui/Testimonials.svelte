@@ -88,7 +88,7 @@
 
 <div class="border-y py-6 md:py-14 flex flex-col gap-8 md:gap-10">
 	<h2 class="text-3xl md:text-5xl font-medium font-soehne">
-		Our research has reached 150,000 people and been shared by the community 300 times.
+		Our research has reached over 150,000 people and been shared by the community 300+ times.
 	</h2>
 
 	<div class="relative">
