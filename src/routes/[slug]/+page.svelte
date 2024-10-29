@@ -19,6 +19,7 @@
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-markup';
 	import 'prismjs/components/prism-solidity';
+	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -157,6 +158,8 @@
 		}
 	});
 </script>
+
+<ArticleHead article={data.article} />
 
 <div class="flex flex-col gap-y-6 md:gap-y-14">
 	{@render header(data.article)}
