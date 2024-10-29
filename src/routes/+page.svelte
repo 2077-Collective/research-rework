@@ -5,6 +5,7 @@
 	import { setArticles } from '$lib/stores/articles.svelte';
 	import { onMount } from 'svelte';
 	import Testimonials from '$lib/components/ui/Testimonials.svelte';
+	import BaseHead from '$lib/components/server/BaseHead.svelte';
 
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
@@ -14,6 +15,8 @@
 		setArticles(data.articles);
 	});
 </script>
+
+<BaseHead />
 
 <div class="px-3 md:px-12 flex flex-col gap-10">
 	<!-- These heights are arbitrary and never repeated throughout the website, that's why they're not in tailwind config -->
