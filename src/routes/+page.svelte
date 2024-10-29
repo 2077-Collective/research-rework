@@ -20,11 +20,11 @@
 	<div
 		class="font-soehne h-[420px] md:h-[714px] relative border-b flex flex-col justify-end bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
 	>
-		<!-- leading-[69px] is arbitrary and never repeated throughout the website, that's why it's not in tailwind config -->
+		<!-- leading-[69px] and max-w-[928px] are arbitrary and never repeated throughout the website, that's why it's not in tailwind config -->
 		<h1
-			class="font-soehne text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[843px] mb-12 px-10"
+			class="font-soehne text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[928px] mb-12 px-10"
 		>
-			Comprehensive and insightful research within the Ethereum and broader crypto landscape.
+			State of the art research on Ethereum and the broader crypto ecosystem
 		</h1>
 	</div>
 
