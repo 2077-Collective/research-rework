@@ -14,7 +14,7 @@
 
 	const upperRow: Testimonial[] = [
 		{
-			text: 'Very well written explanation of the topic.',
+			text: '<p>Very well written explanation of the topic.</p>',
 			author: 'Akaki Mamageishvili',
 			link: 'https://x.com/kakia1989/status/1830642446885359937?t=hN9TWvlpkNKKUvcfwre0Aw&s=19',
 			platform: 'x',
@@ -22,7 +22,7 @@
 			company: 'Offchain Labs'
 		},
 		{
-			text: 'Excellent, important thread!',
+			text: '<p>Excellent, important thread!</p>',
 			author: 'Eli Ben-Sasson',
 			link: 'https://x.com/EliBenSasson/status/1842607212193259840?t=bwY9baCX4pR383YbFnQ35Q&s=19',
 			platform: 'x',
@@ -87,8 +87,8 @@
 </script>
 
 <div class="border-y py-6 md:py-14 flex flex-col gap-8 md:gap-10">
-	<h2 class="text-3xl md:text-5xl font-medium font-soehne md:leading-[69px]">
-		Our research has reached over 150,000 people and been shared by the community 300+ times.
+	<h2 class="text-3xl md:text-5xl font-medium font-soehne">
+		Our research has reached 150,000 people and been shared by the community 300 times.
 	</h2>
 
 	<div class="relative">
@@ -129,7 +129,7 @@
 
 {#snippet card(testimonial: Testimonial)}
 	<div
-		class="embla__slide container border border-subtle p-6 w-full h-[220px] md:w-[432px] md:h-[232px]"
+		class="embla__slide container border border-subtle p-6 w-full h-[232px] md:w-[432px] md:h-[232px]"
 		dir="ltr"
 	>
 		<a
