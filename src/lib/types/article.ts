@@ -37,12 +37,20 @@ export const BaseArticleMetadaSchema = z.object({
 		.default('#000000')
 });
 
-export const ArticleMetadaSchema = BaseArticleMetadaSchema.transform((article) => ({
-	...article,
-	isSponsored: article.is_sponsored,
-	sponsorColor: article.sponsor_color,
-	sponsorTextColor: article.sponsor_text_color
-}));
+export const ArticleMetadaSchema = BaseArticleMetadaSchema.transform((article) => {
+  const {
+    is_sponsored,
+    sponsor_color,
+    sponsor_text_color,
+    ...rest
+  } = article;
+  return {
+    ...rest,
+    isSponsored: is_sponsored,
+    sponsorColor: sponsor_color,
+    sponsorTextColor: sponsor_text_color
+  };
+});
 
 export const ArticleMetadataArraySchema = z.array(ArticleMetadaSchema);
 export type ArticleMetadata = z.infer<typeof ArticleMetadaSchema>;
