@@ -158,7 +158,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="text-sm md:text-base">{@html testimonial.text}</div>
+			<p>{testimonial.text}</p>
 		</a>
 	</div>
 {/snippet}
