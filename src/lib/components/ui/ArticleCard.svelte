@@ -27,7 +27,7 @@
 					</Badge>
 				{/each}
 			</div>
-			<h1 class="font-soehne mt-4 text-2xl md:text-3xl font-medium leading-9 break-words break-all">
+			<h1 class="font-soehne mt-4 text-2xl md:text-3xl font-medium leading-9 break-words">
 				{article.title}
 			</h1>
 			<p class="mt-4 leading-6">{article.summary}</p>
