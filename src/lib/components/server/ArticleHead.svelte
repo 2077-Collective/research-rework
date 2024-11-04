@@ -23,25 +23,25 @@
 	<meta name="generator" content="2077 Research" />
 
 	<meta name="title" content={sanitizeMetaContent(article.title)} />
-	<meta name="description" content={article.summary} />
+	<meta name="description" content={sanitizeMetaContent(article.summary)} />
 
 	<!-- OG meta tags -->
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content={sanitizeMetaContent(article.title)} />
-	<meta property="og:description" content={article.summary} />
-	<meta property="og:image" content={article.thumb} />
+	<meta property="og:description" content={sanitizeMetaContent(article.summary)} />
+	<meta property="og:image" content={sanitizeMetaContent(article.thumb)} />
 
 	<!-- Twitter meta tags -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={sanitizeMetaContent(article.title)} />
-	<meta name="twitter:description" content={article.summary} />
-	<meta name="twitter:image" content={article.thumb} />
+	<meta name="twitter:description" content={sanitizeMetaContent(article.summary)} />
+	<meta name="twitter:image" content={sanitizeMetaContent(article.thumb)} />
 	<meta name="twitter:url" content={`${pageUrl}/${article.slug}`} />
 	<meta name="twitter:site" content="@2077Research" />
 
 	<!-- General meta tags -->
 	<meta name="title" content={sanitizeMetaContent(article.title)} />
-	<meta name="description" content={article.summary} />
+	<meta name="description" content={sanitizeMetaContent(article.summary)} />
 	<meta
 		name="author"
 		content={article.authors?.map((author) => author.fullName || author.username).join(', ')}
