@@ -36,7 +36,7 @@
 	<meta name="twitter:title" content={sanitizeMetaContent(article.title)} />
 	<meta name="twitter:description" content={sanitizeMetaContent(article.summary)} />
 	<meta name="twitter:image" content={sanitizeMetaContent(article.thumb)} />
-	<meta name="twitter:url" content={`${pageUrl}/${article.slug}`} />
+	<meta name="twitter:url" content={sanitizeMetaContent(`${pageUrl}/${article.slug}`)} />
 	<meta name="twitter:site" content="@2077Research" />
 
 	<!-- General meta tags -->
