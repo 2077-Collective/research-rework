@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
+	const image = 'https://research.2077.xyz/preview-image.jpg';
 	const pageUrl = $page.url.origin;
 	const title = '2077 Research';
 	const description = 'State of the art research on Ethereum and the broader crypto ecosystem';
@@ -18,13 +19,13 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content={title} />
 	<meta property="og:description" content={description} />
-	<meta property="og:image" content="/preview-image.jpg" />
+	<meta property="og:image" content={image} />
 
 	<!-- Twitter meta tags -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={title} />
 	<meta name="twitter:description" content={description} />
-	<meta name="twitter:image" content="/preview-image.jpg" />
+	<meta name="twitter:image" content={image} />
 	<meta name="twitter:url" content={pageUrl} />
 	<meta name="twitter:site" content="@2077Research" />
 
