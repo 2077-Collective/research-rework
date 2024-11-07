@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 
-	const image = 'https://research.2077.xyz/preview-image.jpg';
 	const pageUrl = $page.url.origin;
+	const image = `${pageUrl}/preview-image.jpg`;
 	const title = '2077 Research';
 	const description = 'State of the art research on Ethereum and the broader crypto ecosystem';
 </script>
