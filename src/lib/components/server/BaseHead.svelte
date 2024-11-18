@@ -11,24 +11,31 @@
 	const description = 'State of the art research on Ethereum and the broader crypto ecosystem';
 
 	let analyticsScript = '';
+	let nonce = $page.locals.nonce;
 
 	onMount(() => {
 		const dnt = browser && navigator.doNotTrack === '1';
-		hasConsent = !dnt && localStorage.getItem('analytics-consent') === 'true';
+		try {
+			hasConsent = !dnt && localStorage.getItem('analytics-consent') === 'true';
+		} catch (e) {
+			hasConsent = false;
+			console.warn('Unable to access localStorage, analytics disabled');
+		}
 
 		if (hasConsent) {
 			const gaId = import.meta.env.VITE_GA_TRACKING_ID;
-			analyticsScript = `
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
-            gtag('config', '${gaId}', {
-                send_page_view: false,
-                transport_type: 'beacon'
-            });
-        `;
+			const script = `
+				window.dataLayer = window.dataLayer || [];
+				function gtag() {
+					dataLayer.push(arguments);
+				}
+				gtag('js', new Date());
+				gtag('config', '${gaId}', {
+					send_page_view: false,
+					transport_type: 'beacon'
+				});
+			`;
+			analyticsScript = script.trim();
 		}
 	});
 </script>
@@ -67,6 +74,6 @@
 			async
 			src="https://www.googletagmanager.com/gtag/js?id={import.meta.env.VITE_GA_TRACKING_ID}"
 		></script>
-		{@html `<script nonce={event.locals.nonce}>${analyticsScript}</script>`}
+		{@html `<script nonce={nonce}>${analyticsScript}</script>`}
 	{/if}
 </svelte:head>
