@@ -3,6 +3,9 @@
 	import Nav from '$lib/components/ui/Nav.svelte';
 	import NewsletterBanner from '$lib/components/ui/NewsletterBanner.svelte';
 	import Footer from '$lib/components/ui/Footer.svelte';
+	import { injectAnalytics } from '@vercel/analytics/sveltekit';
+
+	injectAnalytics();
 
 	const { children } = $props();
 </script>

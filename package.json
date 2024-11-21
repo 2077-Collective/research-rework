@@ -40,6 +40,7 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource-variable/inter": "^5.1.0",
+		"@vercel/analytics": "^1.4.1",
 		"bits-ui": "^0.21.16",
 		"clsx": "^2.1.1",
 		"embla-carousel-auto-scroll": "^8.3.0",
