@@ -4,6 +4,7 @@
 	import NewsletterBanner from '$lib/components/ui/NewsletterBanner.svelte';
 	import Footer from '$lib/components/ui/Footer.svelte';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
+	import { Toaster } from '$lib/components/ui/sonner';
 
 	injectAnalytics();
 
@@ -24,6 +25,7 @@
 	>
 		<NewsletterBanner />
 		<Footer />
+		<Toaster />
 	</div>
 </div>
 
