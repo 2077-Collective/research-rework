@@ -38,6 +38,9 @@ importers:
       '@vercel/analytics':
         specifier: ^1.4.1
         version: 1.4.1(@sveltejs/kit@2.6.3(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.263)(vite@5.4.8(@types/node@22.9.0)))(svelte@5.0.0-next.263)(vite@5.4.8(@types/node@22.9.0)))(react@18.3.1)(svelte@5.0.0-next.263)
+      '@vercel/functions':
+        specifier: ^1.5.0
+        version: 1.5.0
       bits-ui:
         specifier: ^0.21.16
         version: 0.21.16(svelte@5.0.0-next.263)
@@ -1203,6 +1206,15 @@ packages:
       vue:
         optional: true
       vue-router:
+        optional: true
+
+  '@vercel/functions@1.5.0':
+    resolution: {integrity: sha512-ub3ptVeOsx8UPgiTv9+rpQJqmF7VG8QIzguBZo0E0VRAyJliB8bt1ooB9Wrh3333dKzMNS8NMe3iFtf6OPUP3A==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      '@aws-sdk/credential-provider-web-identity': '*'
+    peerDependenciesMeta:
+      '@aws-sdk/credential-provider-web-identity':
         optional: true
 
   '@vercel/nft@0.27.6':
@@ -4305,6 +4317,8 @@ snapshots:
       '@sveltejs/kit': 2.6.3(@sveltejs/vite-plugin-svelte@4.0.0-next.7(svelte@5.0.0-next.263)(vite@5.4.8(@types/node@22.9.0)))(svelte@5.0.0-next.263)(vite@5.4.8(@types/node@22.9.0))
       react: 18.3.1
       svelte: 5.0.0-next.263
+
+  '@vercel/functions@1.5.0': {}
 
   '@vercel/nft@0.27.6':
     dependencies:

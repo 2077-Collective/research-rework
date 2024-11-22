@@ -2,6 +2,7 @@ import { insertArticleSchema, insertAuthorSchema } from '$lib/server/schema';
 import { createArticle } from '$lib/server/services/article.service';
 import { reviewArticle } from '$lib/server/services/review.service';
 import { error, type Actions } from '@sveltejs/kit';
+import { waitUntil } from '@vercel/functions';
 
 export const actions: Actions = {
 	requestArticleReview: async ({ request }) => {
@@ -27,11 +28,7 @@ export const actions: Actions = {
 		await createArticle(parsedArticle, parsedAuthor);
 
 		if (parsedArticle.articleContent) {
-			reviewArticle(parsedArticle, parsedAuthor)
-				.then(() => console.log('Article reviewed'))
-				.catch((error) => {
-					console.error('Error reviewing article', error);
-				});
+			waitUntil(reviewArticle(parsedArticle, parsedAuthor));
 		}
 
 		return { success: true };
