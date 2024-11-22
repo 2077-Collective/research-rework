@@ -8,7 +8,6 @@ export async function fetchGoogleDocAsMarkdown(documentLink: string) {
 		'utf-8'
 	);
 	const credentials = JSON.parse(decodedServiceAccount);
-	console.log({ credentials });
 
 	try {
 		const auth = new google.auth.GoogleAuth({
