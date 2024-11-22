@@ -53,6 +53,7 @@
 		"@google-cloud/local-auth": "^3.0.1",
 		"@googleapis/docs": "^3.3.0",
 		"@neondatabase/serverless": "^0.10.3",
+		"@sveltejs/adapter-vercel": "^5.4.8",
 		"@vercel/analytics": "^1.4.1",
 		"bits-ui": "^0.21.16",
 		"carta-md": "^4.6.7",
