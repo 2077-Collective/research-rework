@@ -68,12 +68,12 @@
 	<div class="flex gap-4 w-full">
 		<div class="flex flex-col gap-3 w-full">
 			<Label for="name">Name</Label>
-			<FormInput type="text" name="name" placeholder="Vitalik Buterin" />
+			<FormInput type="text" name="name" placeholder="Vitalik Buterin" required />
 		</div>
 
 		<div class="flex flex-col gap-3 w-full">
 			<Label for="email">Email</Label>
-			<FormInput type="email" name="email" placeholder="vitalik@ethereum.org" />
+			<FormInput type="email" name="email" placeholder="vitalik@ethereum.org" required />
 		</div>
 	</div>
 
@@ -102,7 +102,7 @@
 	<div class="flex gap-4 w-full">
 		<div class="flex flex-col gap-3 w-full">
 			<Label for="articleTitle">Article Title</Label>
-			<FormInput type="text" name="articleTitle" placeholder="The Future of Ethereum" />
+			<FormInput type="text" name="articleTitle" placeholder="The Future of Ethereum" required />
 		</div>
 		<div class="flex flex-col gap-3 w-full">
 			<Label for="articleDescription">Article Description</Label>
@@ -110,6 +110,7 @@
 				type="text"
 				name="articleDescription"
 				placeholder="An in-depth analysis of the future of Ethereum"
+				required
 			/>
 		</div>
 	</div>
