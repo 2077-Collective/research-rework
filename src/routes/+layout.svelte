@@ -3,6 +3,7 @@
 	import Nav from '$lib/components/ui/Nav.svelte';
 	import NewsletterBanner from '$lib/components/ui/NewsletterBanner.svelte';
 	import Footer from '$lib/components/ui/Footer.svelte';
+	import Analytics from '$lib/components/server/Analytics.svelte';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 
 	injectAnalytics();
@@ -13,6 +14,7 @@
 <svelte:head>
 	<link rel="icon" type="image/svg" href="/favicon.svg" />
 </svelte:head>
+<Analytics />
 
 <div>
 	<Nav />
