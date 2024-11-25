@@ -12,7 +12,10 @@ export const actions: Actions = {
 		const author = { name, email, telegram, x, discord };
 
 		const parsedAuthor = insertAuthorSchema.parse(author);
-		const parsedArticle = insertArticleSchema.parse(articleData);
+		const parsedArticle = insertArticleSchema.parse({
+			...articleData,
+			isRepost: articleData.isRepost === 'true'
+		});
 
 		if (!parsedArticle.linkToArticle && !parsedArticle.articleContent) {
 			throw error(400, 'Link to article or article content is required');

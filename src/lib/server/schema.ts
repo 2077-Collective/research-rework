@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { integer, pgTable, serial, text, timestamp, boolean } from 'drizzle-orm/pg-core';
 import { createInsertSchema } from 'drizzle-zod';
 
 export const articles = pgTable('articles', {
@@ -12,6 +12,8 @@ export const articles = pgTable('articles', {
 	// Need to provide either link to article or article content
 	linkToArticle: text('link_to_article'),
 	articleContent: text('article_content'),
+	isRepost: boolean('is_repost').notNull().default(false),
+	originalLink: text('original_link'),
 
 	createdAt: timestamp('created_at').notNull().defaultNow(),
 	updatedAt: timestamp('updated_at')

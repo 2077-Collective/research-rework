@@ -8,6 +8,7 @@ import {
 	type SelectArticle
 } from '../schema';
 import { fetchGoogleDocAsMarkdown } from './google-docs.service';
+import { createdTeamNote } from './hackmd.service';
 
 export async function createArticle(
 	article: Omit<InsertArticle, 'authorId'>,
@@ -18,6 +19,9 @@ export async function createArticle(
 	// If both article content and link are provided, we use the link to fetch the content
 	if (article.linkToArticle) {
 		article.articleContent = await fetchArticleContentFromLink(article.linkToArticle);
+	} else if (article.articleContent) {
+		const { publishLink } = await createdTeamNote(article.articleTitle, article.articleContent);
+		article.linkToArticle = publishLink;
 	}
 
 	const [newArticle] = await db

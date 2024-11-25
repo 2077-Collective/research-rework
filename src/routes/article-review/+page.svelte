@@ -3,15 +3,22 @@
 	import Label from '$lib/components/ui/label/label.svelte';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import MarkdownEditor from '$lib/components/ui/MarkdownEditor.svelte';
 	import { ArrowLeft, LoaderCircle } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { toast } from 'svelte-sonner';
 	import type { SubmitFunction } from '@sveltejs/kit';
-	import MarkdownEditor from '$lib/components/ui/MarkdownEditor.svelte';
+	import * as Select from '$lib/components/ui/select';
+
+	const isRepostOptions = [
+		{ value: false, label: 'No' },
+		{ value: true, label: 'Yes' }
+	];
 
 	let isSubmitting = $state(false);
 	let error = $state<string | null>(null);
+	let isRepost = $state(isRepostOptions[0]);
 
 	const handleSubmit: SubmitFunction = () => {
 		isSubmitting = true;
@@ -25,12 +32,12 @@
 					form.reset();
 				}
 
+				goto('/');
+
 				toast.success(
 					'Article submitted successfully! You will receive an email with the review shortly.'
 				);
 			} else if (result.type === 'error') {
-				console.log('SOMETHING WENT WRONG', result.error);
-
 				toast.error(result.error.message || 'Something went wrong. Please try again.');
 			}
 			isSubmitting = false;
@@ -115,12 +122,45 @@
 		</div>
 	</div>
 	<div class="flex flex-col gap-3 w-full">
-		<Label for="linkToArticle">Link to Article</Label>
+		<Label for="linkToArticle">Google Docs Link</Label>
 		<FormInput
-			type="text"
+			type="url"
 			name="linkToArticle"
 			placeholder="https://docs.google.com/document/d/..."
 		/>
+	</div>
+
+	<div class="flex gap-4 w-full">
+		<div class="flex flex-col gap-3 w-full">
+			<Label for="isRepost">Is this article originally published elsewhere?</Label>
+			<Select.Root portal={null} name="isRepost" bind:selected={isRepost}>
+				<Select.Trigger>
+					<Select.Value placeholder="Select a fruit" />
+				</Select.Trigger>
+				<Select.Content>
+					<Select.Group>
+						{#each isRepostOptions as option}
+							<Select.Item value={option.value} label={option.label}>
+								{option.label}
+							</Select.Item>
+						{/each}
+					</Select.Group>
+				</Select.Content>
+				<Select.Input name="isRepost" />
+			</Select.Root>
+		</div>
+
+		<div class="flex flex-col gap-3 w-full">
+			<Label for="originalLink" class={`${!isRepost.value ? 'text-muted-foreground' : ''}`}>
+				Original link
+			</Label>
+			<FormInput
+				type="url"
+				name="originalLink"
+				placeholder="https://example.com/article"
+				disabled={!isRepost.value}
+			/>
+		</div>
 	</div>
 
 	<div class="flex flex-col gap-3 w-full">

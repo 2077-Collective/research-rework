@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import { RESEND_API_KEY } from '$env/static/private';
+import { RESEND_API_KEY, REVIEW_RECIPIENT_EMAILS } from '$env/static/private';
 import type { Review } from './gpt.service';
 import type { InsertArticle, InsertAuthor } from '../schema';
 
@@ -12,21 +12,36 @@ export async function sendReviewEmail(
 ) {
 	return resend.emails.send({
 		from: '2077 Research <community@2077.xyz>',
-		to: author.email,
-		subject: `Review of ${article.articleTitle}`,
-		html: buildReviewEmailBody(article.articleTitle, author.name, review)
+		// TODO: Change this to 2077 Research email
+		to: REVIEW_RECIPIENT_EMAILS.split(','),
+		subject: `Review of ${article.articleTitle} from ${author.name}`,
+		html: buildEmailBody(article, author, review)
 	});
 }
 
-export function buildReviewEmailBody(title: string, author: string, review: Review): string {
+// TODO: add is repost and original link if it is
+function buildEmailBody(article: InsertArticle, author: InsertAuthor, review: Review): string {
 	return `
-    <h1>Review - ${title}</h1>
+    <h1>Review - ${article.articleTitle}</h1>
 
-    <p>Hello ${author},</p>
-    <p>First of all, thank you for submitting your article to 2077 Research. We really appreciate your contribution!</p>
-    <p>This is a preliminary review, and we will get in touch with a more detailed review soon.</p>
-    <p>Here are the suggested changes for your article:</p>
+	<h2>Author</h2>
+	<p>Name: ${author.name}</p>
+	<p>Email: ${author.email}</p>
+	<p>Twitter: ${author.x || '-'}</p>
+	<p>Telegram: ${author.telegram || '-'}</p>
+	<p>Discord: ${author.discord || '-'}</p>
+
 	<br />
+
+	<h2>Article</h2>
+	<p>Title: ${article.articleTitle}</p>
+	<p>Description: ${article.articleDescription}</p>
+	<p>Link: ${article.linkToArticle}</p>
+	<p>Additional Notes: ${article.additionalNotes}</p>
+
+	<br />
+
+	<h2>Review</h2>
     ${review.review
 			.map(
 				({ change, original, suggestion }) =>
