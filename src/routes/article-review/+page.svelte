@@ -166,6 +166,7 @@
 	<div class="flex flex-col gap-3 w-full">
 		<Label for="articleContent">Article Content</Label>
 		<MarkdownEditor name="articleContent"></MarkdownEditor>
+		<p class="text-sm text-muted-foreground">Only necessary if Google Docs link not provided</p>
 	</div>
 
 	<div class="flex flex-col gap-3 w-full">

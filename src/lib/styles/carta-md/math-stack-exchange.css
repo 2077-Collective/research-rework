@@ -1,11 +1,11 @@
 .carta-theme__github.carta-editor {
-	background-color: #fff;
-	border: 1px solid #e4e4e7;
+	background-color: hsl(var(--background));
+	border: 1px solid hsl(var(--input));
 	border-radius: 0.5rem;
 }
 
 .carta-theme__github.carta-editor:focus-within {
-	outline: 2px solid #1f6feb;
+	outline: 2px solid hsl(var(--primary));
 }
 
 .carta-theme__github.carta-editor .carta-wrapper {
@@ -109,8 +109,8 @@
 
 .carta-theme__github.carta-viewer > blockquote,
 .carta-theme__github.carta-editor .carta-renderer > blockquote {
-	background-color: #f6f8fa;
-	border-left: 0.25rem solid #dfe2e5;
+	background-color: hsl(var(--muted));
+	border-left: 0.25rem solid hsl(var(--border));
 	padding: 0.5rem 1rem;
 	margin: 0;
 }
@@ -124,13 +124,13 @@
 .carta-theme__github.carta-viewer .carta-font-code,
 .carta-theme__github.carta-editor .carta-font-code {
 	font-family: 'Fira Code', monospace;
-	caret-color: black;
+	caret-color: hsl(var(--foreground));
 	font-size: 0.875rem;
 }
 
 .carta-theme__github.carta-editor .carta-toolbar {
 	height: 2.5rem;
-	background-color: #fff;
+	background-color: hsl(var(--background));
 	border-top-left-radius: 0.5rem;
 	border-top-right-radius: 0.5rem;
 }
@@ -141,14 +141,14 @@
 }
 
 .carta-theme__github.carta-editor .carta-toolbar .carta-icon:hover {
-	color: #aaa;
-	background-color: #fff;
+	color: hsl(var(--muted-foreground));
+	background-color: hsl(var(--background));
 }
 
 .carta-theme__github.carta-editor .carta-toolbar-left button,
 .carta-theme__github.carta-editor .carta-toolbar-right,
 .carta-theme__github.carta-editor .carta-filler {
-	border-bottom: 1px solid #e4e4e7;
+	border-bottom: 1px solid hsl(var(--input));
 }
 
 .carta-theme__github.carta-editor .carta-toolbar-left > *:first-child {
@@ -166,9 +166,9 @@
 }
 
 .carta-theme__github.carta-editor .carta-toolbar-left .carta-active {
-	background-color: #fff;
-	border-right: 1px solid #e4e4e7;
-	border-bottom: 1px solid #e4e4e7;
+	background-color: hsl(var(--background));
+	border-right: 1px solid hsl(var(--muted));
+	border-bottom: 1px solid hsl(var(--muted));
 }
 
 .carta-theme__github.carta-editor .carta-toolbar-left .carta-active:not(:first-child) {
@@ -214,14 +214,14 @@
 	overflow-y: scroll;
 	border-radius: 4px;
 	font-family: inherit;
-	background-color: #0d1117;
+	background-color: hsl(var(--popover));
 	padding: 6px;
 	scroll-padding: 6px;
 	gap: 6px;
 }
 
 .carta-theme__github.carta-emoji button {
-	background: #161b22;
+	background: hsl(var(--card));
 	aspect-ratio: 1;
 	border-radius: 4px;
 	border: 0;
@@ -234,7 +234,7 @@
 
 .carta-theme__github.carta-emoji button:hover,
 .carta-theme__github.carta-emoji button.carta-active {
-	background: #2b3138;
+	background: hsl(var(--accent));
 }
 
 .carta-theme__github.carta-slash {
@@ -243,7 +243,7 @@
 	overflow-y: scroll;
 	border-radius: 4px;
 	font-family: inherit;
-	background-color: #0d1117;
+	background-color: hsl(var(--popover));
 	padding: 6px;
 	scroll-padding: 6px;
 }
@@ -268,7 +268,7 @@
 
 .carta-theme__github.carta-slash button.carta-active,
 .carta-theme__github.carta-slash button:hover {
-	background: #161b22;
+	background: hsl(var(--card));
 	cursor: pointer;
 }
 
