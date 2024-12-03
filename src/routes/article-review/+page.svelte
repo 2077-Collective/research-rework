@@ -56,7 +56,9 @@
 	<h1 class="font-soehne text-xl mb-3 md:text-4xl font-medium">
 		Publish your article on 2077 Research
 	</h1>
-	<p class="text-lg">Submit your article to our review process and</p>
+	<p class="text-lg">
+		Submit your article to our review process and get feedback from our experts.
+	</p>
 </div>
 
 <form
