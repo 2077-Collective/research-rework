@@ -88,7 +88,6 @@
 			const images = container.querySelectorAll('img');
 			images.forEach((img) => {
 				img.addEventListener('click', () => {
-					console.log('element clicked', img.src);
 					lightboxIndex = lightboxImages.indexOf(img.src);
 					showLightbox = true;
 				});

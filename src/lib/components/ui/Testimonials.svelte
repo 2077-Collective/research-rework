@@ -31,6 +31,17 @@
 		},
 		{
 			text: `
+            <p class="mb-2">Shoutout to the chads at 2077.</p>
+            <p class="mb-2">One of the best reports that unpacks how Euler is built and how we aim to unlock lending to new highs.</p>
+            `,
+			author: 'Euler Labs🛢️🇬🇧',
+			link: 'https://x.com/eulerfinance/status/1863653055566430695',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1745107740135915520/AVyw9xJ9_400x400.png',
+			company: 'Euler Finance'
+		},
+		{
+			text: `
             <p class="mb-2">The <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer">@2077Collective</a> gang were really in-depth about this - it's always great to see third parties write about what you've been working on</p>
             <p class="mb-2">Really solid non-agitprop writeup of our work over at Wildcat :)</p>
             `,
