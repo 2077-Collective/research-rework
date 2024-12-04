@@ -53,6 +53,7 @@
 </script>
 
 <div
+	id="subscribe"
 	class="flex gap-6 justify-center items-center px-40 py-32 max-md:px-5 max-md:py-24 bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent w-full"
 >
 	<div
