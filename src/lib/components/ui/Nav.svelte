@@ -14,7 +14,7 @@
 
 	<div class="items-center gap-4 hidden md:flex">
 		<Button
-			class="flex items-center gap-1 hover:underline justify-center"
+			class="flex items-center gap-1 justify-center w-fit px-8 bg-[#07BEBF]"
 			onclick={() => {
 				document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
 			}}
@@ -67,13 +67,13 @@
 
 				<Button
 					href="#subscribe"
-					class="mt-2 flex items-center gap-1 hover:underline justify-center"
+					class="mt-4 flex items-center gap-1 justify-center  px-8 bg-[#07BEBF]"
 					onclick={() => {
 						mobileMenuOpen = false;
 						document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
 					}}
 				>
-					Subscribe
+					Subscribe to our newsletter
 					<Mail class="w-4 h-4 ml-1" />
 				</Button>
 			</div>
