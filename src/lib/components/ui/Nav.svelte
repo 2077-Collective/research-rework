@@ -4,7 +4,7 @@
 	import Button from './button/button.svelte';
 	import { fade } from 'svelte/transition';
 
-	let mobileMenuOpen = $state(true);
+	let mobileMenuOpen = $state(false);
 </script>
 
 <div
