@@ -64,7 +64,7 @@
 {#snippet article()}
 	<div
 		id="subscribe"
-		class="flex gap-6 justify-center items-center px-20 py-12 max-md:px-5 max-md:py-12 bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent w-full mt-6"
+		class="flex gap-6 justify-center items-center px-20 py-12 max-md:px-5 max-md:py-12 bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent w-full mt-6 -mb-8"
 	>
 		<div
 			class="flex flex-col justify-center items-center flex-1 shrink self-stretch my-auto w-full basis-0 min-w-[240px] max-md:max-w-full"
