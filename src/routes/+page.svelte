@@ -31,11 +31,6 @@
 		>
 			State of the art research on Ethereum and the broader crypto ecosystem
 		</h1>
-		<img
-			src="/hero.png"
-			class="absolute top-0 right-0 w-1/2 animate-float"
-			alt="Hero illustration"
-		/>
 	</div>
 
 	<div class="flex justify-center md:hidden">
