@@ -48,7 +48,7 @@ const config: Config = {
 				card: {
 					DEFAULT: 'hsl(var(--card) / <alpha-value>)',
 					foreground: 'hsl(var(--card-foreground) / <alpha-value>)'
-				},
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -66,8 +66,17 @@ const config: Config = {
 				normal: '-0.25px'
 			},
 			lineHeight: {
-				'58': '58px',
+				'58': '58px'
 			},
+			keyframes: {
+				float: {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-20px)' }
+				}
+			},
+			animation: {
+				float: 'float 5s ease-in-out infinite'
+			}
 		}
 	},
 	plugins: [
