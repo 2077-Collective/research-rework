@@ -2,8 +2,11 @@
 	import { onMount } from 'svelte';
 	import { Moon, Sun } from 'lucide-svelte';
 	import { Button } from '$lib/components/ui/button';
+	import { cn } from '$lib/utils/ui-components';
 
-	let darkMode = false;
+	const { class: className, label }: { class?: string; label?: string } = $props();
+
+	let darkMode = $state(false);
 
 	onMount(() => {
 		darkMode = document.documentElement.classList.contains('dark');
@@ -21,11 +24,14 @@
 	}
 </script>
 
+{#if label}
+	<button onclick={toggleDarkMode}>{label}</button>
+{/if}
 <Button
 	variant="ghost"
 	size="icon"
-	on:click={toggleDarkMode}
-	class="rounded-full"
+	onclick={toggleDarkMode}
+	class={cn('rounded-full', className)}
 	aria-label="Toggle dark mode"
 >
 	{#if darkMode}

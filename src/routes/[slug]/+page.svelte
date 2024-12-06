@@ -3,11 +3,12 @@
 	import type { Article } from '$lib/types/article';
 	import { ArrowLeft } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import { onMount, tick } from 'svelte';
+	import { onMount, tick, hydrate } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import Prism from 'prismjs';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
 	import { page } from '$app/stores';
+	import NewsletterBanner from '$lib/components/ui/NewsletterBanner.svelte';
 
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
@@ -115,7 +116,19 @@
 		});
 	}
 
+	function hydrateNewsletterBanner() {
+		const container = document.getElementById('newsletter-banner-container');
+		if (container) {
+			hydrate(NewsletterBanner, {
+				target: container,
+				props: { variant: 'article' }
+			});
+		}
+	}
+
 	onMount(() => {
+		hydrateNewsletterBanner();
+
 		currentURL = window.location.href;
 		contentState = 'ready';
 

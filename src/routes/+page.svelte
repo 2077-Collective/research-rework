@@ -6,6 +6,8 @@
 	import { onMount } from 'svelte';
 	import Testimonials from '$lib/components/ui/Testimonials.svelte';
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import { Mail } from 'lucide-svelte';
 
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
@@ -37,7 +39,21 @@
 		/>
 	</div>
 
+	<div class="flex justify-center md:hidden">
+		<Button
+			href="#subscribe"
+			class="mt-2 flex items-center gap-1 justify-center w-fit px-8 bg-[#07BEBF]"
+			onclick={() => {
+				document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
+			}}
+		>
+			Subscribe to our newsletter
+			<Mail class="w-4 h-4 ml-1" />
+		</Button>
+	</div>
+
 	<ArticleSpotlight article={articles[0]} />
+
 	<ArticleList {articles} {articleCategories} />
 	<Testimonials />
 </div>
