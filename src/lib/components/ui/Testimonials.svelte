@@ -76,7 +76,7 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground">[...]</p>
+            <p class="mb-1 italic text-muted-foreground text-xs">[...]</p>
             <p class="mb-2">🐡 Enter <a class="text-blue-500 hover:underline" href="https://x.com/puffer_unifi" target="_blank" rel="noopener noreferrer">@puffer_unifi</a>, aligning L1 + L2 with decentralized sequencing + shared MEV rewards.</p>
             <p class="mb-2">🌐 Read <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a>'s full analysis below👇</p>
             `,
@@ -84,6 +84,18 @@
 			link: 'https://x.com/defi_dad/status/1849100399485067733?s=46&t=Oa3-io-PodorudtH4BCkGg',
 			platform: 'x',
 			avatar: 'https://pbs.twimg.com/profile_images/1613764698775633921/72tL5YzB_400x400.jpg'
+		},
+		{
+			text: `
+            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-1">One highlight I will give here is <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a></p>
+            <p>They are crazy detail-oriented and analytical. They could even find details about your project that you haven't even thought about 😂</p>
+            `,
+			author: 'altan tutar',
+			link: 'https://x.com/mraltantutar/status/1864989691365171446',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1859994819331796992/-b_37I4q_400x400.jpg',
+			company: 'nuffle'
 		}
 	];
 
