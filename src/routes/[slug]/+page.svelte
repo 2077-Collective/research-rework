@@ -1,7 +1,7 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
-	import { ArrowLeft, XIcon, ScrollText, ListCollapse, Link2 } from 'lucide-svelte';
+	import { ArrowLeft, XIcon, ScrollText, Link2 } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { onMount, tick, hydrate } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
