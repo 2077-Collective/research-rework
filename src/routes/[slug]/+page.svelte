@@ -22,7 +22,6 @@
 	import 'prismjs/components/prism-markup';
 	import 'prismjs/components/prism-solidity';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
-	import X from '$lib/components/ui/icons/X.svelte';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -383,6 +382,8 @@
 {/snippet}
 
 {#snippet floatingSummaryButton()}
+	{#if data.article.gpt_summary}
+
 	<div class="fixed inset-y-0 right-0 pointer-events-none z-50 flex items-center">
 		{#if summaryOpen}
 			<div 
@@ -422,8 +423,8 @@
 						<XIcon class="w-6 h-6" />
 					</button>
 				</div>
-				<div class="flex-1 overflow-y-auto px-12">
-					{@render markdown(data.article.content)}
+				<div class="flex-1 overflow-y-auto px-12 py-6">
+					{@render markdown(data.article.gpt_summary ?? '')}
 				</div>
 			{/if}
 		</div>
@@ -444,4 +445,5 @@
 			</button>
 		</div>
 	{/if}
+{/if}
 {/snippet}
