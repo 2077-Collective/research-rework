@@ -16,7 +16,6 @@
 	let relatedArticles: ArticleMetadata[] = $state([]);
 
 	const getRelatedArticles = (articles: ArticleMetadata[]): ArticleMetadata[] => {
-		// First try to get articles from the same categories
 		const sameCategory = articles.filter((article) =>
 			article.categories.some((category) => 
 				categories.some(c => c.name === category.name)
@@ -26,11 +25,8 @@
 		let selectedArticles: ArticleMetadata[];
 
 		if (sameCategory.length >= 3) {
-			// If we have 3 or more category matches, take first 3
 			selectedArticles = sameCategory.slice(0, 3);
 		} else if (sameCategory.length > 0) {
-			// If we have some category matches but less than 3,
-			// use them and fill the rest with random articles
 			selectedArticles = [
 				...sameCategory,
 				...articles
@@ -38,17 +34,13 @@
 					.slice(0, 3 - sameCategory.length)
 			];
 		} else {
-			// If no category matches, take first 3 articles
 			selectedArticles = articles.slice(0, 3);
 		}
-
-		// Ensure we always return exactly 3 articles
 		return selectedArticles.slice(0, 3);
 	};
 
 	$effect(() => {
 		if (relatedArticlesFromApi && relatedArticlesFromApi.length > 0) {
-			// If we have articles from API, ensure we take exactly 3
 			relatedArticles = relatedArticlesFromApi.slice(0, 3);
 			return;
 		}
@@ -58,7 +50,7 @@
 	});
 
 	onMount(async () => {
-		if (relatedArticles.length === 0 && !relatedArticlesFromApi?.length) {
+		if (relatedArticles.length === 0 && !relatedArticlesFromApi.length) {
 			const articles = await fetchArticles();
 			setArticles(articles);
 		}
