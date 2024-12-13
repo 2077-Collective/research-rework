@@ -5,14 +5,28 @@
 	import { onMount } from 'svelte';
 	import { fetchArticles } from '$lib/services/article.service';
 
-	const { categories }: { categories: ArticleMetadata['categories'] } = $props();
+	const { 
+		categories,
+		relatedArticlesFromApi = []
+	}: { 
+		categories: ArticleMetadata['categories'],
+		relatedArticlesFromApi?: ArticleMetadata[]
+	} = $props();
+	
 	let relatedArticles: ArticleMetadata[] = $state([]);
 
 	$effect(() => {
+		if (relatedArticlesFromApi && relatedArticlesFromApi.length > 0) {
+			relatedArticles = relatedArticlesFromApi;
+			return;
+		}
+
 		const articles = getArticles();
 
 		const sameCategory = articles.filter((article) =>
-			article.categories.some((category) => categories.includes(category))
+			article.categories.some((category) => 
+				categories.some(c => c.name === category.name)
+			)
 		);
 
 		if (sameCategory.length > 3) {
@@ -25,7 +39,7 @@
 	});
 
 	onMount(async () => {
-		if (relatedArticles.length === 0) {
+		if (relatedArticles.length === 0 && !relatedArticlesFromApi?.length) {
 			const articles = await fetchArticles();
 			setArticles(articles);
 		}
