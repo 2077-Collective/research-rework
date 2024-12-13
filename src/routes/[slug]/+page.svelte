@@ -276,7 +276,7 @@
 					</a>
 					<span class="self-stretch my-auto mx-2">|</span>
 					<button
-						onclick={() => downloadPDF(article, document.getElementById('content-container') as HTMLElement)}
+						onclick={() => downloadPDF(article)}
 						class="flex items-center gap-1 hover:text-primary/50 cursor-pointer"
 						aria-label="Download as PDF"
 					>
