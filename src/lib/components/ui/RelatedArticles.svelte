@@ -18,7 +18,7 @@
 	const getRelatedArticles = (articles: ArticleMetadata[]): ArticleMetadata[] => {
 		const sameCategory = articles.filter((article) =>
 			article.categories.some((category) => 
-				categories.some(c => c.name === category.name)
+			categories.some(c => c?.name && category?.name && c.name === category.name)
 			)
 		);
 
@@ -27,16 +27,17 @@
 		if (sameCategory.length >= 3) {
 			selectedArticles = sameCategory.slice(0, 3);
 		} else if (sameCategory.length > 0) {
+			const sameCategorySet = new Set(sameCategory);
 			selectedArticles = [
 				...sameCategory,
 				...articles
-					.filter(article => !sameCategory.includes(article))
+					.filter(article => !sameCategorySet.has(article))
 					.slice(0, 3 - sameCategory.length)
 			];
 		} else {
 			selectedArticles = articles.slice(0, 3);
 		}
-		return selectedArticles.slice(0, 3);
+		return selectedArticles;
 	};
 
 	$effect(() => {
