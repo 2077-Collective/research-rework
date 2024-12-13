@@ -9,7 +9,7 @@ const headingStyles = {
 	default: { fontSize: 14, marginTop: 2, marginBottom: 2 }
 } as const;
 
-export async function downloadPDF(article: Article, contentElement: HTMLElement) {
+export async function downloadPDF(article: Article) {
 	try {
 		const content = document.getElementById('content-container');
 		if (!content) return;
@@ -197,7 +197,6 @@ export async function downloadPDF(article: Article, contentElement: HTMLElement)
 
 						// Calculate how many lines can fit in remaining space
 						const remainingHeight = pageHeight - margin - currentY;
-						const linesPerPage = Math.floor((pageHeight - (2 * margin)) / lineHeight);
 						const linesFitOnCurrentPage = Math.floor(remainingHeight / lineHeight);
 
 						if (linesFitOnCurrentPage < 1) {
@@ -253,8 +252,7 @@ export async function downloadPDF(article: Article, contentElement: HTMLElement)
 				}
 			}
 
-			// Save the PDF
-		pdf.save(`${article.title.toLowerCase().replace(/\s+/g, '-')}.pdf`);
+		pdf.save(`${article.slug}.pdf`);
 	} catch (error) {
 		console.error('Failed to generate PDF:', error);
 	}
