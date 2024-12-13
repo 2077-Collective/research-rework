@@ -15,27 +15,46 @@
 	
 	let relatedArticles: ArticleMetadata[] = $state([]);
 
-	$effect(() => {
-		if (relatedArticlesFromApi && relatedArticlesFromApi.length > 0) {
-			relatedArticles = relatedArticlesFromApi;
-			return;
-		}
-
-		const articles = getArticles();
-
+	const getRelatedArticles = (articles: ArticleMetadata[]): ArticleMetadata[] => {
+		// First try to get articles from the same categories
 		const sameCategory = articles.filter((article) =>
 			article.categories.some((category) => 
 				categories.some(c => c.name === category.name)
 			)
 		);
 
-		if (sameCategory.length > 3) {
-			relatedArticles = sameCategory.slice(0, 3);
-		} else if (sameCategory.length === 0) {
-			relatedArticles = articles.slice(0, 3);
+		let selectedArticles: ArticleMetadata[];
+
+		if (sameCategory.length >= 3) {
+			// If we have 3 or more category matches, take first 3
+			selectedArticles = sameCategory.slice(0, 3);
+		} else if (sameCategory.length > 0) {
+			// If we have some category matches but less than 3,
+			// use them and fill the rest with random articles
+			selectedArticles = [
+				...sameCategory,
+				...articles
+					.filter(article => !sameCategory.includes(article))
+					.slice(0, 3 - sameCategory.length)
+			];
 		} else {
-			relatedArticles = sameCategory;
+			// If no category matches, take first 3 articles
+			selectedArticles = articles.slice(0, 3);
 		}
+
+		// Ensure we always return exactly 3 articles
+		return selectedArticles.slice(0, 3);
+	};
+
+	$effect(() => {
+		if (relatedArticlesFromApi && relatedArticlesFromApi.length > 0) {
+			// If we have articles from API, ensure we take exactly 3
+			relatedArticles = relatedArticlesFromApi.slice(0, 3);
+			return;
+		}
+
+		const articles = getArticles();
+		relatedArticles = getRelatedArticles(articles);
 	});
 
 	onMount(async () => {
