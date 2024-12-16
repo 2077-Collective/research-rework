@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-// Define Zod schemas
+// Basic schemas
 const CategorySchema = z.object({
   name: z.string()
 });
@@ -12,28 +12,25 @@ const AuthorSchema = z.object({
   twitter_username: z.string().nullable()
 });
 
-const BaseArticleSchema = z.object({
+const CommonArticleFields = z.object({
   id: z.string(),
   slug: z.string(),
   title: z.string(),
-  authors: z.array(AuthorSchema),
   thumb: z.string(),
   categories: z.array(CategorySchema),
   summary: z.string(),
+});
+
+const BaseArticleSchema = CommonArticleFields.extend({
+  authors: z.array(AuthorSchema),
   min_read: z.number(),
   created_at: z.string()
 });
 
-export const ArticleMetadataSchema = z.object({
-  id: z.string(),
-  title: z.string(),
+export const ArticleMetadataSchema = CommonArticleFields.extend({
   authors: z.array(AuthorSchema).optional(),
   content: z.string().optional(),
   views: z.number().optional(),
-  summary: z.string(),
-  categories: z.array(CategorySchema),
-  thumb: z.string(),
-  slug: z.string(),
   is_sponsored: z.boolean().optional(),
   sponsor_color: z
     .string()

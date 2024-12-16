@@ -5,20 +5,20 @@
 	import { onMount } from 'svelte';
 	import { fetchArticles } from '$lib/services/article.service';
 
-	const { 
+	const {
 		categories,
 		relatedArticlesFromApi = []
-	}: { 
-		categories: ArticleMetadata['categories'],
-		relatedArticlesFromApi?: ArticleMetadata[]
+	}: {
+		categories: ArticleMetadata['categories'];
+		relatedArticlesFromApi?: ArticleMetadata[];
 	} = $props();
-	
+
 	let relatedArticles: ArticleMetadata[] = $state([]);
 
 	const getRelatedArticles = (articles: ArticleMetadata[]): ArticleMetadata[] => {
 		const sameCategory = articles.filter((article) =>
-			article.categories.some((category) => 
-			categories.some(c => c?.name && category?.name && c.name === category.name)
+			article.categories.some((category) =>
+				categories.some((c) => c?.name && category?.name && c.name === category.name)
 			)
 		);
 
@@ -31,7 +31,7 @@
 			selectedArticles = [
 				...sameCategory,
 				...articles
-					.filter(article => !sameCategorySet.has(article))
+					.filter((article) => !sameCategorySet.has(article))
 					.slice(0, 3 - sameCategory.length)
 			];
 		} else {
@@ -41,13 +41,10 @@
 	};
 
 	$effect(() => {
-		if (relatedArticlesFromApi && relatedArticlesFromApi.length > 0) {
-			relatedArticles = relatedArticlesFromApi.slice(0, 3);
-			return;
-		}
-
-		const articles = getArticles();
-		relatedArticles = getRelatedArticles(articles);
+		relatedArticles =
+			relatedArticlesFromApi.length > 0
+				? relatedArticlesFromApi.slice(0, 3)
+				: getRelatedArticles(getArticles());
 	});
 
 	onMount(async () => {
