@@ -49,8 +49,12 @@
 
 	onMount(async () => {
 		if (relatedArticles.length === 0 && !relatedArticlesFromApi.length) {
-			const articles = await fetchArticles();
-			setArticles(articles);
+			try {
+				const articles = await fetchArticles();
+				setArticles(articles);
+			} catch (error) {
+				console.error('Failed to fetch articles:', error);
+			}
 		}
 	});
 </script>
