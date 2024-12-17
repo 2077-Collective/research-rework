@@ -5,9 +5,6 @@ import { fetchArticles } from "$lib/services/article.service";
 export const GET: RequestHandler = async ({ request }) => {
     const baseURL = request.headers.get('host')
     const articles = await fetchArticles()
-
-    console.log(articles)
-
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         <url>
