@@ -25,15 +25,12 @@ const config = {
 					'https://va.vercel-scripts.com',
 					'https://analytics.2077.xyz'
 				],
-				'style-src': ["'self'", "'unsafe-inline'"],
-				'img-src': ["'self'", 'data:', 'https:'],
-				'connect-src': ["'self'", 'https:'],
-				// Add default-src as fallback
-				'default-src': ["'self'"],
-				// Add frame-ancestors to prevent clickjacking
-				'frame-ancestors': ["'self'"],
-				// Add base-uri to restrict base tags
-				'base-uri': ["'self'"]
+				'img-src': ['self', 'data:', 'https:'],
+				'style-src': ['self', 'unsafe-inline'],
+				'connect-src': ['self', 'https:'],
+				'default-src': ['self'],
+				'frame-ancestors': ['self'],
+				'base-uri': ['self']
 			}
 		}
 	}

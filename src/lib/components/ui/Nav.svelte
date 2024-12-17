@@ -14,7 +14,7 @@
 
 	<div class="items-center gap-4 hidden md:flex">
 		<Button
-			class="flex items-center gap-1 justify-center w-fit px-8 bg-[#07BEBF]"
+			class="flex items-center gap-1 justify-center w-fit px-8 bg-[#07BEBF] rounded-full"
 			onclick={() => {
 				document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
 			}}
