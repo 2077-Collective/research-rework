@@ -20,7 +20,6 @@
 <svelte:head>
 	<title>{sanitizeMetaContent(article.title)}</title>
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="generator" content="2077 Research" />
 
 	<meta name="title" content={sanitizeMetaContent(article.title)} />
