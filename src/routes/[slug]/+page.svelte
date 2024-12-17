@@ -1,7 +1,7 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
-	import { ArrowLeft } from 'lucide-svelte';
+	import { ArrowLeft, FileDown } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { onMount, tick, hydrate } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
@@ -9,6 +9,7 @@
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
 	import { page } from '$app/stores';
 	import NewsletterBanner from '$lib/components/ui/NewsletterBanner.svelte';
+	import { downloadPDF } from '$lib/utils/pdf-generator';
 
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
@@ -273,6 +274,15 @@
 					>
 						Linkedin
 					</a>
+					<span class="self-stretch my-auto mx-2">|</span>
+					<button
+						onclick={() => downloadPDF(article)}
+						class="flex items-center gap-1 hover:text-primary/50 cursor-pointer"
+						aria-label="Download as PDF"
+					>
+						<FileDown class="w-5 h-5" />
+						<span class="border-b">PDF</span>
+					</button>
 				</nav>
 			</div>
 		</header>
@@ -280,7 +290,7 @@
 {/snippet}
 
 {#snippet body(article: Article)}
-	<div class="lg:flex lg:gap-14 relative">
+	<article class="lg:flex lg:gap-14 relative">
 		<TableOfContents tableOfContents={article.tableOfContents} />
 		<div id="toc" class="block lg:hidden"></div>
 
@@ -302,7 +312,7 @@
 			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
 			[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
 			[&>a]:underline
-			[&_img]:mx-auto [&_img]:block [&_img]:pb-2.5
+			[&_img]:mx-auto [&_img]:block
 			[&>blockquote]:text-base md:[&>blockquote]:text-lg [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
 			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-gray-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
@@ -311,5 +321,5 @@
 		>
 			{@html article.content}
 		</div>
-	</div>
+	</article>
 {/snippet}

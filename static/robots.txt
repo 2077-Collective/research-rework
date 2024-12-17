@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.research.2077.xyz/sitemap.xml
+Sitemap: https://research.2077.xyz/sitemap.xml
