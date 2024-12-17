@@ -13,8 +13,12 @@ export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
     return ArticleMetadataArraySchema.parse(body);
 };
 
-export const getArticleBySlug = async (slug: string): Promise<Article> => {
-    const res = await fetch(`${baseURL}/articles/${slug}`);
-    const body = await res.json();
-    return FullArticleSchema.parse(body.data);
+export const getArticleBySlug = async (slug: string): Promise<Article | null> => {
+	try {
+		const res = await fetch(`${baseURL}/articles/${slug}`);
+		const body = await res.json();
+		return FullArticleSchema.parse(body.data);
+	} catch (error) {
+		return null;
+	}
 };
