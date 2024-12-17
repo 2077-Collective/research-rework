@@ -14,7 +14,11 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter({
 			maxDuration: 300
-		})
+		}),
+		csp: {
+			mode: 'hash',
+			directives: { "script-src": ["self"]}
+		}
 	}
 };
 
