@@ -1,45 +1,58 @@
 <!doctype html>
 <html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-	<meta charset="utf-8" />
-	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- Prevent Flash of white screen before dark mode is applied -->
+		<script lang="ts" nonce="%sveltekit.nonce%">
+			(function () {
+				const darkMode = localStorage.getItem('darkMode');
+				if (
+					darkMode === 'true' ||
+					(!darkMode && window.matchMedia('(prefers-color-scheme: dark)').matches)
+				) {
+					document.documentElement.classList.add('dark');
+				} else {
+					document.documentElement.classList.remove('dark');
+				}
+			})();
+		</script>
 
-	<!-- Prevent Flash of white screen before dark mode is applied -->
-	<script lang="ts">
-		(function () {
-			const darkMode = localStorage.getItem('darkMode');
-			if (darkMode === 'true' || (!darkMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-				document.documentElement.classList.add('dark');
-			} else {
-				document.documentElement.classList.remove('dark');
+		<!-- Conditionally load stylesheets for Prism.js based on dark mode -->
+		<script lang="ts" nonce="%sveltekit.nonce%">
+			document.addEventListener('DOMContentLoaded', () => {
+				const darkMode = localStorage.getItem('darkMode');
+				const linkPrism = document.createElement('link');
+				linkPrism.rel = 'stylesheet';
+				linkPrism.href = '/prism.css';
+				document.head.appendChild(linkPrism);
+
+				const linkTheme = document.createElement('link');
+				linkTheme.rel = 'stylesheet';
+				linkTheme.href =
+					darkMode === 'true' ? '/themes/prism-one-dark.css' : '/themes/prism-one-light.css';
+				document.head.appendChild(linkTheme);
+			});
+		</script>
+
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-LLGJWF9DHW"></script>
+		<script nonce="%sveltekit.nonce%">
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
 			}
-		})();
-	</script>
+			gtag('js', new Date());
 
-	<!-- Conditionally load stylesheets for Prism.js based on dark mode -->
-	<script lang="ts">
-		document.addEventListener('DOMContentLoaded', () => {
-			const darkMode = localStorage.getItem('darkMode');
-			const linkPrism = document.createElement('link');
-			linkPrism.rel = 'stylesheet';
-			linkPrism.href = '/prism.css';
-			document.head.appendChild(linkPrism);
+			gtag('config', 'G-LLGJWF9DHW');
+		</script>
 
-			const linkTheme = document.createElement('link');
-			linkTheme.rel = 'stylesheet';
-			linkTheme.href = darkMode === 'true' ? '/themes/prism-one-dark.css' : '/themes/prism-one-light.css';
-			document.head.appendChild(linkTheme);
-		});
-	</script>
+		%sveltekit.head%
+	</head>
 
-	%sveltekit.head%
-</head>
-
-<body data-sveltekit-preload-data="hover">
-	<div style="display: contents">%sveltekit.body%</div>
-	<script src="/prism.js" defer></script>
-</body>
-
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+		<script src="/prism.js" defer nonce="%sveltekit.nonce%"></script>
+	</body>
 </html>
