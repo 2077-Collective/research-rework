@@ -290,7 +290,7 @@
 {/snippet}
 
 {#snippet body(article: Article)}
-	<div class="lg:flex lg:gap-14 relative">
+	<article class="lg:flex lg:gap-14 relative">
 		<TableOfContents tableOfContents={article.tableOfContents} />
 		<div id="toc" class="block lg:hidden"></div>
 
@@ -321,5 +321,5 @@
 		>
 			{@html article.content}
 		</div>
-	</div>
+	</article>
 {/snippet}
