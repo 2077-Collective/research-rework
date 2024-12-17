@@ -25,6 +25,7 @@ export const BaseArticleMetadaSchema = z.object({
 	thumb: z.string(),
 	slug: z.string(),
 	is_sponsored: z.boolean().optional(),
+	updated_at: z.string().optional().default(new Date().toISOString()),
 	sponsor_color: z
 		.string()
 		.regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)$/)
@@ -42,13 +43,15 @@ export const ArticleMetadaSchema = BaseArticleMetadaSchema.transform((article) =
     is_sponsored,
     sponsor_color,
     sponsor_text_color,
+    updated_at,
     ...rest
   } = article;
   return {
     ...rest,
     isSponsored: is_sponsored,
     sponsorColor: sponsor_color,
-    sponsorTextColor: sponsor_text_color
+    sponsorTextColor: sponsor_text_color,
+    updatedAt: updated_at
   };
 });
 
@@ -92,6 +95,7 @@ export const ArticleSchema = BaseArticleMetadaSchema.extend({
 }).transform((article) => ({
 	...article,
 	scheduledPublishTime: article.scheduled_publish_time,
-	tableOfContents: article.table_of_contents
+	tableOfContents: article.table_of_contents,
+	updatedAt: article.updated_at
 }));
 export type Article = z.infer<typeof ArticleSchema>;

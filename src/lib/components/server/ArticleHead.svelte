@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
 	import { page } from '$app/stores';
+	import ArticleJsonLd from './ArticleJsonLd.svelte';
 
 	const { article }: { article: Article } = $props();
 
@@ -47,3 +48,5 @@
 		content={article.authors?.map((author) => author.fullName || author.username).join(', ')}
 	/>
 </svelte:head>
+
+<ArticleJsonLd {article} />
