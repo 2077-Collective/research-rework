@@ -42,7 +42,8 @@ export const ArticleMetadataSchema = CommonArticleFields.extend({
     .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)$/)
     .optional()
     .default('#000000'),
-  related_articles: z.array(BaseArticleSchema).optional()
+  related_articles: z.array(BaseArticleSchema).optional(),
+  updated_at: z.string().optional().default(new Date().toISOString())
 });
 
 export const TransformedArticleMetadataSchema = ArticleMetadataSchema.transform((article) => {
@@ -51,6 +52,7 @@ export const TransformedArticleMetadataSchema = ArticleMetadataSchema.transform(
     sponsor_color,
     sponsor_text_color,
     related_articles,
+    updated_at,
     ...rest
   } = article;
   return {
@@ -58,7 +60,8 @@ export const TransformedArticleMetadataSchema = ArticleMetadataSchema.transform(
     isSponsored: is_sponsored,
     sponsorColor: sponsor_color,
     sponsorTextColor: sponsor_text_color,
-    relatedArticles: related_articles || []
+    relatedArticles: related_articles || [],
+    updatedAt: updated_at
   };
 });
 
@@ -95,7 +98,8 @@ export const FullArticleSchema = ArticleMetadataSchema.extend({
   ...article,
   scheduledPublishTime: article.scheduled_publish_time,
   tableOfContents: article.table_of_contents,
-  relatedArticles: article.related_articles || []
+  relatedArticles: article.related_articles || [],
+  updatedAt: article.updated_at
 }));
 
 export type Article = z.infer<typeof FullArticleSchema>;
