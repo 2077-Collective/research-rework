@@ -1,13 +1,25 @@
 <script lang="ts">
 	import type { ArticleMetadata } from '$lib/types/article';
 	import Badge from './badge/badge.svelte';
+	import { optimizeCloudinaryUrl } from '$lib/utils/optimise-cloudinary';
 
 	const { article }: { article: ArticleMetadata } = $props();
 </script>
 
 <a href={`/${article.slug}`}>
 	<div class="flex flex-col lg:flex-row">
-		<img src={article.thumb} alt={article.title} class="w-full h-auto lg:w-4/6 object-cover" />
+		<img
+			src={optimizeCloudinaryUrl(article.thumb, { type: 'spotlight' })}
+			srcset={`
+			${optimizeCloudinaryUrl(article.thumb, { type: 'spotlight', width: 480 })} 480w,
+			${optimizeCloudinaryUrl(article.thumb, { type: 'spotlight', width: 960 })} 960w
+		  `}
+			sizes="(max-width: 768px) 100vw, 66vw"
+			alt={article.title}
+			class="w-full h-auto lg:w-4/6 object-cover"
+			width="960"
+			height="712"
+		/>
 		<div
 			class="flex flex-col gap-3 md:gap-6 w-full lg:w-2/6 flex flex-col p-6 md:p-10 text-base tracking-normal bg-secondary max-md:px-5 max-md:max-w-full"
 		>

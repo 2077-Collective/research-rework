@@ -8,6 +8,10 @@
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Mail } from 'lucide-svelte';
+	import { optimizeCloudinaryUrl, optimizeHeroImage } from '$lib/utils/optimise-cloudinary';
+
+	const heroImage =
+		'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1734510500/hero_choeao.webp';
 
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
@@ -32,11 +36,37 @@
 			State of the art research on Ethereum and the broader crypto ecosystem
 		</h1>
 
-		<img
-			src="/hero.png"
-			class="absolute top-0 right-0 w-1/2 animate-float"
-			alt="Hero illustration"
-		/>
+		<picture>
+			<source
+				srcset="{optimizeHeroImage(heroImage, 2)} 2x,
+						{optimizeHeroImage(heroImage, 1)} 1x"
+				media="(min-width: 768px)"
+				type="image/webp"
+			/>
+			<source
+				srcset="{optimizeCloudinaryUrl(heroImage, {
+					type: 'hero',
+					width: 360,
+					height: 271,
+					dpr: 2
+				})} 2x,
+				{optimizeCloudinaryUrl(heroImage, {
+					type: 'hero',
+					width: 360,
+					height: 271,
+					dpr: 1
+				})} 1x"
+				type="image/webp"
+			/>
+			<img
+				src={optimizeHeroImage(heroImage)}
+				class="absolute top-0 right-0 w-1/2 animate-float"
+				alt="Hero illustration"
+				width="720"
+				height="542"
+				loading="eager"
+			/>
+		</picture>
 	</div>
 
 	<div class="flex justify-center md:hidden">
