@@ -483,7 +483,7 @@
 				<button
 					data-summary-toggle
 					onclick={toggleSummary}
-					class="bg-primary text-white p-4 rounded-full hover:bg-primary/90 transition-colors"
+					class="bg-primary text-primary-foreground p-4 rounded-full hover:bg-primary/90 transition-colors"
 					aria-label="Toggle summary"
 				>
 					<ScrollText class="w-6 h-6" />
