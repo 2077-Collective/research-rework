@@ -5,7 +5,7 @@ import {
     type ArticleMetadata
 } from '$lib/types/article';
 
-const baseURL = 'https://cms.2077.xyz/api';
+const baseURL = 'http://localhost:8000/api';
 
 export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
     const res = await fetch(`${baseURL}/articles`);

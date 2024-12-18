@@ -8,6 +8,10 @@
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Mail } from 'lucide-svelte';
+	import { optimizeCloudinaryUrl } from '$lib/utils/optimise-cloudinary';
+
+	const heroImage =
+		'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1734510500/hero_choeao.webp';
 
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
@@ -32,11 +36,22 @@
 			State of the art research on Ethereum and the broader crypto ecosystem
 		</h1>
 
-		<img
-			src="/hero.png"
-			class="absolute top-0 right-0 w-1/2 animate-float"
-			alt="Hero illustration"
-		/>
+		<picture>
+			<source
+				srcset="/hero-720w.webp 720w,
+					  /hero-360w.webp 360w"
+				sizes="50vw"
+				type="image/webp"
+			/>
+			<img
+				src="/hero-720w.webp"
+				class="absolute top-0 right-0 w-1/2 animate-float"
+				alt="Hero illustration"
+				width="720"
+				height="542"
+				loading="eager"
+			/>
+		</picture>
 	</div>
 
 	<div class="flex justify-center md:hidden">

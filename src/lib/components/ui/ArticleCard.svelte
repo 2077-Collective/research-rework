@@ -2,8 +2,10 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
+	import { optimizeCloudinaryUrl } from '$lib/utils/optimise-cloudinary';
 
 	const { article }: { article: ArticleMetadata } = $props();
+	
 </script>
 
 <a href={`/${article.slug}`} class="block">
@@ -13,7 +15,11 @@
 		style={`background-color: ${article.isSponsored ? article.sponsorColor : 'transparent'}; color: ${article.isSponsored ? article.sponsorTextColor : 'inherit'};`}
 	>
 		<div class="flex flex-col w-full">
-			<img src={article.thumb} alt={article.title} class="aspect-square w-full object-cover" />
+			<img
+				src={optimizeCloudinaryUrl(article.thumb)}
+				alt={article.title}
+				class="aspect-square w-full object-cover"
+			/>
 		</div>
 
 		<div class="flex flex-col py-6 w-full" class:px-6={article.isSponsored}>
