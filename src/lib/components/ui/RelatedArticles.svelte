@@ -5,29 +5,56 @@
 	import { onMount } from 'svelte';
 	import { fetchArticles } from '$lib/services/article.service';
 
-	const { categories }: { categories: ArticleMetadata['categories'] } = $props();
+	const {
+		categories,
+		relatedArticlesFromApi = []
+	}: {
+		categories: ArticleMetadata['categories'];
+		relatedArticlesFromApi?: ArticleMetadata[];
+	} = $props();
+
 	let relatedArticles: ArticleMetadata[] = $state([]);
 
-	$effect(() => {
-		const articles = getArticles();
-
+	const getRelatedArticles = (articles: ArticleMetadata[]): ArticleMetadata[] => {
 		const sameCategory = articles.filter((article) =>
-			article.categories.some((category) => categories.includes(category))
+			article.categories.some((category) =>
+				categories.some((c) => c?.name && category?.name && c.name === category.name)
+			)
 		);
 
-		if (sameCategory.length > 3) {
-			relatedArticles = sameCategory.slice(0, 3);
-		} else if (sameCategory.length === 0) {
-			relatedArticles = articles.slice(0, 3);
+		let selectedArticles: ArticleMetadata[];
+
+		if (sameCategory.length >= 3) {
+			selectedArticles = sameCategory.slice(0, 3);
+		} else if (sameCategory.length > 0) {
+			const sameCategorySet = new Set(sameCategory);
+			selectedArticles = [
+				...sameCategory,
+				...articles
+					.filter((article) => !sameCategorySet.has(article))
+					.slice(0, 3 - sameCategory.length)
+			];
 		} else {
-			relatedArticles = sameCategory;
+			selectedArticles = articles.slice(0, 3);
 		}
+		return selectedArticles;
+	};
+
+	$effect(() => {
+		relatedArticles =
+			relatedArticlesFromApi.length > 0
+				? relatedArticlesFromApi.slice(0, 3)
+				: getRelatedArticles(getArticles());
 	});
 
 	onMount(async () => {
-		if (relatedArticles.length === 0) {
-			const articles = await fetchArticles();
-			setArticles(articles);
+		if (relatedArticles.length === 0 && !relatedArticlesFromApi.length) {
+			try {
+				const articles = await fetchArticles();
+				setArticles(articles);
+			} catch (error) {
+				console.error('Failed to fetch articles:', error);
+			}
 		}
 	});
 </script>

@@ -1,7 +1,7 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
-	import { ArrowLeft, XIcon, ScrollText, Link2 } from 'lucide-svelte';
+	import { ArrowLeft, FileDown, XIcon, ScrollText, Link2 } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { onMount, tick, hydrate } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
@@ -10,6 +10,7 @@
 	import { page } from '$app/stores';
 	import NewsletterBanner from '$lib/components/ui/NewsletterBanner.svelte';
 	import { fly } from 'svelte/transition';
+	import { downloadPDF } from '$lib/utils/pdf-generator';
 
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
@@ -22,6 +23,7 @@
 	import 'prismjs/components/prism-markup';
 	import 'prismjs/components/prism-solidity';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
+	import { error } from '@sveltejs/kit';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -40,6 +42,10 @@
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 
 	const { data }: { data: PageData } = $props();
+
+	if (!data.article) {
+		throw error(404, 'Article not found');
+	}
 
 	async function highlightCodeBlocks() {
 		if (contentState !== 'ready') return;
@@ -215,6 +221,12 @@
 			}
 		}
 	});
+
+	$effect(() => {
+		if (window) {
+			document.body.style.overflow = summaryOpen ? 'hidden' : '';
+		}
+	});
 </script>
 
 <ArticleHead article={data.article} />
@@ -222,10 +234,10 @@
 <div class="flex flex-col gap-y-6 md:gap-y-14">
 	{@render header(data.article)}
 	<div class="px-3 md:px-12">
-		<img 
-			src={data.article.thumb} 
-			alt={data.article.title} 
-			class="w-full h-full object-cover cover-image" 
+		<img
+			src={data.article.thumb}
+			alt={data.article.title}
+			class="w-full h-full object-cover cover-image"
 		/>
 	</div>
 	{@render body(data.article)}
@@ -322,6 +334,15 @@
 					>
 						Linkedin
 					</a>
+					<span class="self-stretch my-auto mx-2">|</span>
+					<button
+						onclick={() => downloadPDF(article)}
+						class="flex items-center gap-1 hover:text-primary/50 cursor-pointer"
+						aria-label="Download as PDF"
+					>
+						<FileDown class="w-5 h-5" />
+						<span class="border-b">PDF</span>
+					</button>
 				</nav>
 			</div>
 		</header>
@@ -329,7 +350,7 @@
 {/snippet}
 
 {#snippet body(article: Article)}
-	<div class="lg:flex lg:gap-14 relative">
+	<article class="lg:flex lg:gap-14 relative" class:overflow-hidden={summaryOpen}>
 		<TableOfContents tableOfContents={article.tableOfContents} />
 		<div id="toc" class="block lg:hidden"></div>
 
@@ -351,7 +372,7 @@
 			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
 			[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
 			[&>a]:underline
-			[&_img]:mx-auto [&_img]:block [&_img]:pb-2.5
+			[&_img]:mx-auto [&_img]:block
 			[&>blockquote]:text-base md:[&>blockquote]:text-lg [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
 			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-gray-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
@@ -360,11 +381,12 @@
 			{@html article.content}
 		</div>
 		{@render floatingSummaryButton()}
-	</div>
+	</article>
 {/snippet}
 
 {#snippet markdown(content: string)}
-	<div class="text-primary w-full leading-8
+	<div
+		class="text-primary w-full leading-8
 		[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
 		[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
 		[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7 [&_h3]:tracking-tight
@@ -382,68 +404,75 @@
 {/snippet}
 
 {#snippet floatingSummaryButton()}
-	{#if data.article.gpt_summary}
-
-	<div class="fixed inset-y-0 right-0 pointer-events-none z-50 flex items-center">
-		{#if summaryOpen}
-			<div 
-				class="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-500"
-				style="opacity: {summaryOpen ? '1' : '0'}"
-				onclick={toggleSummary}
-				role="presentation"
-				aria-hidden="true"
-			></div>
-		{/if}
+	{#if data?.article?.gpt_summary}
 		<div
-			class="w-full lg:max-w-screen-md bg-background border-l h-screen transform will-change-transform backface-visibility-hidden -webkit-backface-visibility-hidden transition-transform duration-500 ease-out pointer-events-auto flex flex-col relative z-10"
-			style="transform: translateX({summaryOpen ? '0%' : '100%'})"
+			class="fixed inset-y-0 right-0 pointer-events-none z-50 flex items-center"
+			class:overflow-hidden={summaryOpen}
 		>
 			{#if summaryOpen}
-				<div class="sticky top-0 z-10 bg-background border-b px-8 py-4 flex justify-between items-center">
-					<div class="flex items-center gap-4">
-						<h2 class="text-2xl font-medium">Summary</h2>
+				<div
+					class="fixed inset-0 bg-black/50 transition-opacity duration-500"
+					style="opacity: {summaryOpen ? '1' : '0'}"
+					onclick={toggleSummary}
+					role="presentation"
+					aria-hidden="true"
+				></div>
+			{/if}
+			<div
+				class="w-full lg:max-w-screen-md bg-background h-screen transform will-change-transform backface-visibility-hidden -webkit-backface-visibility-hidden transition-transform duration-500 ease-out pointer-events-auto flex flex-col relative z-10"
+				class:overflow-hidden={summaryOpen}
+				style="transform: translateX({summaryOpen ? '0%' : '100%'})"
+			>
+				{#if summaryOpen}
+					<div
+						class="sticky top-0 z-10 bg-background border-b px-8 py-4 flex justify-between items-center"
+					>
+						<div class="flex items-center gap-4">
+							<h2 class="text-2xl font-medium">Summary</h2>
+							<button
+								onclick={copyShareLink}
+								class="p-2 hover:bg-secondary rounded-full relative group"
+								aria-label="Copy share link"
+							>
+								<Link2 class="w-5 h-5" />
+								{#if copySuccess}
+									<span
+										class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm bg-primary text-white px-2 py-1 rounded whitespace-nowrap"
+									>
+										Link copied!
+									</span>
+								{/if}
+							</button>
+						</div>
 						<button
-							onclick={copyShareLink}
-							class="p-2 hover:bg-secondary rounded-full relative group"
-							aria-label="Copy share link"
+							onclick={toggleSummary}
+							class="p-2 hover:bg-secondary rounded-full"
+							aria-label="Close summary"
 						>
-							<Link2 class="w-5 h-5" />
-							{#if copySuccess}
-								<span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm bg-primary text-white px-2 py-1 rounded whitespace-nowrap">
-									Link copied!
-								</span>
-							{/if}
+							<XIcon class="w-6 h-6" />
 						</button>
 					</div>
-					<button
-						onclick={toggleSummary}
-						class="p-2 hover:bg-secondary rounded-full"
-						aria-label="Close summary"
-					>
-						<XIcon class="w-6 h-6" />
-					</button>
-				</div>
-				<div class="flex-1 overflow-y-auto px-12 py-6">
-					{@render markdown(data.article.gpt_summary ?? '')}
-				</div>
-			{/if}
+					<div class="flex-1 overflow-y-auto px-12 py-6">
+						{@render markdown(data.article.gpt_summary ?? '')}
+					</div>
+				{/if}
+			</div>
 		</div>
-	</div>
 
-	{#if showFloatingButton}
-		<div
-			class="fixed bottom-10 right-10 transition-all duration-300"
-			in:fly={{ y: 20, duration: 300, opacity: 0 }}
-			out:fly={{ y: 20, duration: 300, opacity: 0 }}
-		>
-			<button
-				onclick={toggleSummary}
-				class="bg-primary text-white p-4 rounded-full hover:bg-primary/90 transition-colors"
-				aria-label="Toggle summary"
+		{#if showFloatingButton}
+			<div
+				class="fixed bottom-10 right-10 transition-all duration-300"
+				in:fly={{ y: 20, duration: 300, opacity: 0 }}
+				out:fly={{ y: 20, duration: 300, opacity: 0 }}
 			>
-				<ScrollText class="w-6 h-6" />
-			</button>
-		</div>
+				<button
+					onclick={toggleSummary}
+					class="bg-primary text-white p-4 rounded-full hover:bg-primary/90 transition-colors"
+					aria-label="Toggle summary"
+				>
+					<ScrollText class="w-6 h-6" />
+				</button>
+			</div>
+		{/if}
 	{/if}
-{/if}
 {/snippet}

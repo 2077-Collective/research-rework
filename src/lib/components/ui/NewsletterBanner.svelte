@@ -90,11 +90,11 @@
 		<div
 			class="flex flex-col justify-center items-center flex-1 shrink self-stretch my-auto w-full basis-0 min-w-[240px] max-md:max-w-full"
 		>
-			<h1
+			<p
 				class="font-soehne text-5xl font-medium leading-tight max-lg:max-w-full max-lg:text-3xl text-center"
 			>
 				Your Ethereum Edge
-			</h1>
+			</p>
 			<p class="mt-2.5 text-lg max-md:max-w-full text-center mb-8">
 				Get first-hand research delivered by our team of experts.
 			</p>

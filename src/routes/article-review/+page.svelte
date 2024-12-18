@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>2077 Research - Submit your article for review</title>
+</svelte:head>
+
 <script lang="ts">
 	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
