@@ -83,6 +83,7 @@ export const FullArticleSchema = ArticleMetadataSchema.extend({
 	scheduled_publish_time: z.string(),
 	table_of_contents: TableOfContentsSchema,
 	acknowledgement: z.string().optional(),
+	gpt_summary: z.string().optional(),
 	authors: z.array(
 		AuthorSchema.transform((author) => ({
 			username: author.username,
@@ -95,7 +96,8 @@ export const FullArticleSchema = ArticleMetadataSchema.extend({
 	scheduledPublishTime: article.scheduled_publish_time,
 	tableOfContents: article.table_of_contents,
 	relatedArticles: article.related_articles || [],
-	updatedAt: article.updated_at
+	updatedAt: article.updated_at,
+	gptSummary: article.gpt_summary
 }));
 
 export type Article = z.infer<typeof FullArticleSchema>;
