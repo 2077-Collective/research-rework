@@ -170,6 +170,18 @@
 		showFloatingButton = contentRect.top <= window.innerHeight && contentRect.bottom >= 0;
 	}
 
+	function handleClickOutside(event: MouseEvent) {
+		if (!summaryOpen) return;
+
+		const panel = document.querySelector('.summary-panel');
+		const target = event.target as HTMLElement;
+
+		// Check if click is outside the panel and not on the toggle button
+		if (panel && !panel.contains(target) && !target.closest('[data-summary-toggle]')) {
+			toggleSummary();
+		}
+	}
+
 	onMount(() => {
 		hydrateNewsletterBanner();
 
@@ -199,9 +211,13 @@
 		const urlParams = new URLSearchParams(window.location.search);
 		summaryOpen = urlParams.get('summary') === 'true';
 
+		// Add click outside listener
+		document.addEventListener('mousedown', handleClickOutside);
+
 		return () => {
 			observer.disconnect();
 			window.removeEventListener('scroll', handleScroll);
+			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	});
 
@@ -413,13 +429,12 @@
 				<div
 					class="fixed inset-0 bg-black/50 transition-opacity duration-500"
 					style="opacity: {summaryOpen ? '1' : '0'}"
-					onclick={toggleSummary}
 					role="presentation"
 					aria-hidden="true"
 				></div>
 			{/if}
 			<div
-				class="w-full lg:max-w-screen-md bg-background h-screen transform will-change-transform backface-visibility-hidden -webkit-backface-visibility-hidden transition-transform duration-500 ease-out pointer-events-auto flex flex-col relative z-10"
+				class="summary-panel w-full lg:max-w-screen-md bg-background h-screen transform will-change-transform backface-visibility-hidden -webkit-backface-visibility-hidden transition-transform duration-500 ease-out pointer-events-auto flex flex-col relative z-10"
 				class:overflow-hidden={summaryOpen}
 				style="transform: translateX({summaryOpen ? '0%' : '100%'})"
 			>
@@ -466,6 +481,7 @@
 				out:fly={{ y: 20, duration: 300, opacity: 0 }}
 			>
 				<button
+					data-summary-toggle
 					onclick={toggleSummary}
 					class="bg-primary text-white p-4 rounded-full hover:bg-primary/90 transition-colors"
 					aria-label="Toggle summary"
