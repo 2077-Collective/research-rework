@@ -3,13 +3,18 @@
 	import Badge from './badge/badge.svelte';
 	import { optimizeCloudinaryUrl } from '$lib/utils/optimise-cloudinary';
 
-    const { article }: { article: ArticleMetadata } = $props();
+	const { article }: { article: ArticleMetadata } = $props();
 </script>
 
 <a href={`/${article.slug}`}>
 	<div class="flex flex-col lg:flex-row">
 		<img
-		src={optimizeCloudinaryUrl(article.thumb, { type: 'spotlight' })}
+			src={optimizeCloudinaryUrl(article.thumb, { type: 'spotlight' })}
+			srcset={`
+			${optimizeCloudinaryUrl(article.thumb, { type: 'spotlight', width: 480 })} 480w,
+			${optimizeCloudinaryUrl(article.thumb, { type: 'spotlight', width: 960 })} 960w
+		  `}
+			sizes="(max-width: 768px) 100vw, 66vw"
 			alt={article.title}
 			class="w-full h-auto lg:w-4/6 object-cover"
 			width="960"

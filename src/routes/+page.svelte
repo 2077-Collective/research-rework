@@ -8,7 +8,7 @@
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Mail } from 'lucide-svelte';
-	import { optimizeCloudinaryUrl } from '$lib/utils/optimise-cloudinary';
+	import { optimizeCloudinaryUrl, optimizeHeroImage } from '$lib/utils/optimise-cloudinary';
 
 	const heroImage =
 		'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1734510500/hero_choeao.webp';
@@ -38,13 +38,28 @@
 
 		<picture>
 			<source
-				srcset="/hero-720w.webp 720w,
-					  /hero-360w.webp 360w"
-				sizes="50vw"
+				srcset="{optimizeHeroImage(heroImage, 2)} 2x,
+						{optimizeHeroImage(heroImage, 1)} 1x"
+				media="(min-width: 768px)"
+				type="image/webp"
+			/>
+			<source
+				srcset="{optimizeCloudinaryUrl(heroImage, {
+					type: 'hero',
+					width: 360,
+					height: 271,
+					dpr: 2
+				})} 2x,
+				{optimizeCloudinaryUrl(heroImage, {
+					type: 'hero',
+					width: 360,
+					height: 271,
+					dpr: 1
+				})} 1x"
 				type="image/webp"
 			/>
 			<img
-				src="/hero-720w.webp"
+				src={optimizeHeroImage(heroImage)}
 				class="absolute top-0 right-0 w-1/2 animate-float"
 				alt="Hero illustration"
 				width="720"

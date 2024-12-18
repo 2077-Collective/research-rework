@@ -5,7 +5,6 @@
 	import { optimizeCloudinaryUrl } from '$lib/utils/optimise-cloudinary';
 
 	const { article }: { article: ArticleMetadata } = $props();
-	
 </script>
 
 <a href={`/${article.slug}`} class="block">
@@ -16,9 +15,11 @@
 	>
 		<div class="flex flex-col w-full">
 			<img
-				src={optimizeCloudinaryUrl(article.thumb)}
+				src={optimizeCloudinaryUrl(article.thumb, { type: 'card' })}
 				alt={article.title}
 				class="aspect-square w-full object-cover"
+				width={464}
+				height={464}
 			/>
 		</div>
 
