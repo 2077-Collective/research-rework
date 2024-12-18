@@ -16,6 +16,7 @@
 		<div class="flex flex-col w-full">
 			<img
 				src={optimizeCloudinaryUrl(article.thumb, { type: 'card' })}
+				loading="lazy"
 				alt={article.title}
 				class="aspect-square w-full object-cover"
 				width={464}

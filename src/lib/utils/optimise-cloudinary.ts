@@ -1,17 +1,16 @@
-type ImageType = 'card' | 'spotlight' | 'hero';  // Added hero type
+type ImageType = 'card' | 'spotlight' | 'hero';
 
 interface TransformOptions {
     width?: number;
     height?: number;
     type?: ImageType;
-    dpr?: number;    // Added DPR support
+    dpr?: number;
 }
 
 const TRANSFORM_PRESETS: Record<ImageType, string> = {
     card: 'w_464,h_464,c_fill,ar_1:1,g_center,q_auto,f_auto',
     spotlight: 'w_640,h_475,c_fill,f_auto,q_auto',
-    // New hero preset with enhanced quality and progressive loading
-    hero: 'c_limit,fl_progressive,q_90,f_auto'
+    hero: 'w_720,h_542,c_fill,g_auto,fl_progressive,q_auto:best,f_auto'
 };
 
 export function optimizeCloudinaryUrl(url: string, options: TransformOptions = {}): string {
@@ -35,7 +34,7 @@ export function optimizeCloudinaryUrl(url: string, options: TransformOptions = {
 
     if (!path) return url;
 
-    let transformParams: string[] = [];
+    const transformParams: string[] = [];
 
     if (options.type && options.type in TRANSFORM_PRESETS) {
         transformParams.push(TRANSFORM_PRESETS[options.type]);
@@ -45,9 +44,9 @@ export function optimizeCloudinaryUrl(url: string, options: TransformOptions = {
         transformParams.push(TRANSFORM_PRESETS.card);
     }
 
-    // Add DPR handling if specified
     if (options.dpr) {
-        transformParams.push(`dpr_${options.dpr}.0`);
+        const sanitizedDpr = Math.max(1, Math.min(Math.abs(options.dpr), 3));
+        transformParams.push(`dpr_${sanitizedDpr.toFixed(1)}`);
     }
 
     const pathPrefix = url.includes('/upload/') ? '' : 'coverImage/';
@@ -60,7 +59,5 @@ export const optimizeSpotlightImage = (url: string) =>
 export const optimizeHeroImage = (url: string, dpr = 1) =>
     optimizeCloudinaryUrl(url, {
         type: 'hero',
-        width: 720,
-        height: 542,
         dpr
     });
