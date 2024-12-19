@@ -15,6 +15,13 @@ export const GET: RequestHandler = async ({ request }) => {
             <priority>1.0</priority>
         </url>
 
+        <url>
+            <loc>${baseURL}/list</loc>
+            <lastmod>${new Date().toISOString()}</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>0.4</priority>
+        </url>
+
         ${articles
 					.map(
 						(article) => `
@@ -33,13 +40,6 @@ export const GET: RequestHandler = async ({ request }) => {
             <lastmod>${new Date().toISOString()}</lastmod>
             <changefreq>monthly</changefreq>
             <priority>0.7</priority>
-        </url>
-
-        <url>
-            <loc>${baseURL}/privacy-notice</loc>
-            <lastmod>${new Date().toISOString()}</lastmod>
-            <changefreq>yearly</changefreq>
-            <priority>0.3</priority>
         </url>
     </urlset>`;
 
