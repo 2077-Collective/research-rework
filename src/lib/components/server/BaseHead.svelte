@@ -13,9 +13,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="generator" content="2077 Research" />
 
-	<meta name="title" content={title} />
-	<meta name="description" content={description} />
-
 	<!-- OG meta tags -->
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content={title} />
@@ -35,5 +32,9 @@
 	<meta name="description" content={description} />
 
 	<!--Plausible analytics-->
-	<script defer data-domain="research.2077.xyz" src="https://analytics.2077.xyz/js/script.js"></script>
+	<script
+		defer
+		data-domain="research.2077.xyz"
+		src="https://analytics.2077.xyz/js/script.js"
+	></script>
 </svelte:head>
