@@ -33,7 +33,7 @@
 		</h1>
 
 		<img
-			src="/hero.png"
+			src="/hero.webp"
 			class="absolute top-0 right-0 w-1/2 animate-float"
 			alt="Hero illustration"
 		/>
