@@ -1,11 +1,12 @@
-import type { RequestHandler } from "@sveltejs/kit";
+import type { RequestHandler } from '@sveltejs/kit';
 
-import { fetchArticles } from "$lib/services/article.service";
+import { fetchArticles } from '$lib/services/article.service';
 
 export const GET: RequestHandler = async ({ request }) => {
-    const baseURL = request.headers.get('host')
-    const articles = await fetchArticles()
-    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+	const protocol = request.headers.get('x-forwarded-proto') || 'https';
+	const baseURL = `${protocol}://${request.headers.get('host')}`;
+	const articles = await fetchArticles();
+	const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         <url>
             <loc>${baseURL}</loc>
@@ -14,14 +15,18 @@ export const GET: RequestHandler = async ({ request }) => {
             <priority>1.0</priority>
         </url>
 
-        ${articles.map(article => `
+        ${articles
+					.map(
+						(article) => `
             <url>
                 <loc>${baseURL}/${article.slug}</loc>
                 <lastmod>${new Date(article.updatedAt).toISOString()}</lastmod>
                 <changefreq>monthly</changefreq>
                 <priority>0.8</priority>
             </url>
-        `).join('')}
+        `
+					)
+					.join('')}
 
         <url>
             <loc>${baseURL}/article-review</loc>
@@ -36,7 +41,7 @@ export const GET: RequestHandler = async ({ request }) => {
             <changefreq>yearly</changefreq>
             <priority>0.3</priority>
         </url>
-    </urlset>`
+    </urlset>`;
 
-    return new Response(sitemap, { headers: { 'Content-Type': 'application/xml' } })
-}
+	return new Response(sitemap, { headers: { 'Content-Type': 'application/xml' } });
+};
