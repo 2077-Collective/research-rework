@@ -23,9 +23,6 @@
 		<meta charset="utf-8" />
 		<meta name="generator" content="2077 Research" />
 
-		<meta name="title" content={sanitizeMetaContent(article.title)} />
-		<meta name="description" content={sanitizeMetaContent(article.summary)} />
-
 		<!-- OG meta tags -->
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={sanitizeMetaContent(article.title)} />
