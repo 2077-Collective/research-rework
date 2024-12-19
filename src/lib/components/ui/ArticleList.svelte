@@ -11,15 +11,17 @@
 
 	const {
 		articles,
-		articleCategories
+		articleCategories,
+		articlesPerPage = ARTICLES_PER_PAGE
 	}: {
 		articles: ArticleMetadata[];
 		articleCategories: string[];
+		articlesPerPage?: number;
 	} = $props();
 	let search = $state('');
 	let selectedCategory = $state('');
-	let visibleArticles = $state(ARTICLES_PER_PAGE);
-	let previousVisibleCount = $state(ARTICLES_PER_PAGE);
+	let visibleArticles = $state(articlesPerPage);
+	let previousVisibleCount = $state(articlesPerPage);
 	let newArticleRef: HTMLElement | null = $state(null);
 	let loading = $state(false);
 
@@ -45,14 +47,14 @@
 
 		try {
 			previousVisibleCount = visibleArticles;
-			visibleArticles += ARTICLES_PER_PAGE;
+			visibleArticles += articlesPerPage;
 		} finally {
 			loading = false;
 		}
 	}
 
 	$effect(() => {
-		visibleArticles = selectedCategory ? Number.MAX_SAFE_INTEGER : ARTICLES_PER_PAGE;
+		visibleArticles = selectedCategory ? Number.MAX_SAFE_INTEGER : articlesPerPage;
 	});
 
 	$effect(() => {
@@ -111,13 +113,13 @@
 		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center"
 	>
 		{#each filteredArticles.slice(0, visibleArticles) as article, index}
-			<div transition:slide={{ delay: 100 * (index % ARTICLES_PER_PAGE) }}>
+			<div transition:slide={{ delay: 100 * (index % articlesPerPage) }}>
 				<ArticleCard {article} />
 			</div>
 		{/each}
 
 		{#if loading}
-			{#each Array(ARTICLES_PER_PAGE) as _}
+			{#each Array(articlesPerPage) as _}
 				{@render cardSkeleton()}
 			{/each}
 		{/if}
