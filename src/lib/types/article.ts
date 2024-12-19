@@ -5,7 +5,7 @@ const CategorySchema = z.object({
 	name: z.string()
 });
 
-const AuthorSchema = z.object({
+export const AuthorSchema = z.object({
 	username: z.string(),
 	id: z.string(),
 	full_name: z.string(),
