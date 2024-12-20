@@ -1,11 +1,10 @@
 <script lang="ts">
 	import type { ArticleMetadata } from '$lib/types/article';
-	import { Search, ArrowDown } from 'lucide-svelte';
-	import Badge from './badge/badge.svelte';
-	import Input from './input/input.svelte';
+	import { ArrowDown } from 'lucide-svelte';
 	import ArticleCard from './ArticleCard.svelte';
 	import { slide } from 'svelte/transition';
 	import { tick } from 'svelte';
+	import SearchBar from '$lib/components/ui/SearchBar.svelte';
 
 	const ARTICLES_PER_PAGE = 9;
 
@@ -16,7 +15,7 @@
 		articles: ArticleMetadata[];
 		articleCategories: string[];
 	} = $props();
-	let search = $state('');
+	let searchTerm = $state('');
 	let selectedCategory = $state('');
 	let visibleArticles = $state(ARTICLES_PER_PAGE);
 	let previousVisibleCount = $state(ARTICLES_PER_PAGE);
@@ -32,8 +31,8 @@
 				return categoryMatch;
 			})
 			.filter((article) => {
-				const titleMatch = article.title.toLowerCase().includes(search.toLowerCase());
-				const summaryMatch = article.summary.toLowerCase().includes(search.toLowerCase());
+				const titleMatch = article.title.toLowerCase().includes(searchTerm.toLowerCase());
+				const summaryMatch = article.summary.toLowerCase().includes(searchTerm.toLowerCase());
 				return titleMatch || summaryMatch;
 			})
 	);
@@ -85,27 +84,7 @@
 		Latest Research
 	</h2>
 
-	<div class="flex flex-col md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
-		<Input class="grow-0" type="text" placeholder="Search" bind:value={search} variant="small">
-			{#snippet icon()}
-				<Search class="w-4 h-4" />
-			{/snippet}
-		</Input>
-		<div class="flex flex-wrap gap-2">
-			<Badge
-				onclick={() => (selectedCategory = '')}
-				class="cursor-pointer h-10"
-				variant={selectedCategory === '' ? 'default' : 'outline'}>All</Badge
-			>
-			{#each articleCategories as category}
-				<Badge
-					onclick={() => (selectedCategory = category)}
-					class="cursor-pointer h-10"
-					variant={selectedCategory === category ? 'default' : 'outline'}>{category}</Badge
-				>
-			{/each}
-		</div>
-	</div>
+	<SearchBar {articleCategories} bind:searchTerm bind:selectedCategory />
 
 	<div
 		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center"

@@ -1,27 +1,30 @@
 import { z } from 'zod';
 import { AuthorSchema } from './article';
-import { content } from 'googleapis/build/src/apis/content';
-import { SlashSquare } from 'lucide-svelte';
 
-const CompanySchema = z.object({
+const Company = z.object({
 	name: z.string(),
 	logo: z.string()
 });
 
 export const PerspectivesAuthorSchema = AuthorSchema.extend({
 	avatar: z.string(),
-	company: CompanySchema.optional(),
+	company: Company.optional(),
 	role: z.string().optional(),
 	bio: z.string().optional()
 });
+export type PerspectivesAuthor = z.infer<typeof PerspectivesAuthorSchema>;
 
 export const PerspectivesArticleMetadataSchema = z
 	.object({
+		title: z.string(),
+		subtitle: z.string(),
+		description: z.string(),
 		author: PerspectivesAuthorSchema,
 		created_at: z.string(),
 		updated_at: z.string(),
 		read_time: z.number(),
-		slug: z.string()
+		slug: z.string(),
+		categories: z.array(z.string())
 	})
 	.transform((data) => {
 		return {
@@ -31,6 +34,8 @@ export const PerspectivesArticleMetadataSchema = z
 			readTime: data.read_time
 		};
 	});
+export const PerspectivesArticleMetadataArraySchema = z.array(PerspectivesArticleMetadataSchema);
+export type PerspectivesArticleMetadata = z.infer<typeof PerspectivesArticleMetadataSchema>;
 
 export const PerspectivesArticleSchema = z.object({
 	metadata: PerspectivesArticleMetadataSchema,
@@ -39,3 +44,4 @@ export const PerspectivesArticleSchema = z.object({
 	subtitle: z.string(),
 	content: z.string()
 });
+export type PerspectivesArticle = z.infer<typeof PerspectivesArticleSchema>;
